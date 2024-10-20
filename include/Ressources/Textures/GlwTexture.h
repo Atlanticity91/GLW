@@ -79,7 +79,7 @@ public:
      * @return : True when texture filling succeeded.
      **/
     virtual bool Fill( const GlwTextureFillSpecification& specification ) {
-        auto result = GetIsValid( ) && specification.Width > 0 && specification.Height > 0 && specification.Pixels != nullptr;
+        auto result = GetIsValid( ) && specification.Width > 0 && specification.Height > 0;
 
         if ( result ) {
             glBindTexture( m_type, m_texture );

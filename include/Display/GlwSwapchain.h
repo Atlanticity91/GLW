@@ -53,9 +53,16 @@ public:
     /**
      * Create method
      * @note : Create swapchain.
-     * @param window : Current window instance.
+     * @param window : Pointer to current window instance.
      **/
-    void Create( const GlwWindow& window );
+    void Create( const GlwWindow* window );
+
+    /**
+     * Resize method
+     * @note : Resize current swapchain.
+     * @param window : Pointer to current window instance.
+     **/
+    void Resize( const GlwWindow* window );
 
     /**
      * SetRefresh method

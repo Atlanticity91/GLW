@@ -71,12 +71,24 @@ public:
     );
 
     /**
+     * Resize method
+     * @note : Execute backend resize operation.
+     * @param window : Pointer to current window instance.
+     **/
+    void Resize( const GlwWindow* window );
+
+    /**
      * SetDebugContext method
      * @note : Set OpenGL debug context.
      * @param context : Query OpenGL context.
      **/
     void SetDebugContext( const GlwDebugContext& context );
 
+    /**
+     * SetFaceCullingContext method
+     * @note : Set OpenGL face culling context.
+     * @param context : Query face culling context.
+     **/
     void SetFaceCullingContext( const GlwFaceCulling& context );
 
     /**

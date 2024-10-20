@@ -44,18 +44,29 @@ bool GlwGraphicsManager::Create(
 	const GlwWindow* window,
 	const GlwGraphicSpecification& specification
 ) {
-	auto result = PlatformInit( window, specification );
+	auto result = false;
+	
+	if ( window != nullptr ) {
+		result = PlatformInit( window, specification );
 
-	if ( result && glewInit( ) == GLEW_OK ) {
-		PlatformSetup( window, specification );
+		if ( result && glewInit( ) == GLEW_OK ) {
+			PlatformSetup( window, specification );
 
-		SetDebugContext( specification.Debug );
-		SetFaceCullingContext( specification.Culling );
+			SetDebugContext( specification.Debug );
+			SetFaceCullingContext( specification.Culling );
 
-		m_swapchain.Create( *window );
+			m_swapchain.Create( window );
+		}
 	}
 
 	return result;
+}
+
+void GlwGraphicsManager::Resize( const GlwWindow* window ) {
+	if ( window == nullptr )
+		return;
+
+	m_swapchain.Resize( window );
 }
 
 void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {

@@ -39,8 +39,12 @@ GlwSwapchain::GlwSwapchain( )
     m_refresh{ 0.f, 0.f, 0.f, 1.f } 
 { };
 
-void GlwSwapchain::Create( const GlwWindow& window ) {
-    m_dimensions = window.GetDimensions( );
+void GlwSwapchain::Create( const GlwWindow* window ) {
+    m_dimensions = window->GetDimensions( );
+}
+
+void GlwSwapchain::Resize( const GlwWindow* window ) {
+    m_dimensions = window->GetDimensions( );
 }
 
 void GlwSwapchain::SetRefresh( const glm::vec4& color ) {
