@@ -53,4 +53,16 @@ struct GlwBackend {
      **/
     GlwBackend( const uint32_t major, const uint32_t minor );
 
+    /**
+     * Constructor
+     * @param major : OpenGL context version major.
+     * @param minor : OpenGL context version minor.
+     * @param profile : OpenGL context profile value.
+     **/
+    GlwBackend( 
+        const uint32_t major, 
+        const uint32_t minor,
+        const uint32_t profile 
+    );
+
 };

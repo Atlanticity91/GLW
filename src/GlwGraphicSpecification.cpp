@@ -39,3 +39,23 @@ GlwGraphicSpecification::GlwGraphicSpecification( )
 	Backend{ },
 	Culling{ }
 { }
+
+GlwGraphicSpecification::GlwGraphicSpecification(
+	const uint32_t major,
+	const uint32_t minor
+)
+	: Debug{ },
+	Backend{ major, minor },
+	Culling{ }
+{ }
+
+
+GlwGraphicSpecification::GlwGraphicSpecification(
+	const uint32_t major,
+	const uint32_t minor,
+	const uint32_t profile
+)
+	: Debug{ },
+	Backend{ major, minor, profile },
+	Culling{ }
+{ }

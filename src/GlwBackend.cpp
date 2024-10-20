@@ -35,13 +35,21 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwBackend::GlwBackend( )
-	: GlwBackend{ 4, 5 }
+	: GlwBackend{ 4, 5, 1 }
 { }
 
 GlwBackend::GlwBackend( const uint32_t major, const uint32_t minor )
+	: GlwBackend{ major, minor, 1 }
+{ }
+
+GlwBackend::GlwBackend( 
+	const uint32_t major, 
+	const uint32_t minor,
+	const uint32_t profile
+)
 	: Major{ major },
 	Minor{ minor },
-	Profile{ 1 },
+	Profile{ profile },
 	SwapInterval{ GL_TRUE },
 	EnableDoubleBuffer{ true }
 { }
