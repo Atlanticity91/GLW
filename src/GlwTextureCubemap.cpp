@@ -43,7 +43,7 @@ bool GlwTextureCubemap::Create( const GlwTextureCubemapSpecification& specificat
         SetGlFilters( specification );
         SetGlWraps( specification );
     }
-
+    
     return GetIsValid( );
 }
 

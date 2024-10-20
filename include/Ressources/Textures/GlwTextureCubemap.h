@@ -36,6 +36,9 @@
 class GlwTextureCubemap : public GlwTexture<GlwTextureCubemapSpecification> {
 
 public:
+	static const uint32_t FaceCount = 6;
+
+public:
 	/**
 	 * Constructor
 	 **/

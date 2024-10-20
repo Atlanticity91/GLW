@@ -35,7 +35,7 @@
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwTextureFillSpecification::GlwTextureFillSpecification( )
-	: GlwTextureFillSpecification{ 0, 0, 0 }
+	: GlwTextureFillSpecification{ 0, 0, nullptr }
 { }
 
 GlwTextureFillSpecification::GlwTextureFillSpecification(
@@ -58,3 +58,13 @@ GlwTextureFillSpecification::GlwTextureFillSpecification(
     Type{ type },
     Pixels{ nullptr }
 { }
+
+GlwTextureFillSpecification::GlwTextureFillSpecification(
+    const uint32_t width,
+    const uint32_t height,
+    const uint8_t* pixels
+) 
+    : GlwTextureFillSpecification{ width, height, GL_UNSIGNED_BYTE }
+{ 
+    Pixels = (void*)pixels;
+}

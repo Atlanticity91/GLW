@@ -98,12 +98,98 @@ bool GlwGraphicsManager::CreateMesh( const GlwMeshSpecification& specification )
 	return m_ressources.CreateMesh( specification );
 }
 
-bool GlwGraphicsManager::CreateTexture( const GlwTexture2DSpecification& specification ) {
-	return m_ressources.CreateTexture( specification );
+bool GlwGraphicsManager::CreateTexture2D( const GlwTexture2DSpecification& specification ) {
+	return m_ressources.CreateTexture2D( specification );
+}
+
+bool GlwGraphicsManager::CreateTexture2D(
+	const GlwTexture2DSpecification& specification,
+	const std::vector<uint8_t>& pixels
+) {
+	return m_ressources.CreateTexture2D( specification, pixels );
+}
+
+bool GlwGraphicsManager::CreateCubemap( const GlwTextureCubemapSpecification& specification ) {
+	return m_ressources.CreateCubemap( specification );
+}
+
+bool GlwGraphicsManager::CreateCubemap(
+	const GlwTextureCubemapSpecification& specification,
+	const std::vector<uint8_t> face_pixels[ GlwTextureCubemap::FaceCount ]
+) {
+	return m_ressources.CreateCubemap( specification, face_pixels );
 }
 
 bool GlwGraphicsManager::CreateMaterial( const GlwMaterialSpecification& specification ) {
 	return m_ressources.CreateMaterial( specification );
+}
+
+bool GlwGraphicsManager::FillTexture2D(
+	const uint32_t texture,
+	const GlwTextureFillSpecification& fill_specification
+) {
+	auto* instance = m_ressources.GetTexture2D( texture );
+	auto result	   = false;
+
+	if ( instance != nullptr ) 
+		result = instance->Fill( fill_specification );
+
+	return result;
+}
+
+bool GlwGraphicsManager::FillTexture2D(
+	const uint32_t texture,
+	const std::vector<GlwTextureFillSpecification>& fill_specifications
+) {
+	auto* instance = m_ressources.GetTexture2D( texture );
+	auto result	   = false;
+
+	if ( instance != nullptr ) {
+		for ( const auto& specification : fill_specifications ) {
+			result = instance->Fill( specification );
+
+			if ( !result )
+				break;
+		}
+	}
+
+	return result;
+}
+
+bool GlwGraphicsManager::FillCubemap(
+	const uint32_t cubemap,
+	const GlwTextureFillSpecification& fill_specification
+) {
+	auto* instance = m_ressources.GetTexture2D( cubemap );
+	auto result    = false;
+
+	if ( instance != nullptr ) 
+		result = instance->Fill( fill_specification );
+
+	return result;
+}
+
+bool GlwGraphicsManager::FillCubemap(
+	const uint32_t cubemap,
+	const std::vector<GlwTextureFillSpecification>& fill_specifications
+) {
+	auto* instance = m_ressources.GetTexture2D( cubemap );
+	auto result	   = false;
+
+	if ( instance != nullptr ) {
+		for ( const auto& specification : fill_specifications ) {
+			result = instance->Fill( specification );
+
+			if ( !result )
+				break;
+		}
+	}
+
+	return result;
+}
+
+void GlwGraphicsManager::SetRefresh( const glm::vec4& color ) {
+	m_swapchain.SetRefresh( color );
 }
 
 void GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
@@ -270,6 +356,10 @@ GlwMesh* GlwGraphicsManager::GetMesh( const uint32_t mesh ) {
 	return m_ressources.GetMesh( mesh );
 }
 
-const GlwTexture2D* GlwGraphicsManager::GetTexture2D( const uint32_t texture ) const {
+GlwTexture2D* GlwGraphicsManager::GetTexture2D( const uint32_t texture ) {
 	return m_ressources.GetTexture2D( texture );
+}
+
+GlwTextureCubemap* GlwGraphicsManager::GetCubemap( const uint32_t cubemap ) {
+	return m_ressources.GetCubemap( cubemap );
 }

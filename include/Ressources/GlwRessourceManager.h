@@ -61,12 +61,44 @@ public:
 	bool CreateMesh( const GlwMeshSpecification& specification );
 
 	/**
-	 * CreateTexture function
+	 * CreateTexture2D function
 	 * @note : Create texture according to query specification.
 	 * @param specification : Query texture specification.
 	 * @return : True when creation succeeded.
 	 **/
-	bool CreateTexture( const GlwTexture2DSpecification& specification );
+	bool CreateTexture2D( const GlwTexture2DSpecification& specification );
+	
+	/**
+	 * CreateTexture2D function
+	 * @note : Create texture according to query specification and fill-it width pixels data.
+	 * @param specification : Query texture specification.
+	 * @param pixels : Query texture pixels data as unsigned byte.
+	 * @return : True when creation succeeded.
+	 **/
+	bool CreateTexture2D(
+		const GlwTexture2DSpecification& specification,
+		const std::vector<uint8_t>& pixels
+	);
+
+	/**
+	 * CreateCubemap function
+	 * @note : Create cubemap texture according to query specification.
+	 * @param specification : Query cubemap texture specification.
+	 * @return : True when creation succeeded.
+	 **/
+	bool CreateCubemap( const GlwTextureCubemapSpecification& specification );
+
+	/**
+	 * CreateCubemap function
+	 * @note : Create cubemap texture according to query specification.
+	 * @param specification : Query cubemap texture specification.
+	 * @param face_pixels : Array of the cubemap face texture pixels as unsigned byte.
+	 * @return : True when creation succeeded.
+	 **/
+	bool CreateCubemap( 
+		const GlwTextureCubemapSpecification& specification,
+		const std::vector<uint8_t> face_pixels[ GlwTextureCubemap::FaceCount ]
+	);
 
 	/**
 	 * CreateMaterial function
@@ -163,9 +195,17 @@ public:
 	/**
 	 * GetTexture2D function
 	 * @note : Get texture 2D instance.
-	 * @param texture : Get texture instance.
+	 * @param texture : Query texture.
 	 * @return : Return pointer to query texture 2D instance.
 	 **/
-	const GlwTexture2D* GetTexture2D( const uint32_t texture ) const;
+	GlwTexture2D* GetTexture2D( const uint32_t texture );
+
+	/**
+	 * GetCubemap function
+	 * @note : Get cubemap instance.
+	 * @param cubemap : Query cubemap.
+	 * @return : Return pointer to query cubemap texture instance.
+	 **/
+	GlwTextureCubemap* GetCubemap( const uint32_t cubemap );
 
 };

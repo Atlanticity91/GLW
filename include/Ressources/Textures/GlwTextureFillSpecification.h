@@ -70,4 +70,16 @@ struct GlwTextureFillSpecification {
         const uint32_t type
     );
 
+    /**
+     * Constructor
+     * @param width : Query filling width.
+     * @param height : Query filling height.
+     * @param pixels : Query pixels values as unsigned byte.
+     **/
+    GlwTextureFillSpecification(
+        const uint32_t width,
+        const uint32_t height,
+        const uint8_t* pixels
+    );
+
 };
