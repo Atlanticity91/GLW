@@ -31,4 +31,4 @@
 
 #pragma once
 
-#include "../include/GlwGraphicsManager.h"
+#include <GlwGraphicsManager.h>

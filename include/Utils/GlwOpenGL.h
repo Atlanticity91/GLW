@@ -38,7 +38,8 @@ extern "C" {
 #include <vector>
 
 // === GLEW Header ===
-#include "../../Thirdparty/GLEW/include/GL/glew.h"
+#define GLEW_STATIC
+#include "../Thirdparty/GLEW/include/GL/glew.h"
 
 #define GL_NULL 0
 #define GL_SHADER_NULL ((glShader)GL_NULL)

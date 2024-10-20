@@ -37,11 +37,12 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include "../../Thirdparty/GLM/glm/glm.hpp"
-#include "../../Thirdparty/GLM/glm/gtc/matrix_inverse.hpp"
-#include "../../Thirdparty/GLM/glm/gtc/matrix_transform.hpp"
-#include "../../Thirdparty/GLM/glm/gtc/type_ptr.hpp"
-#include "../../Thirdparty/GLM/glm/gtx/matrix_decompose.hpp"
-#include "../../Thirdparty/GLM/glm/gtx/transform.hpp"
-#include "../../Thirdparty/GLM/glm/gtx/quaternion.hpp"
-#include "../../Thirdparty/GLM/glm/gtx/string_cast.hpp"
+#include "../Thirdparty/GLM/glm/glm.hpp"
+#include "../Thirdparty/GLM/glm/gtc/matrix_inverse.hpp"
+#include "../Thirdparty/GLM/glm/gtc/matrix_transform.hpp"
+#include "../Thirdparty/GLM/glm/gtc/type_ptr.hpp"
+#include "../Thirdparty/GLM/glm/gtx/matrix_decompose.hpp"
+#include "../Thirdparty/GLM/glm/gtx/transform.hpp"
+#include "../Thirdparty/GLM/glm/gtx/quaternion.hpp"
+#include "../Thirdparty/GLM/glm/gtx/string_cast.hpp"
+
