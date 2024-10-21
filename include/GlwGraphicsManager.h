@@ -42,7 +42,7 @@ enum class GlwStates : uint32_t {
 
 class GlwGraphicsManager {
 
-private:
+protected:
     GlwStates m_state;
     GlwSwapchain m_swapchain;
     GlwRenderPassManager m_render_passes;
