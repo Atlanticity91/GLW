@@ -43,6 +43,7 @@ enum class GlwStates : uint32_t {
 class GlwGraphicsManager {
 
 private:
+    GlwStates m_state;
     GlwSwapchain m_swapchain;
     GlwRenderPassManager m_render_passes;
     GlwRessourceManager m_ressources;
@@ -204,6 +205,13 @@ public:
     );
 
     /**
+     * SetDrawState method
+     * @note : Set drawing capability state.
+     * @param state : Query drawing capability state.
+     **/
+    void SetDrawState( const GlwStates state );
+
+    /**
      * SetRefresh method
      * @note : Set swapchain refresh color.
      * @param color : New refresh color value.
@@ -211,11 +219,12 @@ public:
     void SetRefresh( const glm::vec4& color );
 
     /**
-     * Acquire method
+     * Acquire function
      * @note : Acquire render context.
      * @param render_context : Reference to current render context.
+     * @return : Return true when drawing operation can be performed.
      **/
-    void Acquire( GlwRenderContext& render_context );
+    bool Acquire( GlwRenderContext& render_context );
 
     /**
      * CmdUseRenderPass function
@@ -377,6 +386,13 @@ public:
     };
 
 public:
+    /**
+     * GetDrawState const function
+     * @note : Get current graphic manager drawing state.
+     * @return : Return drawing state as GlwStates.
+     **/
+    GlwStates GetDrawState( ) const;
+
     /**
      * GetRessources function
      * @note : Get ressource manager instance.

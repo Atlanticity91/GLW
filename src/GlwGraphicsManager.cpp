@@ -35,7 +35,8 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwGraphicsManager::GlwGraphicsManager( )
-	: m_swapchain{ },
+	: m_state{ GlwStates::Enable },
+	m_swapchain{ },
 	m_render_passes{ },
 	m_ressources{ }
 { }
@@ -188,15 +189,21 @@ bool GlwGraphicsManager::FillCubemap(
 	return result;
 }
 
+void GlwGraphicsManager::SetDrawState( const GlwStates state ) {
+	m_state = state;
+}
+
 void GlwGraphicsManager::SetRefresh( const glm::vec4& color ) {
 	m_swapchain.SetRefresh( color );
 }
 
-void GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
+bool GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
 	render_context = { };
 
 	if ( m_render_passes.GetLast( ) == nullptr )
 		m_swapchain.Use( );
+
+	return m_state == GlwStates::Enable;
 }
 
 bool GlwGraphicsManager::CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass ) {
@@ -332,6 +339,10 @@ void GlwGraphicsManager::Display(
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+GlwStates GlwGraphicsManager::GetDrawState( ) const {
+	return m_state;
+}
+
 GlwRessourceManager& GlwGraphicsManager::GetRessources( ) {
 	return m_ressources;
 }
