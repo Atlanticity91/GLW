@@ -180,16 +180,10 @@ glm::uvec4 GlwRenderPassManager::GetAttachementRange(
 	auto dimensions = GetDimensions( target_specification.RenderPass );
 	auto range = target_specification.Range;
 
-	if ( range.x < 0 || dimensions.x < range.x )
-		range.x = 0;
-
-	if ( range.y < 0 || dimensions.y < range.y )
-		range.y = 0;
-
-	if ( range.z < 0 || dimensions.x < range.x )
+	if ( range.z < 1 || (uint32_t)dimensions.x < range.x )
 		range.z = dimensions.x;
 
-	if ( range.w < 0 || dimensions.y < range.w )
+	if ( range.w < 1 || (uint32_t)dimensions.y < range.w )
 		range.w = dimensions.y;
 
 	return range;

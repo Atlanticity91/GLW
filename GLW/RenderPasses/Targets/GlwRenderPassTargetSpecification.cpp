@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,28 +34,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwRenderPassSpecification::GlwRenderPassSpecification( )
-	: GlwRenderPassSpecification{ 0, 0 }
+GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification( )
+    : Colors{ },
+    Depth{ },
+    Stencil{ } 
 { }
-
-GlwRenderPassSpecification::GlwRenderPassSpecification( const uint32_t width, const uint32_t height )
-	: Width{ width },
-	Height{ height },
-	UseSeparateStencil{ true },
-	Targets{ },
-	ColorBlend{ }
-{ }
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC GET ===
-////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwRenderPassSpecification::GetIsValid( ) const {
-	return Width > 0 && Height > 0 && Targets.Colors.size( ) > 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	OPERATOR ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwRenderPassSpecification::operator bool( ) const {
-	return GetIsValid( );
-}

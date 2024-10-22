@@ -38,13 +38,13 @@ GlwRenderTargetManager::GlwRenderTargetManager( )
 { }
 
 bool GlwRenderTargetManager::Create( 
-    const GlwFramebuffer& framebuffer,
-    const GlwRenderPassSpecification& specification,
+    const GlwRenderPassTargetSpecification& specification,
+    GlwFramebuffer& framebuffer,
     uint32_t& clear_flags
 ) {
-    return  m_colors.Create( framebuffer, specification.ColorTargets )                    &&
-            CreateDepthAttachement( framebuffer, specification.DepthTarget, clear_flags ) &&
-            CreateStencilAttachement( framebuffer, specification.StencilTarget, clear_flags );
+    return  m_colors.Create( framebuffer, specification.Colors )                    &&
+            CreateDepthAttachement( specification.Depth, framebuffer, clear_flags ) &&
+            CreateStencilAttachement( specification.Stencil, framebuffer, clear_flags );
 }
 
 void GlwRenderTargetManager::Use( ) {
@@ -62,8 +62,8 @@ void GlwRenderTargetManager::Destroy( ) {
 //      === PRIVATE ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 bool GlwRenderTargetManager::CreateDepthAttachement(
-    const GlwFramebuffer& framebuffer,
     const GlwDepthTargetSpecification& specification,
+    GlwFramebuffer& framebuffer,
     uint32_t& clear_flags
 ) {
     auto result = true;
@@ -76,7 +76,7 @@ bool GlwRenderTargetManager::CreateDepthAttachement(
         if ( result ) {
             auto texture = m_depth.Get( );
 
-            framebuffer.Link( GL_DEPTH_ATTACHMENT, texture );
+            framebuffer.Attach( GL_DEPTH_ATTACHMENT, texture );
         }
     }
 
@@ -84,8 +84,8 @@ bool GlwRenderTargetManager::CreateDepthAttachement(
 }
 
 bool GlwRenderTargetManager::CreateStencilAttachement(
-    const GlwFramebuffer& framebuffer,
     const GlwStencilTargetSpecification& specification,
+    GlwFramebuffer& framebuffer,
     uint32_t& clear_flags
 ) {
     auto result = true;
@@ -98,14 +98,14 @@ bool GlwRenderTargetManager::CreateStencilAttachement(
 
             m_stencil.Setup( specification );
             
-            framebuffer.Link( GL_STENCIL_ATTACHMENT, texture );
+            framebuffer.Attach( GL_STENCIL_ATTACHMENT, texture );
         } else {
             result = m_stencil.Create( specification );
 
             if ( result ) {
                 auto texture = m_stencil.Get( );
 
-                framebuffer.Link( GL_STENCIL_ATTACHMENT, texture );
+                framebuffer.Attach( GL_STENCIL_ATTACHMENT, texture );
             }
         }
     }

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "Stencil/GlwStencilTarget.h"
+#include "GlwRenderPassTargetSpecification.h"
 
 class GlwRenderTargetManager final { 
 
@@ -41,21 +41,27 @@ private:
 	GlwStencilTarget m_stencil;
 
 public:
+    /**
+     * Constructor
+     **/
 	GlwRenderTargetManager( );
 
+    /**
+     * Destructor
+     **/
 	~GlwRenderTargetManager( ) = default;
 
     /**
      * Create function
      * @note : Create render pass targets according to specification.
-     * @param framebuffer : Current render pass framebuffer instance.
      * @param specification : Query render pass specification.
+     * @param framebuffer : Current render pass framebuffer instance.
      * @param clear_flags : Reference to current render pass clear flags value.
      * @return : True when creation succeeded.
      **/
-    bool Create( 
-        const GlwFramebuffer& framebuffer,
-        const GlwRenderPassSpecification& specification,
+    bool Create(
+        const GlwRenderPassTargetSpecification& specification,
+        GlwFramebuffer& framebuffer,
         uint32_t& clear_flags
     );
 
@@ -75,28 +81,28 @@ private:
 	/**
 	 * CreateDepthAttachement function
 	 * @note : Create depth attachement according to specification.
-     * @param framebuffer : Current render pass framebuffer instance.
 	 * @param specification : Query depth specification.
+     * @param framebuffer : Current render pass framebuffer instance.
      * @param clear_flags : Reference to current render pass clear flags value.
 	 * @return : Return true when operation succeeded.
 	 **/
     bool CreateDepthAttachement( 
-        const GlwFramebuffer& framebuffer, 
         const GlwDepthTargetSpecification& specification,
+        GlwFramebuffer& framebuffer,
         uint32_t& clear_flags
     );
 
     /**
      * CreateStencilAttachement function
      * @note : Create stencil attachement according to specification.
-     * @param framebuffer : Current render pass framebuffer instance.
      * @param specification : Query stencil specification.
+     * @param framebuffer : Current render pass framebuffer instance.
      * @param clear_flags : Reference to current render pass clear flags value.
      * @return : Return true when operation succeeded.
      **/
     bool CreateStencilAttachement(
-        const GlwFramebuffer& framebuffer, 
         const GlwStencilTargetSpecification& specification,
+        GlwFramebuffer& framebuffer,
         uint32_t& clear_flags
     );
 

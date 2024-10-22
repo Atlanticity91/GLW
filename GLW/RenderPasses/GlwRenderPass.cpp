@@ -45,7 +45,7 @@ GlwRenderPass::GlwRenderPass( )
 
 bool GlwRenderPass::Create( const GlwRenderPassSpecification& specification ) {
     auto result = m_framebuffer.Create( ) && 
-                  m_targets.Create( m_framebuffer, specification, m_clear_flags );
+                  m_targets.Create( specification.Targets, m_framebuffer, m_clear_flags );
 
     if ( result )
         m_color_blend.Create( specification.ColorBlend );

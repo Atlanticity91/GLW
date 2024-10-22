@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,39 +31,17 @@
 
 #pragma once
 
-#include "Blits/GlwBlitSpecification.h"
+#include "Stencil/GlwStencilTarget.h"
 
-struct GlwRenderPassSpecification {
+struct GlwRenderPassTargetSpecification {
 
-    uint32_t Width;
-    uint32_t Height;
-    bool UseSeparateStencil;
-    GlwRenderPassTargetSpecification Targets;
-    GlwColorBlendSpecification ColorBlend;
+    std::vector<GlwColorTargetSpecification> Colors;
+    GlwDepthTargetSpecification Depth;
+    GlwStencilTargetSpecification Stencil;
 
     /**
      * Constructor
      **/
-    GlwRenderPassSpecification( );
-
-    /**
-     * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
-     **/
-    GlwRenderPassSpecification( const uint32_t width, const uint32_t height );
-
-    /**
-     * GetIsValid const function
-     * @note : Get render pass validity.
-     * @return : True when render pass specification is valid.
-     **/
-    bool GetIsValid( ) const;
-
-    /**
-     * Cast operator
-     * @note : Cast specification to boolean, aka get is validity.
-     **/
-    operator bool ( ) const;
+    GlwRenderPassTargetSpecification( );
 
 };
