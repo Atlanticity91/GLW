@@ -6,10 +6,10 @@ project "GLW"
 
     defines { "_CRT_SECURE_NO_WARNINGS" }
 
-	files { "../include/**.h", "../src/**.cpp" }
+	files { "../GLW/**.h", "../GLW/**.cpp" }
 
 	pchheader "__glw_pch.h"
-    pchsource "../src/__glw_pch.cpp"
+    pchsource "../GLW/__glw_pch.cpp"
 
 	targetdir "%{wks.location}/bin/"
 	objdir "%{wks.location}/bin-int/%{prj.name}"
@@ -17,12 +17,12 @@ project "GLW"
     links { "GLEW" }
 
 	includedirs {
-		"%{wks.location}/include/",
+		"%{wks.location}/GLW/",
 		"%{wks.location}/Thirdparty/GLM/",
 		"%{wks.location}/Thirdparty/GLEW/include/"
 	}
 	externalincludedirs { 
-		"%{wks.location}/include/",
+		"%{wks.location}/GLW/",
 		"%{wks.location}/Thirdparty/GLM/",
 		"%{wks.location}/Thirdparty/GLEW/include/"
 	}
