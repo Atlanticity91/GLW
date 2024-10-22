@@ -236,13 +236,24 @@ public:
     bool CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass );
 
     /**
+     * CmdUseSwapchain method
+     * @note : Use current graphics swapchain
+     * @param render_context : Reference to current render context.
+     **/
+    void CmdUseSwapchain( GlwRenderContext& render_conext );
+
+    /**
      * CmdToggle method
      * @note : Toggle OpenGL capability.
      * @param render_context : Reference to current render context.
      * @param capability : Query OpenGL capability.
      * @param state : Query capability state.
      **/
-    void CmdToggle( GlwRenderContext& render_conext, const uint32_t capability, GlwStates state );
+    void CmdToggle( 
+        GlwRenderContext& render_conext, 
+        const uint32_t capability, 
+        const GlwStates state 
+    );
 
     /**
      * CmdToggleFaceCulling method
@@ -250,7 +261,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleFaceCulling( GlwRenderContext& render_conext, GlwStates state );
+    void CmdToggleFaceCulling( GlwRenderContext& render_conext, const GlwStates state );
 
     /**
      * CmdToggleDepthTest method
@@ -258,7 +269,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleDepthTest( GlwRenderContext& render_conext, GlwStates state );
+    void CmdToggleDepthTest( GlwRenderContext& render_conext, const GlwStates state );
 
     /**
      * CmdToggleStencilTest method
@@ -266,7 +277,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleStencilTest( GlwRenderContext& render_conext, GlwStates state );
+    void CmdToggleStencilTest( GlwRenderContext& render_conext, const GlwStates state );
     
     /**
      * CmdToggleStencilWrite method
@@ -274,7 +285,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleStencilWrite( GlwRenderContext& render_conext, GlwStates state );
+    void CmdToggleStencilWrite( GlwRenderContext& render_conext, const GlwStates state );
 
     /**
      * CmdUseMaterial function
@@ -304,13 +315,24 @@ public:
 
     /**
      * Present method
+     * @note : Present all previous operation to screen without internal display call.
+     * @param window : Pointer to current window instance.
+     * @param render_context : Reference to current render context.
+     **/
+    void Present( 
+        const GlwWindow* window, 
+        GlwRenderContext& render_context
+    );
+
+    /**
+     * Present method
      * @note : Present all previous operation to screen.
      * @param window : Pointer to current window instance.
      * @param render_context : Reference to current render context.
      * @param display_spec : Query display specification.
      **/
-    void Present( 
-        const GlwWindow* window, 
+    void Present(
+        const GlwWindow* window,
         GlwRenderContext& render_context,
         const GlwDisplaySpecification& display_spec
     );

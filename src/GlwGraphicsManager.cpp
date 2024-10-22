@@ -206,7 +206,10 @@ bool GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
 	return m_state == GlwStates::Enable;
 }
 
-bool GlwGraphicsManager::CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass ) {
+bool GlwGraphicsManager::CmdUseRenderPass(
+	GlwRenderContext& render_conext, 
+	const uint32_t render_pass 
+) {
 	auto result = m_render_passes.GetExist( render_pass ) && m_render_passes.Use( render_pass );
 
 	if ( result )
@@ -217,10 +220,20 @@ bool GlwGraphicsManager::CmdUseRenderPass( GlwRenderContext& render_conext, cons
 	return result;
 }
 
+void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_conext ) {
+	auto* render_pass = m_render_passes.GetLast( );
+
+	if ( render_pass != nullptr ) {
+		auto dimensions = render_pass->GetDimensions( );
+
+		m_swapchain.Use( dimensions );
+	}
+}
+
 void GlwGraphicsManager::CmdToggle(
 	GlwRenderContext& render_conext,
 	const uint32_t capability,
-	GlwStates state 
+	const GlwStates state 
 ) {
 	if ( !render_conext.GetInUse( ) )
 		return;
@@ -231,15 +244,24 @@ void GlwGraphicsManager::CmdToggle(
 		glDisable( capability );
 }
 
-void GlwGraphicsManager::CmdToggleFaceCulling( GlwRenderContext& render_conext, GlwStates state ) {
+void GlwGraphicsManager::CmdToggleFaceCulling(
+	GlwRenderContext& render_conext, 
+	const GlwStates state 
+) {
 	CmdToggle( render_conext, GL_CULL_FACE, state );
 }
 
-void GlwGraphicsManager::CmdToggleDepthTest( GlwRenderContext& render_conext, GlwStates state ) {
+void GlwGraphicsManager::CmdToggleDepthTest( 
+	GlwRenderContext& render_conext, 
+	const GlwStates state 
+) {
 	CmdToggle( render_conext, GL_DEPTH_TEST, state );
 }
 
-void GlwGraphicsManager::CmdToggleStencilTest( GlwRenderContext& render_conext, GlwStates state ) {
+void GlwGraphicsManager::CmdToggleStencilTest( 
+	GlwRenderContext& render_conext, 
+	const GlwStates state 
+) {
 	CmdToggle( render_conext, GL_STENCIL_TEST, state );
 }
 
@@ -250,7 +272,10 @@ void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_conext,
 	glStencilMask( ( state == GlwStates::Enable ) ? 0xFF : 0x00 );
 }
 
-GlwMaterial* GlwGraphicsManager::CmdUseMaterial( GlwRenderContext& render_conext, const uint32_t material ) {
+GlwMaterial* GlwGraphicsManager::CmdUseMaterial(
+	GlwRenderContext& render_conext, 
+	const uint32_t material 
+) {
 	auto* instance = (GlwMaterial*)nullptr;
 	
 	if ( render_conext.GetInUse( ) ) {
@@ -262,7 +287,10 @@ GlwMaterial* GlwGraphicsManager::CmdUseMaterial( GlwRenderContext& render_conext
 	return instance;
 }
 
-GlwMesh* GlwGraphicsManager::CmdUseMesh( GlwRenderContext& render_conext, const uint32_t mesh ) {
+GlwMesh* GlwGraphicsManager::CmdUseMesh(
+	GlwRenderContext& render_conext, 
+	const uint32_t mesh 
+) {
 	auto* instance = (GlwMesh*)nullptr;
 
 	if ( render_conext.GetInUse( ) ) {
@@ -278,7 +306,10 @@ GlwMesh* GlwGraphicsManager::CmdUseMesh( GlwRenderContext& render_conext, const 
 	return instance;
 }
 
-void GlwGraphicsManager::CmdDraw( GlwRenderContext& render_conext, const uint32_t vertice_count ) {
+void GlwGraphicsManager::CmdDraw( 
+	GlwRenderContext& render_conext, 
+	const uint32_t vertice_count 
+) {
 	if ( !render_conext.GetCanDraw( ) )
 		return;
 
@@ -286,6 +317,13 @@ void GlwGraphicsManager::CmdDraw( GlwRenderContext& render_conext, const uint32_
 		glDrawElements( GL_TRIANGLES, vertice_count, GL_UNSIGNED_INT, NULL );
 	else
 		glDrawArrays( GL_TRIANGLES, 0, vertice_count );
+}
+
+void GlwGraphicsManager::Present( 
+	const GlwWindow* window, 
+	GlwRenderContext& render_context 
+) {
+	PlatformSwapBuffers( window );
 }
 
 void GlwGraphicsManager::Present(
