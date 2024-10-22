@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,78 +31,76 @@
 
 #pragma once
 
-#include "GlwRenderPassSpecification.h"
+#include "Stencil/GlwStencilTarget.h"
 
-class GlwRenderPass final {
+class GlwRenderTargetManager final { 
 
 private:
-    GlwFramebuffer m_framebuffer;
-    GlwRenderTargetManager m_targets;
-    GlwColorBlend m_color_blend;
-    glm::ivec2 m_dimensions;
-    glm::vec4 m_refresh;
-    uint32_t m_clear_flags;
+	GlwColorTargetManager m_colors;
+	GlwDepthTarget m_depth;
+	GlwStencilTarget m_stencil;
 
 public:
-    /**
-     * Constructor
-     **/
-    GlwRenderPass( );
+	GlwRenderTargetManager( );
 
-    /**
-     * Destructor
-     **/
-    ~GlwRenderPass( ) = default;
+	~GlwRenderTargetManager( ) = default;
 
     /**
      * Create function
-     * @note : Create render pass according to specification.
+     * @note : Create render pass targets according to specification.
+     * @param framebuffer : Current render pass framebuffer instance.
      * @param specification : Query render pass specification.
+     * @param clear_flags : Reference to current render pass clear flags value.
      * @return : True when creation succeeded.
      **/
-    bool Create( const GlwRenderPassSpecification& specification );
-
-    /**
-     * SetRefreshColor method
-     * @note : Set refresh color.
-     * @param color : Query refresh color value.
-     **/
-    void SetRefreshColor( const glm::vec4& color );
+    bool Create( 
+        const GlwFramebuffer& framebuffer,
+        const GlwRenderPassSpecification& specification,
+        uint32_t& clear_flags
+    );
 
     /**
      * Use method
-     * @note : Bind current render pass for usage.
+     * @note : Bind render pass targets for usage.
      **/
-    void Use( );
-
+	void Use( );
+    
     /**
      * Destroy method
-     * @note : Destroy render pass.
+     * @note : Destroy render pass targets.
      **/
-    void Destroy( );
+	void Destroy( );
+
+private:
+	/**
+	 * CreateDepthAttachement function
+	 * @note : Create depth attachement according to specification.
+     * @param framebuffer : Current render pass framebuffer instance.
+	 * @param specification : Query depth specification.
+     * @param clear_flags : Reference to current render pass clear flags value.
+	 * @return : Return true when operation succeeded.
+	 **/
+    bool CreateDepthAttachement( 
+        const GlwFramebuffer& framebuffer, 
+        const GlwDepthTargetSpecification& specification,
+        uint32_t& clear_flags
+    );
+
+    /**
+     * CreateStencilAttachement function
+     * @note : Create stencil attachement according to specification.
+     * @param framebuffer : Current render pass framebuffer instance.
+     * @param specification : Query stencil specification.
+     * @param clear_flags : Reference to current render pass clear flags value.
+     * @return : Return true when operation succeeded.
+     **/
+    bool CreateStencilAttachement(
+        const GlwFramebuffer& framebuffer, 
+        const GlwStencilTargetSpecification& specification,
+        uint32_t& clear_flags
+    );
 
 public:
-    /**
-     * GetIsValid const function
-     * @note : Get render pass validity.
-     * @return : Return true when render pass is valid.
-     **/
-    bool GetIsValid( ) const;
-
-    /**
-     * GetDimensions const function
-     * @note : Get render pass dimensions.
-     * @return : Return render pass dimensions as integer point.
-     **/
-    glm::ivec2 GetDimensions( ) const;
-
-    /**
-     * GetRefreshColor const function
-     * @note : Get render pass refresh color.
-     * @return : Return refresh color value as vector 4.
-     **/
-    glm::vec4 GetRefreshColor( ) const;
-    
     /**
      * GetColorAttachement const function
      * @note : Get color attachement OpenGL texture handle.
@@ -124,25 +122,5 @@ public:
      * @return : Return stencil attachement OpenGL texture handle value.
      **/
     const glTexture GetStencilAttachement( ) const;
-
-    /**
-     * GetAttachement const function
-     * @note : Get attachement OpenGL handle.
-     * @param type : Query attachement type.
-     * @param target : Query render pass target value.
-     * @return : Return attachement OpenGL texture handle value.
-     **/
-    const glTexture GetAttachement(
-        const GlwRenderAttachementTypes type,
-        const uint32_t target
-    ) const;
-
-public:
-    /**
-     * Cast operator
-     * @note : Cast render pass validity.
-     * @return : Return GetIsValid( ) call value.
-     **/
-    operator bool( ) const;
 
 };

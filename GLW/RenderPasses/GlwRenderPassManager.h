@@ -66,6 +66,13 @@ public:
 	bool Use( const uint32_t render_pass );
 
 	/**
+	 * CmdBlitRenderTarget method
+	 * @note : Blit content of a render pass target to another render pass target.
+	 * @param blit_specification : Query blit specification.
+	 **/
+	void CmdBlitRenderTarget( const GlwBlitSpecification& blit_specification );
+
+	/**
 	 * Destroy method
 	 * @note : Destroy all render pass.
 	 **/
@@ -96,6 +103,14 @@ public:
 	const GlwRenderPass* GetLast( ) const;
 
 	/**
+	 * GetDimensions const function
+	 * @note : Get render pass dimensions.
+	 * @param render_pass : Query render pass value. 
+	 * @return : Return render pass dimensions as integer point.
+	 **/
+	glm::ivec2 GetDimensions( const uint32_t render_pass ) const;
+
+	/**
 	 * GetColorAttachement const function
 	 * @note : Get color attachement OpenGL handle.
 	 * @param render_pass : Query render pass value.
@@ -122,5 +137,30 @@ public:
 	 * @return : Return stencil attachement OpenGL texture handle value.
 	 **/
 	const glTexture GetStencilAttachement( const uint32_t render_pass ) const;
+
+	/**
+	 * GetAttachement const function
+	 * @note : Get attachement OpenGL handle.
+	 * @param type : Query attachement type.
+	 * @param render_pass : Query render pass value.
+	 * @param target : Query render pass target value.
+	 * @return : Return attachement OpenGL texture handle value.
+	 **/
+	const glTexture GetAttachement(
+		const GlwRenderAttachementTypes type,
+		const uint32_t render_pass,
+		const uint32_t target
+	) const;
+
+private:
+	/**
+	 * GetAttachementRange const function
+	 * @note : Get attachement pixel range for blit operation.
+	 * @param target : Query blit target.
+	 * @return : Return attachemnt pixel range as unsigned vector.
+	 **/
+	glm::uvec4 GetAttachementRange( 
+		const GlwBlitRenderTargetSpecifiction& target_specification
+	) const;
 
 };

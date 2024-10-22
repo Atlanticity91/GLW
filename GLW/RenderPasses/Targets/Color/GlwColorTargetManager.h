@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,25 +31,49 @@
 
 #pragma once
 
-#include "../GlwColorTarget.h"
+#include "GlwColorTarget.h"
 
-struct GlwDepthParameters {
+class GlwColorTargetManager final {
 
-    uint32_t Function;
-    float ClampedNear;
-    float ClampedFar;
+private:
+	std::vector<GlwColorTarget> m_targets;
 
-    /**
-     * Constructor
-     **/
-    GlwDepthParameters( );
+public:
+	/**
+	 * Constructor
+	 **/
+	GlwColorTargetManager( );
 
-    /**
-     * Constructor
-     * @param function : OpenGL depth function.
-     * @param near : Clamped near value.
-     * @param far : Clamped far value.
-     **/
-    GlwDepthParameters( const uint32_t function, float near, float far );
+	/**
+	 * Destructor
+	 **/
+	~GlwColorTargetManager( ) = default;
+
+	/**
+	 * Create function
+	 * @note : Create color attachements according to attachement specification list.
+	 * @param framebuffer : Query framebuffer.
+	 * @param specification : Query attachement specification list.
+	 * @return : True when creation succeeded.
+	 **/
+	bool Create(
+		GlwFramebuffer& framebuffer,
+		const std::vector<GlwColorTargetSpecification>& specifications
+	);
+
+	/**
+	 * Destroy method
+	 * @note : Destroy color attachements.
+	 **/
+	void Destroy( );
+
+public:
+	/**
+	 * GetAttachement const function
+	 * @note : Get color attachement OpenGL texture handle.
+	 * @param attachement : Query attachement.
+	 * @return : Return color attachement as OpenGL texture handle.
+	 **/
+	const glTexture GetAttachement( const uint32_t attachement ) const;
 
 };

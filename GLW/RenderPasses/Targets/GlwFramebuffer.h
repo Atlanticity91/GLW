@@ -31,41 +31,64 @@
 
 #pragma once
 
-#include "Blits/GlwBlitSpecification.h"
+#include "../../Ressources/GlwRessourceManager.h"
 
-struct GlwRenderPassSpecification {
+class GlwFramebuffer final { 
 
-    uint32_t Width;
-    uint32_t Height;
-    bool UseSeparateStencil;
-    std::vector<GlwColorTargetSpecification> ColorTargets;
-    GlwDepthTargetSpecification DepthTarget;
-    GlwStencilTargetSpecification StencilTarget;
-    GlwColorBlendSpecification ColorBlend;
+private:
+	uint32_t m_framebuffer;
 
-    /**
-     * Constructor
-     **/
-    GlwRenderPassSpecification( );
+public:
+	/**
+	 * Constructor
+	 **/
+	GlwFramebuffer( );
 
-    /**
-     * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
-     **/
-    GlwRenderPassSpecification( const uint32_t width, const uint32_t height );
+	/**
+	 * Destructor
+	 **/
+	~GlwFramebuffer( ) = default;
 
-    /**
-     * GetIsValid const function
-     * @note : Get render pass validity.
-     * @return : True when render pass specification is valid.
-     **/
-    bool GetIsValid( ) const;
+	/**
+	 * Create function
+	 * @note : Create framebuffer.
+	 * @return : Return true when operation succeeded.
+	 **/
+	bool Create( );
 
-    /**
-     * Cast operator
-     * @note : Cast specification to boolean, aka get is validity.
-     **/
-    operator bool ( ) const;
+	/**
+	 * Attach method
+	 * @note : Attach attachement to framebuffer.
+	 * @param attachement : Query framebuffer attachement value.
+	 * @param texture : OpenGL texture handle value.
+	 **/
+	void Attach( const uint32_t attachment, const uint32_t texture );
+
+	/**
+	 * Link method
+	 * @note : Link color attachements to framebuffer.
+	 * @param color_count : Query color attachement count.
+	 **/
+	void Link( const uint32_t color_count );
+
+	/**
+	 * Use method
+	 * @note : Bind framebuffer for usage.
+	 **/
+	void Use( );
+
+	/**
+	 * Destroy method
+	 * @note : Destroy framebuffer.
+	 **/
+	void Destroy( );
+
+public:
+	/**
+	 * GetIsValid const function
+	 * @note : Get framebuffer validity.
+	 * @return : Return true when framebuffer is valid.
+	 **/
+	bool GetIsValid( ) const;
 
 };

@@ -31,6 +31,25 @@
 
 #pragma once
 
-#include "../Ressources/GlwRessourceManager.h"
+#include "../Color/GlwColorTargetManager.h"
 
-struct GlwColorTargetSpecification : public GlwTextureSpecification { };
+struct GlwDepthParameters {
+
+    uint32_t Function;
+    float ClampedNear;
+    float ClampedFar;
+
+    /**
+     * Constructor
+     **/
+    GlwDepthParameters( );
+
+    /**
+     * Constructor
+     * @param function : OpenGL depth function.
+     * @param near : Clamped near value.
+     * @param far : Clamped far value.
+     **/
+    GlwDepthParameters( const uint32_t function, float near, float far );
+
+};

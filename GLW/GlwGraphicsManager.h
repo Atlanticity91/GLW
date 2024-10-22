@@ -288,6 +288,17 @@ public:
     void CmdToggleStencilWrite( GlwRenderContext& render_conext, const GlwStates state );
 
     /**
+     * CmdBlitRenderTarget method
+     * @note : Blit content of a render pass target to another render pass target.
+     * @param render_context : Reference to current render context.
+     * @param blit_specification : Query blit specification.
+     **/
+    void CmdBlitRenderTarget( 
+        GlwRenderContext& render_context, 
+        const GlwBlitSpecification& blit_specification 
+    );
+
+    /**
      * CmdUseMaterial function
      * @note : Use material for rendering.
      * @param render_context : Reference to current render context.

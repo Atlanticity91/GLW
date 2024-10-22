@@ -272,6 +272,16 @@ void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_conext,
 	glStencilMask( ( state == GlwStates::Enable ) ? 0xFF : 0x00 );
 }
 
+void GlwGraphicsManager::CmdBlitRenderTarget(
+	GlwRenderContext& render_context,
+	const GlwBlitSpecification& blit_specification
+) {
+	if ( !render_context.GetInUse( ) )
+		return;
+
+	m_render_passes.CmdBlitRenderTarget( blit_specification );
+}
+
 GlwMaterial* GlwGraphicsManager::CmdUseMaterial(
 	GlwRenderContext& render_conext, 
 	const uint32_t material 

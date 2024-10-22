@@ -57,6 +57,37 @@ bool GlwRenderPassManager::Use( const uint32_t render_pass ) {
 	return result;
 }
 
+void GlwRenderPassManager::CmdBlitRenderTarget( 
+	const GlwBlitSpecification& blit_specification 
+) {
+	auto src_texture = GetAttachement( blit_specification.Type, blit_specification.Source.RenderPass, blit_specification.Source.Target );
+	auto dst_texture = GetAttachement( blit_specification.Type, blit_specification.Destination.RenderPass, blit_specification.Destination.Target );
+
+	if ( src_texture == GL_NULL || dst_texture == GL_NULL )
+		return;
+
+	auto src_range = GetAttachementRange( blit_specification.Source );
+	auto dst_range = GetAttachementRange( blit_specification.Destination );
+
+	glBlitNamedFramebuffer(
+		src_texture,
+		dst_texture,
+
+		src_range.x,
+		src_range.y,
+		src_range.z,
+		src_range.z,
+
+		dst_range.x,
+		dst_range.y,
+		dst_range.z,
+		dst_range.w,
+		
+		blit_specification.Type,
+		blit_specification.Mode 
+	);
+}
+
 void GlwRenderPassManager::Destroy( ) {
 	for ( auto& render_pass : m_render_pass )
 		render_pass.Destroy( );
@@ -87,6 +118,16 @@ const GlwRenderPass* GlwRenderPassManager::GetLast( ) const {
 
 	return instance;
 }
+
+glm::ivec2 GlwRenderPassManager::GetDimensions( const uint32_t render_pass ) const {
+	auto dimensions = glm::ivec2{ };
+
+	if ( auto* instance = GetRenderPass( render_pass ) )
+		dimensions = instance->GetDimensions( );
+
+	return dimensions;
+}
+
 const glTexture GlwRenderPassManager::GetColorAttachement(
 	const uint32_t render_pass,
 	const uint32_t attachement
@@ -115,4 +156,41 @@ const glTexture GlwRenderPassManager::GetStencilAttachement( const uint32_t rend
 		texture = instance->GetStencilAttachement( );
 
 	return texture;
+}
+
+const glTexture GlwRenderPassManager::GetAttachement(
+	const GlwRenderAttachementTypes type,
+	const uint32_t render_pass,
+	const uint32_t target
+) const {
+	auto texture = GL_TEXTURE_NULL;
+
+	if ( auto* instance = GetRenderPass( render_pass ) )
+		texture = instance->GetAttachement( type, target );
+
+	return texture;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PRIVATE GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+glm::uvec4 GlwRenderPassManager::GetAttachementRange(
+	const GlwBlitRenderTargetSpecifiction& target_specification
+) const {
+	auto dimensions = GetDimensions( target_specification.RenderPass );
+	auto range = target_specification.Range;
+
+	if ( range.x < 0 || dimensions.x < range.x )
+		range.x = 0;
+
+	if ( range.y < 0 || dimensions.y < range.y )
+		range.y = 0;
+
+	if ( range.z < 0 || dimensions.x < range.x )
+		range.z = dimensions.x;
+
+	if ( range.w < 0 || dimensions.y < range.w )
+		range.w = dimensions.y;
+
+	return range;
 }

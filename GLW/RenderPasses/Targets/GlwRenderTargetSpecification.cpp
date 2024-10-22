@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,51 +29,22 @@
  *
  **/
 
-#pragma once
+#include "__glw_pch.h"
 
-#include "GlwFramebuffer.h"
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwRenderTargetSpecification::GlwRenderTargetSpecification( )
+	: GlwRenderTargetSpecification{ GlwRenderTargetAccessibility::None, 0, 0, 0, 0 }
+{ }
 
-class GlwColorTargets final {
-
-private:
-	std::vector<GlwColorTarget> m_targets;
-
-public:
-	/**
-	 * Constructor
-	 **/
-	GlwColorTargets( );
-
-	/**
-	 * Destructor
-	 **/
-	~GlwColorTargets( ) = default;
-
-	/**
-	 * Create function
-	 * @note : Create color attachements according to attachement specification list.
-	 * @param framebuffer : Query framebuffer.
-	 * @param specification : Query attachement specification list.
-	 * @return : True when creation succeeded.
-	 **/
-	bool Create( 
-		GlwFramebuffer& framebuffer,
-		const std::vector<GlwColorTargetSpecification>& specifications 
-	);
-
-	/**
-	 * Destroy method
-	 * @note : Destroy color attachements.
-	 **/
-	void Destroy( );
-
-public:
-	/**
-	 * GetAttachement const function
-	 * @note : Get color attachement OpenGL texture handle.
-	 * @param attachement : Query attachement.
-	 * @return : Return color attachement as OpenGL texture handle.
-	 **/
-	const glTexture GetAttachement( const uint32_t attachement ) const;
-
-};
+GlwRenderTargetSpecification::GlwRenderTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const glFormat format,
+	const glFormat pixel_format,
+	const uint32_t width,
+	const uint32_t height
+) : GlwTextureSpecification{ format, width, height },
+	Accessibility{ accessibility },
+	PixelFormat{ pixel_format }
+{ }

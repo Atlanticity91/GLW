@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,57 +31,39 @@
 
 #pragma once
 
-#include "../ColorBlend/GlwColorBlend.h"
+#include "GlwFramebuffer.h"
 
-class GlwFramebuffer final { 
+enum GlwRenderTargetAccessibility : uint32_t { 
 
-private:
-	uint32_t m_framebuffer;
+	None = 0,
+	Texture
 
-public:
+};
+
+struct GlwRenderTargetSpecification : public GlwTextureSpecification {
+
+	GlwRenderTargetAccessibility Accessibility;
+	glFormat PixelFormat;
+
 	/**
 	 * Constructor
 	 **/
-	GlwFramebuffer( );
+	GlwRenderTargetSpecification( );
 
 	/**
-	 * Destructor
+	 * Constructor
+	 * @param accessibility : Query render target accessibility value.
+	 * @param format : Query render target format.
+	 * @param pixel_format : Query render target pixel storage format.
+	 * @param width : Query render target width.
+	 * @param height : Query render target height.
 	 **/
-	~GlwFramebuffer( ) = default;
-
-	/**
-	 * Create function
-	 * @note : Create framebuffer.
-	 * @return : Return true when operation succeeded.
-	 **/
-	bool Create( );
-
-	/**
-	 * Link method
-	 * @note : Link attachement to framebuffer.
-	 * @param attachement : Query framebuffer attachement value.
-	 * @param texture : OpenGL texture handle value.
-	 **/
-	void Link( const uint32_t attachment, const uint32_t texture );
-
-	/**
-	 * Use method
-	 * @note : Bind framebuffer for usage.
-	 **/
-	void Use( );
-
-	/**
-	 * Destroy method
-	 * @note : Destroy framebuffer.
-	 **/
-	void Destroy( );
-
-public:
-	/**
-	 * GetIsValid const function
-	 * @note : Get framebuffer validity.
-	 * @return : Return true when framebuffer is valid.
-	 **/
-	bool GetIsValid( ) const;
+	GlwRenderTargetSpecification( 
+		const GlwRenderTargetAccessibility accessibility,
+		const glFormat format,
+		const glFormat pixel_format,
+		const uint32_t width,
+		const uint32_t height
+	);
 
 };

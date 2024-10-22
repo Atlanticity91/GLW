@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "../../Targets/Stencil/GlwStencilTarget.h"
+#include "../Targets/GlwRenderTargetManager.h"
 
 struct GlwColorBlendFactors {
 

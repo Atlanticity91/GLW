@@ -36,20 +36,16 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwRenderPass::GlwRenderPass( )
     : m_framebuffer{ },
-    m_colors{ },
+    m_targets{ },
     m_color_blend{ },
-    m_depth{ },
-    m_stencil{ },
     m_dimensions{ 1280, 720 },
     m_refresh{ 1.f, .256f, .512f, .0f },
     m_clear_flags{ GL_COLOR_BUFFER_BIT }
 { }
 
 bool GlwRenderPass::Create( const GlwRenderPassSpecification& specification ) {
-    auto result = m_framebuffer.Create( )                                      &&
-                  m_colors.Create( m_framebuffer, specification.ColorTargets ) &&
-                  CreateDepthAttachement( specification.DepthTarget )          &&
-                  CreateStencilAttachement( specification.StencilTarget );
+    auto result = m_framebuffer.Create( ) && 
+                  m_targets.Create( m_framebuffer, specification, m_clear_flags );
 
     if ( result )
         m_color_blend.Create( specification.ColorBlend );
@@ -63,9 +59,8 @@ void GlwRenderPass::SetRefreshColor( const glm::vec4& color ) {
 
 void GlwRenderPass::Use( ) {
     m_framebuffer.Use( );
+    m_targets.Use( );
     m_color_blend.Use( );
-    m_depth.Use( );
-    m_stencil.Use( );
 
     glViewport( 0, 0, m_dimensions.x, m_dimensions.y );
     glScissor( 0, 0, m_dimensions.x, m_dimensions.y );
@@ -74,56 +69,8 @@ void GlwRenderPass::Use( ) {
 }
 
 void GlwRenderPass::Destroy( ) {
-    m_stencil.Destroy( );
-    m_depth.Destroy( );
-    m_colors.Destroy( );
+    m_targets.Destroy( );
     m_framebuffer.Destroy( );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//      === PRIVATE ===
-////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwRenderPass::CreateDepthAttachement( const GlwDepthTargetSpecification& specification ) {
-    auto result = true;
-
-    if ( specification.Enable ) {
-        m_clear_flags |= GL_DEPTH_BUFFER_BIT;
-
-        result = m_depth.Create( specification );
-
-        if ( result ) {
-            auto texture = m_depth.Get( );
-
-            m_framebuffer.Link( GL_DEPTH_ATTACHMENT, texture );
-        }
-    }
-
-    return result;
-}
-
-bool GlwRenderPass::CreateStencilAttachement( const GlwStencilTargetSpecification& specification ) {
-    auto result = true;
-
-    if ( specification.Parameters.Enable ) {
-        m_clear_flags |= GL_STENCIL_BUFFER_BIT;
-
-        if ( m_depth.GetIsValid( ) ) {
-            auto texture = m_depth.Get( );
-
-            m_stencil.Setup( specification );
-            m_framebuffer.Link( GL_STENCIL_ATTACHMENT, texture );
-        } else {
-            result = m_stencil.Create( specification );
-
-            if ( result ) {
-                auto texture = m_stencil.Get( );
-
-                m_framebuffer.Link( GL_STENCIL_ATTACHMENT, texture );
-            }
-        }
-    }
-
-    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,16 +88,33 @@ glm::vec4 GlwRenderPass::GetRefreshColor( ) const {
     return { m_refresh };
 }
 
-const glTexture GlwRenderPass::GetColorAttachement( const uint32_t attachement ) const {
-    return m_colors.GetAttachement( attachement );
+const glTexture GlwRenderPass::GetColorAttachement( const uint32_t target ) const {
+    return m_targets.GetColorAttachement( target );
 }
 
 const glTexture GlwRenderPass::GetDepthAttachement( ) const {
-    return m_depth.Get( );
+    return m_targets.GetDepthAttachement( );
 }
 
 const glTexture GlwRenderPass::GetStencilAttachement( ) const {
-    return m_stencil.Get( );
+    return m_targets.GetStencilAttachement( );
+}
+
+const glTexture GlwRenderPass::GetAttachement(
+    const GlwRenderAttachementTypes type,
+    const uint32_t target
+) const {
+    auto texture = GL_TEXTURE_NULL;
+    
+    switch ( type ) {
+        case GlwRenderAttachementTypes::Color   : texture = GetColorAttachement( target ); break;
+        case GlwRenderAttachementTypes::Depth   : texture = GetDepthAttachement( ); break;
+        case GlwRenderAttachementTypes::Stencil : texture = GetDepthAttachement( ); break;
+
+        default : break;
+    }
+
+    return texture;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

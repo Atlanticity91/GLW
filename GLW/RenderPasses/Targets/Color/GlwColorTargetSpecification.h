@@ -29,42 +29,8 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwFramebuffer::GlwFramebuffer( )
-	: m_framebuffer{ GL_NULL }
-{ }
+#include "../GlwRenderTargetSpecification.h"
 
-bool GlwFramebuffer::Create( ) {
-	glGenFramebuffers( 1, &m_framebuffer );
-
-	auto result = glIsValid( m_framebuffer );
-
-	if ( result )
-		glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
-
-	return result;
-}
-
-void GlwFramebuffer::Link( const uint32_t attachment, const uint32_t texture ) {
-	glFramebufferTexture2D( GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, texture, 0 );
-}
-
-void GlwFramebuffer::Use( ) {
-	glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
-}
-
-void GlwFramebuffer::Destroy( ) {
-	if ( GetIsValid( ) )
-		glDeleteFramebuffers( 1, &m_framebuffer );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC GET ===
-////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwFramebuffer::GetIsValid( ) const {
-	return glIsValid( m_framebuffer );
-}
+struct GlwColorTargetSpecification : public GlwRenderTargetSpecification { };

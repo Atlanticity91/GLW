@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,41 +31,36 @@
 
 #pragma once
 
-#include "Blits/GlwBlitSpecification.h"
+#include "GlwBlitRenderTargetSpecifiction.h"
 
-struct GlwRenderPassSpecification {
+enum GlwRenderAttachementTypes : uint32_t {
 
-    uint32_t Width;
-    uint32_t Height;
-    bool UseSeparateStencil;
-    std::vector<GlwColorTargetSpecification> ColorTargets;
-    GlwDepthTargetSpecification DepthTarget;
-    GlwStencilTargetSpecification StencilTarget;
-    GlwColorBlendSpecification ColorBlend;
+    Color   = GL_COLOR_BUFFER_BIT,
+    Depth   = GL_DEPTH_BUFFER_BIT,
+    Stencil = GL_STENCIL_BUFFER_BIT
+
+};
+
+struct GlwBlitSpecification {
+
+    GlwRenderAttachementTypes Type;
+    uint32_t Mode;
+    GlwBlitRenderTargetSpecifiction Source;
+    GlwBlitRenderTargetSpecifiction Destination;
 
     /**
      * Constructor
      **/
-    GlwRenderPassSpecification( );
+    GlwBlitSpecification( );
 
     /**
      * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
+     * @param type : Query render attachement type.
+     * @param mode : Query OpenGL blit filter.
      **/
-    GlwRenderPassSpecification( const uint32_t width, const uint32_t height );
-
-    /**
-     * GetIsValid const function
-     * @note : Get render pass validity.
-     * @return : True when render pass specification is valid.
-     **/
-    bool GetIsValid( ) const;
-
-    /**
-     * Cast operator
-     * @note : Cast specification to boolean, aka get is validity.
-     **/
-    operator bool ( ) const;
+    GlwBlitSpecification(
+        const GlwRenderAttachementTypes type,
+        const uint32_t mode
+    );
 
 };

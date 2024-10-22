@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,46 +34,16 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwColorTargets::GlwColorTargets( )
-	: m_targets{ }
+GlwBlitSpecification::GlwBlitSpecification( )
+    : GlwBlitSpecification{ GlwRenderAttachementTypes::Depth, GL_NEAREST } 
+{ };
+
+GlwBlitSpecification::GlwBlitSpecification(
+    const GlwRenderAttachementTypes type,
+    const uint32_t mode
+)
+    : Type{ type },
+    Mode{ mode },
+    Source{ },
+    Destination{ } 
 { }
-
-bool GlwColorTargets::Create(
-    GlwFramebuffer& framebuffer, 
-    const std::vector<GlwColorTargetSpecification>& specifications 
-) {
-    auto color_count = (uint32_t)specifications.size( );
-    auto result      = false;
-
-    m_targets.resize( color_count );
-
-    while ( color_count-- > 0 ) {
-        result = m_targets[ color_count ].Create( specifications[ color_count ] );
-
-        if ( result ) {
-            auto texture = m_targets[ color_count ].Get( );
-
-            framebuffer.Link( GL_COLOR_ATTACHMENT0 + color_count, texture );
-        } else
-            break;
-    }
-
-    return result;
-}
-
-void GlwColorTargets::Destroy( ) {
-    for ( auto& target : m_targets )
-        target.Destroy( );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//      === PUBLIC GET ===
-////////////////////////////////////////////////////////////////////////////////////////////
-const glTexture GlwColorTargets::GetAttachement( const uint32_t attachement ) const {
-    auto texture = GL_TEXTURE_NULL;
-
-    if ( attachement < (uint32_t)m_targets.size( ) )
-        texture = m_targets[ attachement ].Get( );
-
-    return texture;
-}
