@@ -31,11 +31,11 @@
 
 #pragma once
 
-#include "Stencil/GlwStencilTarget.h"
+#include "Attachements/Stencil/GlwStencilTarget.h"
 
 struct GlwRenderPassTargetSpecification {
 
-    std::vector<GlwColorTargetSpecification> Colors;
+    GlwColorTargetSpecification Color;
     GlwDepthTargetSpecification Depth;
     GlwStencilTargetSpecification Stencil;
 
@@ -43,5 +43,49 @@ struct GlwRenderPassTargetSpecification {
      * Constructor
      **/
     GlwRenderPassTargetSpecification( );
+
+    /**
+     * Constructor
+     **/
+    GlwRenderPassTargetSpecification( const GlwColorTargetSpecification& color );
+    
+    /**
+     * Constructor
+     **/
+    GlwRenderPassTargetSpecification(
+        const GlwColorTargetSpecification& color,
+        const GlwDepthTargetSpecification& depth
+    );
+
+    /**
+     * Constructor
+     **/
+    GlwRenderPassTargetSpecification(
+        const GlwColorTargetSpecification& color,
+        const GlwStencilTargetSpecification& stencil
+    );
+
+    /**
+     * Constructor
+     **/
+    GlwRenderPassTargetSpecification( 
+        const GlwColorTargetSpecification& color,
+        const GlwDepthTargetSpecification& depth,
+        const GlwStencilTargetSpecification& stencil
+    );
+
+    /**
+     * GetIsValid const function
+     * @note : Get if render pass target specification is valid.
+     * @return : Return true when specification is valid.
+     **/
+    bool GetIsValid( ) const;
+
+    /**
+     * Cast operator
+     * @note : Get if render pass target specification is valid.
+     * @return : Return GetIsValid( ) call value.
+     **/
+    operator bool ( ) const;
 
 };

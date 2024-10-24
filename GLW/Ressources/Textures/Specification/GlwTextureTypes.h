@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,35 +29,14 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "../../GlwRessource.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+enum class GlwTextureTypes : uint32_t {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    Undefined = 0,
+    Texture2D = GL_TEXTURE_2D,
+    Cubemap   = GL_TEXTURE_CUBE_MAP
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+};

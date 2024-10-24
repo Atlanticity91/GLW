@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,35 +29,33 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwTextureFilterSpecification.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwTextureWrapSpecification {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	uint32_t R;
+	uint32_t S;
+	uint32_t T;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+	/**
+	 * Constructor
+	 **/
+	GlwTextureWrapSpecification( );
+
+	/**
+	 * Constructor
+	 * @param value : Query OpenGL wrap value for R, S and T.
+	 **/
+	GlwTextureWrapSpecification( const uint32_t value );
+
+	/**
+	 * Constructor
+	 * @param r : Query OpenGL wrap value for R component.
+	 * @param s : Query OpenGL wrap value for S component.
+	 * @param t : Query OpenGL wrap value for T component.
+	 **/
+	GlwTextureWrapSpecification( const uint32_t r, const uint32_t s, const uint32_t t );
+
+};

@@ -95,6 +95,36 @@ bool GlwGraphicsManager::CreateRenderPass( const GlwRenderPassSpecification& spe
 	return m_render_passes.Create( specification );
 }
 
+bool GlwGraphicsManager::CreateRenderPasses(
+	const std::vector<GlwRenderPassSpecification>& specification
+) {
+	auto result = false;
+
+	for ( auto& render_pass_spec : specification ) {
+		result = m_render_passes.Create( render_pass_spec );
+
+		if ( !result )
+			break;
+	}
+
+	return result;
+}
+
+bool GlwGraphicsManager::CreateRenderPasses(
+	const std::initializer_list<GlwRenderPassSpecification> specification
+) {
+	auto result = false;
+
+	for ( auto& render_pass_spec : specification ) {
+		result = m_render_passes.Create( render_pass_spec );
+
+		if ( !result )
+			break;
+	}
+
+	return result;
+}
+
 bool GlwGraphicsManager::CreateMesh( const GlwMeshSpecification& specification ) {
 	return m_ressources.CreateMesh( specification );
 }
@@ -125,68 +155,40 @@ bool GlwGraphicsManager::CreateMaterial( const GlwMaterialSpecification& specifi
 	return m_ressources.CreateMaterial( specification );
 }
 
-bool GlwGraphicsManager::FillTexture2D(
+void GlwGraphicsManager::FillTexture2D(
 	const uint32_t texture,
 	const GlwTextureFillSpecification& fill_specification
 ) {
-	auto* instance = m_ressources.GetTexture2D( texture );
-	auto result	   = false;
-
-	if ( instance != nullptr ) 
-		result = instance->Fill( fill_specification );
-
-	return result;
+	if ( auto* instance = m_ressources.GetTexture2D( texture ) )
+		instance->Fill( fill_specification );
 }
 
-bool GlwGraphicsManager::FillTexture2D(
+void GlwGraphicsManager::FillTexture2D(
 	const uint32_t texture,
 	const std::vector<GlwTextureFillSpecification>& fill_specifications
 ) {
-	auto* instance = m_ressources.GetTexture2D( texture );
-	auto result	   = false;
-
-	if ( instance != nullptr ) {
-		for ( const auto& specification : fill_specifications ) {
-			result = instance->Fill( specification );
-
-			if ( !result )
-				break;
-		}
+	if ( auto* instance = m_ressources.GetTexture2D( texture ) ) {
+		for ( const auto& specification : fill_specifications )
+			instance->Fill( specification );
 	}
-
-	return result;
 }
 
-bool GlwGraphicsManager::FillCubemap(
+void GlwGraphicsManager::FillCubemap(
 	const uint32_t cubemap,
 	const GlwTextureFillSpecification& fill_specification
 ) {
-	auto* instance = m_ressources.GetTexture2D( cubemap );
-	auto result    = false;
-
-	if ( instance != nullptr ) 
-		result = instance->Fill( fill_specification );
-
-	return result;
+	if ( auto* instance = m_ressources.GetTexture2D( cubemap ) )
+		instance->Fill( fill_specification );
 }
 
-bool GlwGraphicsManager::FillCubemap(
+void GlwGraphicsManager::FillCubemap(
 	const uint32_t cubemap,
 	const std::vector<GlwTextureFillSpecification>& fill_specifications
 ) {
-	auto* instance = m_ressources.GetTexture2D( cubemap );
-	auto result	   = false;
-
-	if ( instance != nullptr ) {
-		for ( const auto& specification : fill_specifications ) {
-			result = instance->Fill( specification );
-
-			if ( !result )
-				break;
-		}
+	if ( auto* instance = m_ressources.GetTexture2D( cubemap ) ) {
+		for ( const auto& specification : fill_specifications )
+			instance->Fill( specification );
 	}
-
-	return result;
 }
 
 void GlwGraphicsManager::SetDrawState( const GlwStates state ) {
@@ -206,18 +208,22 @@ bool GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
 	return m_state == GlwStates::Enable;
 }
 
-bool GlwGraphicsManager::CmdUseRenderPass(
+GlwRenderPass* GlwGraphicsManager::CmdUseRenderPass(
 	GlwRenderContext& render_conext, 
 	const uint32_t render_pass 
 ) {
-	auto result = m_render_passes.GetExist( render_pass ) && m_render_passes.Use( render_pass );
+	auto* instance = m_render_passes.GetRenderPass( render_pass );
 
-	if ( result )
+	if ( instance != nullptr ) {
 		render_conext.RenderPass = render_pass;
-	else
+		
+		instance->Use( );
+
+		CmdToggleColorWrites( render_conext, GlwStates::Enable );
+	} else
 		render_conext.RenderPass = UINT_MAX;
 
-	return result;
+	return instance;
 }
 
 void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_conext ) {
@@ -249,6 +255,38 @@ void GlwGraphicsManager::CmdToggleFaceCulling(
 	const GlwStates state 
 ) {
 	CmdToggle( render_conext, GL_CULL_FACE, state );
+}
+
+void GlwGraphicsManager::CmdSetViewport(
+	GlwRenderContext& render_conext,
+	const glm::uvec4& viewport 
+) {
+	if ( !render_conext.GetInUse( ) )
+		return;
+
+	glViewport( viewport.x, viewport.y, viewport.z, viewport.w );
+}
+
+void GlwGraphicsManager::CmdSetScissor(
+	GlwRenderContext& render_conext, 
+	const glm::uvec4& scissor 
+) {
+	if ( !render_conext.GetInUse( ) )
+		return;
+
+	glScissor( scissor.x, scissor.y, scissor.z, scissor.w );
+}
+
+void GlwGraphicsManager::CmdToggleColorWrites(
+	GlwRenderContext& render_conext,
+	const GlwStates state
+) {
+	if ( !render_conext.GetInUse( ) )
+		return;
+
+	auto value = ( state == GlwStates::Enable ) ? GL_TRUE : GL_FALSE;
+
+	glColorMask( value, value, value, value );
 }
 
 void GlwGraphicsManager::CmdToggleDepthTest( 

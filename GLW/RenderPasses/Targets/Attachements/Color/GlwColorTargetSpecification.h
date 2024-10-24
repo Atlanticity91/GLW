@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,35 +29,46 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "../GlwRenderAttachement.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwColorTargetSpecification {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	std::vector<GlwRenderTargetSpecification> Colors;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+	/**
+	 * Constructor
+	 **/
+	GlwColorTargetSpecification( );
+
+	/**
+	 * Constructor
+	 * @param color : Query color specification
+	 **/
+	GlwColorTargetSpecification( const GlwRenderTargetSpecification& color );
+
+	/**
+	 * Constructor
+	 * @param colors : Query color attachements values.
+	 **/
+	GlwColorTargetSpecification(
+		const std::vector<GlwRenderTargetSpecification>& colors
+	);
+
+	/**
+	 * Constructor
+	 * @param colors : Query color attachements values.
+	 **/
+	GlwColorTargetSpecification(
+		std::initializer_list<GlwRenderTargetSpecification> colors
+	);
+
+	/**
+	 * GetIsValid const function
+	 * @note : Get specification validity.
+	 * @return : Return true when specification is valid.
+	 **/
+	bool GetIsValid( ) const;
+
+};

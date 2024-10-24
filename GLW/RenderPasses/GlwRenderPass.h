@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "GlwRenderPassSpecification.h"
+#include "Specification/GlwRenderPassSpecification.h"
 
 class GlwRenderPass final {
 

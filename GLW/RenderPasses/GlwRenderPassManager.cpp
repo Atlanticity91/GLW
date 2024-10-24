@@ -48,15 +48,6 @@ bool GlwRenderPassManager::Create( const GlwRenderPassSpecification& specificati
 	return result;
 }
 
-bool GlwRenderPassManager::Use( const uint32_t render_pass ) {
-	auto result = GetExist( render_pass );
-
-	if ( result )
-		m_render_pass[ render_pass ].Use( );
-
-	return result;
-}
-
 void GlwRenderPassManager::CmdBlitRenderTarget( 
 	const GlwBlitSpecification& blit_specification 
 ) {

@@ -32,32 +32,52 @@
 #include "__glw_pch.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
+//      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwDepthTarget::GlwDepthTarget( )
+    : m_enabled{ false },
+    m_parameters{ },
+    m_attachement{ }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+bool GlwDepthTarget::Create( 
+    const GlwDepthTargetSpecification& specification,
+    const glm::uvec2& dimensions,
+    GlwFramebuffer& framebuffer,
+    uint32_t& clear_flags
+) {
+    auto result = true;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    if ( specification.State == GlwStates::Enable ) {
+        result = m_attachement.Create( specification, dimensions, 0, framebuffer );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+        if ( result ) {
+            m_enabled    = true;
+            m_parameters = specification.Parameters;
+
+            clear_flags |= GL_DEPTH_BUFFER_BIT;
+        }
+    }
+
+    return result;
+}
+
+void GlwDepthTarget::Use( ) {
+    if ( m_enabled ) {
+        glEnable( GL_DEPTH_TEST );
+        glDepthFunc( m_parameters.Function );
+        glDepthRange( m_parameters.ClampedNear, m_parameters.ClampedFar );
+    } else
+        glDisable( GL_DEPTH_TEST );
+}
+
+void GlwDepthTarget::Destroy( ) {
+    m_attachement.Destroy( );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//      === PUBLIC GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+const glTexture GlwDepthTarget::GetAttachement( ) const {
+    return m_attachement.Get( );
+}

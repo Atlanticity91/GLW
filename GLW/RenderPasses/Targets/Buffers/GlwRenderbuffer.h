@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,45 +31,63 @@
 
 #pragma once
 
-#include "GlwTextureCubemapSpecification.h"
+#include "GlwFramebuffer.h"
 
-class GlwTextureCubemap : public GlwTexture<GlwTextureCubemapSpecification> {
+class GlwRenderbuffer final { 
 
-public:
-	static const uint32_t FaceCount = 6;
+private:
+	uint32_t m_render_buffer;
 
 public:
 	/**
 	 * Constructor
 	 **/
-	GlwTextureCubemap( );
-
+	GlwRenderbuffer( );
+	
 	/**
 	 * Destructor
 	 **/
-	~GlwTextureCubemap( ) = default;
+	~GlwRenderbuffer( ) = default;
 
-protected:
-    /**
-     * CreateTexture function
-     * @note : Create texture according to specification.
-     * @param specification : Query texture specification.
-     * @return : True when creation succeeded.
-     **/
-    virtual bool CreateTexture( const GlwTextureCubemapSpecification& specification ) override;
+	/**
+	 * Create function
+	 * @note : Create render buffer according to specification.
+	 * @param dimensions : Query render buffer dimensions.
+	 * @param type : Query render buffer OpenGL type.
+	 * @return : Return true when operation succeeded.
+	 **/
+	bool Create(
+		const glm::uvec2& dimensions,
+		const uint32_t type
+	);
 
-    /**
-     * SetTextureParameters method
-     * @note : Set texture parameters according to specification.
-     * @param specification : Query texture specification.
-     **/
-    virtual void SetTextureParameters( const GlwTextureCubemapSpecification& specification ) override;
+	/**
+	 * Destroy method
+	 * @note : Destroy current render buffer.
+	 **/
+	void Destroy( );
 
-    /**
-     * FillTexture method
-     * @note : Fill texture pixels according to specification.
-     * @param specification : Query filling specification.
-     **/
-    virtual void FillTexture( const GlwTextureFillSpecification& specification ) override;
+public:
+	/**
+	 * GetIsValid const function
+	 * @note : Get if render buffer is valid.
+	 * @return : Return true when render buffer is valid.
+	 **/
+	bool GetIsValid( ) const;
+
+	/**
+	 * Get const function
+	 * @note : Get render buffer OpenGL handle.
+	 * @return : Return render buffer OpenGL handle value.
+	 **/
+	const uint32_t Get( ) const;
+
+public:
+	/**
+	 * Cast operator
+	 * @note : Cast to render buffer OpenGL handle.
+	 * @return : Return Get( ) call value.
+	 **/
+	operator const uint32_t ( ) const;
 
 };

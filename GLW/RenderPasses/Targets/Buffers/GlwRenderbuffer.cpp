@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,30 +34,45 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwRenderbuffer::GlwRenderbuffer( )
+	: m_render_buffer{ GL_NULL }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+bool GlwRenderbuffer::Create(
+	const glm::uvec2& dimensions,
+	const uint32_t type
+) {
+	glGenRenderbuffers( 1, &m_render_buffer );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	auto result = GetIsValid( );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+	if ( result ) {
+		glBindRenderbuffer( GL_RENDERBUFFER, m_render_buffer );
+		glRenderbufferStorage( GL_RENDERBUFFER, type, dimensions.x, dimensions.y );
+	}
+
+	return result;
+}
+
+void GlwRenderbuffer::Destroy( ) {
+	if ( GetIsValid( ) )
+		glDeleteRenderbuffers( 1, &m_render_buffer );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+bool GlwRenderbuffer::GetIsValid( ) const {
+	return glIsValid( m_render_buffer );
+}
+
+const uint32_t GlwRenderbuffer::Get( ) const {
+	return m_render_buffer;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	OPERATOR ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwRenderbuffer::operator const uint32_t( ) const {
+	return Get( );
+}

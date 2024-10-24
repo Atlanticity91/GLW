@@ -34,30 +34,44 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwColorTarget::GlwColorTarget( )
+	: m_attachements{ }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+bool GlwColorTarget::Create(
+	const GlwColorTargetSpecification& specification,
+	const glm::uvec2& dimensions,
+	GlwFramebuffer& framebuffer,
+	uint32_t& clear_flags
+) {
+	auto attachement_id = specification.Colors.size( );
+	auto result			= true;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	if ( attachement_id > 0 )
+		m_attachements.resize( attachement_id );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+	while ( result && attachement_id-- > 0 )
+		result = m_attachements[ attachement_id ].Create( specification.Colors[ attachement_id ], dimensions, (uint32_t)attachement_id, framebuffer );
+
+	if ( result )
+		clear_flags |= GL_COLOR_BUFFER_BIT;
+
+	return result;
+}
+
+void GlwColorTarget::Destroy( ) {
+	for ( auto& attachement : m_attachements )
+		attachement.Destroy( );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+const glTexture GlwColorTarget::GetAttachement( const uint32_t target ) const {
+	auto texture = GL_TEXTURE_NULL;
+
+	if ( target < (uint32_t)m_attachements.size( ) )
+		texture = m_attachements[ target ].Get( );
+
+	return texture;
+}

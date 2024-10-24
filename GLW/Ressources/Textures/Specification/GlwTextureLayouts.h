@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,35 +29,23 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwTextureFormats.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+enum class GlwTextureLayouts : uint32_t {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	Default  = GL_RGBA8,
+	R_08I    = GL_R8,
+	R_16I    = GL_R16,
+	RG_08I   = GL_RG8,
+	RG_16I   = GL_RG16,
+	RG_16F   = GL_RG16F,
+	RGB_08I  = GL_RGB8,
+	RGB_16F  = GL_RGB16F,
+	RGB_32F  = GL_RGB32F,
+	RGBA_08I = Default,
+	RGBA_16F = GL_RGBA16F,
+	RGBA_32F = GL_RGBA32F,
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+};

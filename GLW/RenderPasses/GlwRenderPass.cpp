@@ -40,15 +40,19 @@ GlwRenderPass::GlwRenderPass( )
     m_color_blend{ },
     m_dimensions{ 1280, 720 },
     m_refresh{ 1.f, .256f, .512f, .0f },
-    m_clear_flags{ GL_COLOR_BUFFER_BIT }
+    m_clear_flags{ }
 { }
 
 bool GlwRenderPass::Create( const GlwRenderPassSpecification& specification ) {
-    auto result = m_framebuffer.Create( ) && 
-                  m_targets.Create( specification.Targets, m_framebuffer, m_clear_flags );
+    auto result = false;
 
-    if ( result )
-        m_color_blend.Create( specification.ColorBlend );
+    if ( specification.GetIsValid( ) ) {
+        result = m_framebuffer.Create( ) &&
+                 m_targets.Create( specification.Targets, specification.Dimensions, m_framebuffer, m_clear_flags );
+
+        if ( result )
+            m_color_blend.Create( specification.ColorBlend );
+    }
 
     return result;
 }

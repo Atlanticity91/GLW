@@ -58,14 +58,6 @@ public:
 	bool Create( const GlwRenderPassSpecification& specification );
 
 	/**
-	 * Use function
-	 * @note : Bind render pass for usage.
-	 * @param render_pass : Query render pass.
-	 * @return : Return true when operation succeeded.
-	 **/
-	bool Use( const uint32_t render_pass );
-
-	/**
 	 * CmdBlitRenderTarget method
 	 * @note : Blit content of a render pass target to another render pass target.
 	 * @param blit_specification : Query blit specification.

@@ -180,6 +180,9 @@ void GlwMaterial::SetTexture( const uint32_t slot, const uint32_t type, const gl
 
     glActiveTexture( GL_TEXTURE0 + slot );
     glBindTexture( type, texture );
+
+    if ( type > 0 )
+        glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, ( true ) ? GL_DEPTH_COMPONENT : GL_STENCIL_INDEX );
 }
 
 void GlwMaterial::SetTexture( const uint32_t slot, const GlwTexture2D* texture ) {

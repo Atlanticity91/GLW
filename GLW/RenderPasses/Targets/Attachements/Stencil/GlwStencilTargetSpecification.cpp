@@ -34,30 +34,42 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+GlwStencilTargetSpecification::GlwStencilTargetSpecification( )
+	: GlwStencilTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default, { } }
+{ 
+	State = GlwStates::Disable;
+}
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
+GlwStencilTargetSpecification::GlwStencilTargetSpecification(
 	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
+	const GlwTextureLayouts layout
 )
-	: GlwTextureSpecification{ format, 1, width, height }
+	: GlwStencilTargetSpecification{ GlwRenderTargetAccessibility::None, format, layout, { } }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification(
+GlwStencilTargetSpecification::GlwStencilTargetSpecification(
 	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
+	const GlwTextureLayouts layout,
+	const GlwStencilParameters parameters
 )
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
+	: GlwStencilTargetSpecification{ GlwRenderTargetAccessibility::None, format, layout, parameters }
+{ }
+
+GlwStencilTargetSpecification::GlwStencilTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout
+)
+	: GlwStencilTargetSpecification{ accessibility, format, layout, { } }
+{ }
+
+GlwStencilTargetSpecification::GlwStencilTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout,
+	const GlwStencilParameters parameters
+)
+	: GlwRenderTargetSpecification{ accessibility, format, layout },
+	State{ GlwStates::Enable },
+	Parameters{ parameters }
 { }

@@ -31,50 +31,60 @@
 
 #pragma once
 
-#include "Specification/GlwTextureWrapSpecification.h"
+#include "GlwDepthTargetSpecification.h"
 
-struct GlwTextureSpecification {
+class GlwDepthTarget final {
 
-    GlwTextureFormats Format;
-    uint32_t Levels;
-    uint32_t Width;
-    uint32_t Height;
+private:
+    bool m_enabled;
+    GlwDepthParameters m_parameters;
+    GlwRenderAttachement m_attachement;
 
+public:
     /**
      * Constructor
      **/
-    GlwTextureSpecification( );
+    GlwDepthTarget( );
 
     /**
-     * Constructor
-     * @param format : Query texture format.
+     * Destructor
      **/
-    GlwTextureSpecification( const GlwTextureFormats format );
+    ~GlwDepthTarget( ) = default;
 
     /**
-     * Constructor
-     * @param format : Query texture format.
-     * @param width : Query texture width.
-     * @param height : Query texture height.
+     * Create function
+     * @note : Create render target according to specification.
+     * @param specification : Query render target specification.
+     * @param dimensions : Current render pass dimensions.
+     * @param framebuffer : Reference to current render pass framebuffer instance.
+     * @param clear_flags : Reference to current render pass clear flags instance.
+     * @return : Return true when creation succeeded.
      **/
-    GlwTextureSpecification(
-        const GlwTextureFormats format,
-        const uint32_t width, 
-        const uint32_t height 
+    bool Create( 
+        const GlwDepthTargetSpecification& specification,
+        const glm::uvec2& dimensions,
+        GlwFramebuffer& framebuffer,
+        uint32_t& clear_flags
     );
 
     /**
-     * Constructor
-     * @param format : Query texture format.
-     * @param levels : Query texture level count.
-     * @param width  : Query texture width.
-     * @param height : Query texture height.
+     * Use method
+     * @note : Bind depth buffer for usage.
      **/
-    GlwTextureSpecification(
-        const GlwTextureFormats format,
-        const uint32_t levels,
-        const uint32_t width,
-        const uint32_t height
-    );
+    void Use( );
+
+    /**
+     * Destroy method
+     * @note : Destroy current render target.
+     **/
+    void Destroy( );
+
+public:
+    /**
+     * GetAttachement const function
+     * @note : Get query target attachement value.
+     * @return : Return OpenGL texture handle of the attachement.
+     **/
+    const glTexture GetAttachement( ) const;
 
 };

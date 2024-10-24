@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,30 +34,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwRenderTargetSpecification::GlwRenderTargetSpecification( )
+	: GlwRenderTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
+GlwRenderTargetSpecification::GlwRenderTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
 	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
+	const GlwTextureLayouts layout
+) : Accessibility{ accessibility },
+	Format{ format },
+	Layout{ layout }
 { }

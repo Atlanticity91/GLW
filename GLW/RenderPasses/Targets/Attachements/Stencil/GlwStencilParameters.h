@@ -29,35 +29,34 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwStencilOperation.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwStencilParameters {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    GlwStencilFunction FrontFunction;
+    GlwStencilFunction BackFunction;
+    GlwStencilOperation FrontOperation;
+    GlwStencilOperation BackOperation;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+    /**
+     * Constructor
+     **/
+    GlwStencilParameters( );
+
+    /**
+     * Constructor
+     * @param front_function : Query stencil front function specification.
+     * @param back_function : Query stencil back function specification.
+     * @param front_operation : Query stencil front operation specification.
+     * @param back_operation : Query stencil back operation specification.
+     **/
+    GlwStencilParameters(
+        const GlwStencilFunction& front_function,
+        const GlwStencilFunction& back_function,
+        const GlwStencilOperation& front_operation,
+        const GlwStencilOperation& back_operation
+    );
+
+};

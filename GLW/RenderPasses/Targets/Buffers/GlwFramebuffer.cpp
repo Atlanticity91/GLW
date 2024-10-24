@@ -34,30 +34,55 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwFramebuffer::GlwFramebuffer( )
+	: m_framebuffer{ GL_NULL }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+bool GlwFramebuffer::Create( ) {
+	glGenFramebuffers( 1, &m_framebuffer );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+	auto result = glIsValid( m_framebuffer );
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+	if ( result )
+		glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
+
+	return result;
+}
+
+void GlwFramebuffer::AttachTexture( const uint32_t type, const glTexture attachment ) {
+	glFramebufferTexture2D( GL_FRAMEBUFFER, type, GL_TEXTURE_2D, attachment, 0 );
+}
+
+void GlwFramebuffer::AttachRenderbuffer( const uint32_t type, const uint32_t attachment ) {
+	glFramebufferRenderbuffer( GL_FRAMEBUFFER, type, GL_RENDERBUFFER, attachment );
+}
+
+void GlwFramebuffer::Link( const uint32_t color_count ) {
+	if ( color_count == 0 )
+		return;
+
+	auto attachments	  = std::vector<uint32_t>( (size_t)color_count );
+	auto color_id		  = color_count;
+	auto* attachment_list = attachments.data( );
+
+	while ( color_id-- > 0 )
+		attachments[ color_id ] = GL_COLOR_ATTACHMENT0 + color_id;
+
+	glDrawBuffers( color_count, attachment_list );
+}
+
+void GlwFramebuffer::Use( ) {
+	glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
+}
+
+void GlwFramebuffer::Destroy( ) {
+	if ( GetIsValid( ) )
+		glDeleteFramebuffers( 1, &m_framebuffer );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+bool GlwFramebuffer::GetIsValid( ) const {
+	return glIsValid( m_framebuffer );
+}

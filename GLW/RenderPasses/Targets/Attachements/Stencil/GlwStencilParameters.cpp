@@ -34,30 +34,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwStencilParameters::GlwStencilParameters( )
+	: GlwStencilParameters{ { }, { }, { }, { } }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
+GlwStencilParameters::GlwStencilParameters(
+    const GlwStencilFunction& front_function,
+    const GlwStencilFunction& back_function,
+    const GlwStencilOperation& front_operation,
+    const GlwStencilOperation& back_operation
+) 
+	: FrontFunction{ front_function },
+	BackFunction{ back_function },
+	FrontOperation{ front_operation },
+	BackOperation{ back_operation }
 { }

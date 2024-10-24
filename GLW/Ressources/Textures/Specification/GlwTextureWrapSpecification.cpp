@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -28,36 +28,25 @@
  * SOFTWARE.
  *
  **/
-
 #include "__glw_pch.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
+GlwTextureWrapSpecification::GlwTextureWrapSpecification( )
+	: GlwTextureWrapSpecification{ GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
+GlwTextureWrapSpecification::GlwTextureWrapSpecification( const uint32_t value )
+	: GlwTextureWrapSpecification{ value, value, value }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
+GlwTextureWrapSpecification::GlwTextureWrapSpecification( 
+	const uint32_t r,
+	const uint32_t s, 
+	const uint32_t t
 )
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
+	: R{ r },
+	S{ s },
+	T{ t }
 { }

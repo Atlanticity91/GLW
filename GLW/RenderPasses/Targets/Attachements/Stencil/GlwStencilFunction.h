@@ -29,35 +29,31 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "../Depth/GlwDepthTarget.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwStencilFunction {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    uint32_t Function;
+    int32_t Reference;
+    uint32_t Mask;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+    /**
+     * Constructor
+     **/
+    GlwStencilFunction( );
+
+    /**
+     * Constructor
+     * @param function : Query OpenGL stencil function.
+     * @param reference : Query OpenGL stencil reference test value.
+     * @param mask : Query bitfield stencil mask.
+     **/
+    GlwStencilFunction(
+        const uint32_t function,
+        const int32_t reference,
+        const uint32_t mask
+    );
+
+};

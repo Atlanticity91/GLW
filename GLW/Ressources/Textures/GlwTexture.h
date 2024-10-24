@@ -38,8 +38,8 @@ template<typename SpecificationType>
 class GlwTexture : public GlwRessource<SpecificationType> {
 
 protected:
-    uint32_t m_type;
-    uint32_t m_format;
+    GlwTextureTypes m_type;
+    GlwTextureFormats m_format;
     glTexture m_texture;
 
 public:
@@ -47,9 +47,7 @@ public:
      * Constructor
      **/
     GlwTexture( )
-        : m_type{ 0 },
-        m_format{ 0 },
-        m_texture{ GL_NULL }
+        : GlwTexture{ GlwTextureTypes::Undefined }
     { };
 
     /**
@@ -64,30 +62,24 @@ public:
      * @return : True when creation succeeded.
      **/
     virtual bool Create( const SpecificationType& specification ) override {
-        if ( CreateGlTexture( GL_TEXTURE_2D, specification ) ) {
-            SetGlFilters( specification );
-            SetGlWraps( specification );
-        }
+        m_format = specification.Format;
+
+        if ( specification.Format > GlwTextureFormats::None && CreateTexture( specification ) )
+            SetTextureParameters( specification );
 
         return GetIsValid( );
     };
 
     /**
-     * Fill function
+     * Fill method
      * @note : Fill texture according to specification.
      * @param specification : Query filling specification.
-     * @return : True when texture filling succeeded.
      **/
-    virtual bool Fill( const GlwTextureFillSpecification& specification ) {
-        auto result = GetIsValid( ) && specification.Width > 0 && specification.Height > 0;
+    virtual void Fill( const GlwTextureFillSpecification& specification ) {
+        if ( !GetIsValid( ) || specification.Width == 0 || specification.Height == 0 )
+            return;
 
-        if ( result ) {
-            glBindTexture( m_type, m_texture );
-            glTexSubImage2D( m_texture, specification.Level, specification.X, specification.Y, specification.Width, specification.Height, m_format, specification.Type, specification.Pixels );
-            glBindTexture( m_type, GL_NULL );
-        }
-
-        return result;
+        FillTexture( specification );
     };
 
     /**
@@ -104,48 +96,36 @@ public:
 
 protected:
     /**
-     * CreateGlTexture function
-     * @note : Create texture handle internaly.
-     * @param type : OpenGL texture type.
+     * Constructor
+     * @param type : Query texture instance type.
+     **/
+    GlwTexture( const GlwTextureTypes type )
+        : m_type{ type },
+        m_format{ GlwTextureFormats::None },
+        m_texture{ GL_NULL } 
+    { };
+
+    /**
+     * CreateTexture function
+     * @note : Create texture according to specification.
      * @param specification : Query texture specification.
      * @return : True when creation succeeded.
      **/
-    virtual bool CreateGlTexture( const GLuint type, const SpecificationType& specification ) {
-        glCreateTextures( type, 1, &m_texture );
-
-        auto result = glIsValid( m_texture );
-
-        if ( result ) {
-            m_type   = type;
-            m_format = specification.Format;
-
-            glBindTexture( m_type, m_texture );
-            glTexStorage2D( m_type, specification.Levels, m_format, specification.Width, specification.Height );
-        }
-
-        return result;
-    };
+    virtual bool CreateTexture( const SpecificationType& specification ) = 0;
 
     /**
-     * SetGlFilters method
-     * @note : Set texture filters value.
+     * SetTextureParameters method
+     * @note : Set texture parameters according to specification.
      * @param specification : Query texture specification.
      **/
-    void SetGlFilters( const GlwTextureSpecification& specification ) {
-        glTexParameteri( m_type, GL_TEXTURE_MIN_FILTER, specification.MinFilter );
-        glTexParameteri( m_type, GL_TEXTURE_MAG_FILTER, specification.MagFilter );
-    };
+    virtual void SetTextureParameters( const SpecificationType& specification ) = 0;
 
     /**
-     * SetGlWraps method
-     * @note : Set texture wraping value.
-     * @param specification : Query texture specification.
+     * FillTexture method
+     * @note : Fill texture pixels according to specification.
+     * @param specification : Query filling specification.
      **/
-    void SetGlWraps( const GlwTextureSpecification& specification ) {
-        glTexParameteri( m_type, GL_TEXTURE_WRAP_R, specification.WrapR );
-        glTexParameteri( m_type, GL_TEXTURE_WRAP_S, specification.WrapS );
-        glTexParameteri( m_type, GL_TEXTURE_WRAP_T, specification.WrapT );
-    };
+    virtual void FillTexture( const GlwTextureFillSpecification& specification ) = 0;
 
 public:
     /**
@@ -154,24 +134,26 @@ public:
      * @return : True when texture is valid.
      **/
     virtual bool GetIsValid( ) const override {
-        return glIsValid( m_texture );
+        return  m_type   > GlwTextureTypes::Undefined &&
+                m_format > GlwTextureFormats::None &&
+                glIsValid( m_texture );
     };
 
     /**
      * GetType const function
      * @note : Get texture type.
-     * @return : OpenGL texture type value.
+     * @return : Return texture type value.
      **/
-    uint32_t GetType( ) const {
+    GlwTextureTypes GetType( ) const {
         return m_type;
     };
     
     /**
      * GetFormat const function
      * @note : Get textur format.
-     * @return : OpenGL texture format value.
+     * @return : Return texture format value.
      **/
-    uint32_t GetFormat( ) const {
+    GlwTextureFormats GetFormat( ) const {
         return m_format;
     };
 

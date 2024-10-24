@@ -33,4 +33,4 @@
 
 #include "GlwTexture2D.h"
 
-struct GlwTextureCubemapSpecification : public GlwTextureSpecification { };
+typedef GlwTexture2DSpecification GlwTextureCubemapSpecification;

@@ -33,4 +33,99 @@
 
 #include "GlwTexture.h"
 
-struct GlwTexture2DSpecification : GlwTextureSpecification { };
+struct GlwTexture2DSpecification : GlwTextureSpecification { 
+
+	GlwTextureLayouts Layout;
+	GlwTextureFilterSpecification Filter;
+	GlwTextureWrapSpecification Wrap;
+
+	/**
+	 * Constructor
+	 **/
+	GlwTexture2DSpecification( );
+
+	/**
+	 * Constructor
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 **/
+	GlwTexture2DSpecification(
+		const uint32_t width,
+		const uint32_t height
+	);
+
+	/**
+	 * Constructor
+	 * @param layout : Query texture layout.
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 **/
+	GlwTexture2DSpecification(
+		const GlwTextureLayouts layout,
+		const uint32_t width,
+		const uint32_t height
+	);
+
+	/**
+	 * Constructor
+	 * @param format : Query texture format.
+	 * @param layout : Query texture layout.
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 **/
+	GlwTexture2DSpecification( 
+		const GlwTextureFormats format,
+		const GlwTextureLayouts layout,
+		const uint32_t width,
+		const uint32_t height
+	);
+
+	/**
+	 * Constructor
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 * @param filter : Query texture filters.
+	 * @param wrap : Query texture wrap.
+	 **/
+	GlwTexture2DSpecification(
+		const uint32_t width,
+		const uint32_t height,
+		const GlwTextureFilterSpecification& filter,
+		const GlwTextureWrapSpecification& wrap
+	);
+
+	/**
+	 * Constructor
+	 * @param format : Query texture format.
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 * @param filter : Query texture filters.
+	 * @param wrap : Query texture wrap.
+	 **/
+	GlwTexture2DSpecification(
+		const GlwTextureFormats format,
+		const uint32_t width,
+		const uint32_t height,
+		const GlwTextureFilterSpecification& filter,
+		const GlwTextureWrapSpecification& wrap
+	);
+
+	/**
+	 * Constructor
+	 * @param format : Query texture format.
+	 * @param layout : Query texture layout.
+	 * @param width : Query texture width value.
+	 * @param height : Queryt texture height value.
+	 * @param filter : Query texture filters.
+	 * @param wrap : Query texture wrap.
+	 **/
+	GlwTexture2DSpecification( 
+		const GlwTextureFormats format,
+		const GlwTextureLayouts layout,
+		const uint32_t width,
+		const uint32_t height,
+		const GlwTextureFilterSpecification& filter,
+		const GlwTextureWrapSpecification& wrap
+	);
+
+};

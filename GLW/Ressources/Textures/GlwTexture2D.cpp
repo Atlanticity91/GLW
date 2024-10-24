@@ -35,9 +35,43 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwTexture2D::GlwTexture2D( )
-	: GlwTexture{ }
+	: GlwTexture{ GlwTextureTypes::Texture2D },
+    m_specification{ }
 { }
 
-bool GlwTexture2D::Create( const GlwTexture2DSpecification& specification ) {
-	return GlwTexture::Create( specification );
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PROTECTED ===
+////////////////////////////////////////////////////////////////////////////////////////////
+bool GlwTexture2D::CreateTexture( const GlwTexture2DSpecification& specification ) {
+    glCreateTextures( GL_TEXTURE_2D, 1, &m_texture );
+
+    auto result = glIsValid( m_texture );
+
+    if ( result ) {
+        glBindTexture( GL_TEXTURE_2D, m_texture );
+        glTexImage2D( GL_TEXTURE_2D, specification.Levels, (uint32_t)specification.Layout, specification.Width, specification.Height, 0, (uint32_t)specification.Format, GL_UNSIGNED_BYTE, NULL );
+    }
+
+    return result;
+}
+
+void GlwTexture2D::SetTextureParameters( const GlwTexture2DSpecification& specification ) {
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, specification.Filter.Min );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, specification.Filter.Mag );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, specification.Wrap.R );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, specification.Wrap.S );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, specification.Wrap.T );
+}
+
+void GlwTexture2D::FillTexture( const GlwTextureFillSpecification& specification ) {
+    glBindTexture( GL_TEXTURE_2D, m_texture );
+    glTexSubImage2D( GL_TEXTURE_2D, specification.Level, specification.X, specification.Y, specification.Width, specification.Height, (uint32_t)m_format, specification.Type, specification.Pixels );
+    glBindTexture( GL_TEXTURE_2D, GL_NULL );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC GET ===
+////////////////////////////////////////////////////////////////////////////////////////////
+const GlwTexture2DSpecification& GlwTexture2D::GetSpecification( ) const {
+    return m_specification;
 }

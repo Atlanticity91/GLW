@@ -34,30 +34,42 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+GlwDepthTargetSpecification::GlwDepthTargetSpecification( )
+	: GlwDepthTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default, { } }
+{ 
+	State = GlwStates::Disable;
+}
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification(
+GlwDepthTargetSpecification::GlwDepthTargetSpecification(
 	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
+	const GlwTextureLayouts layout
 )
-	: GlwTextureSpecification{ format, 1, width, height }
+	: GlwDepthTargetSpecification{ GlwRenderTargetAccessibility::None, format, layout, { } }
 { }
 
-GlwTextureSpecification::GlwTextureSpecification(
+GlwDepthTargetSpecification::GlwDepthTargetSpecification(
 	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
+	const GlwTextureLayouts layout,
+	const GlwDepthParameters parameters
 )
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
+	: GlwDepthTargetSpecification{ GlwRenderTargetAccessibility::None, format, layout, parameters }
+{ }
+
+GlwDepthTargetSpecification::GlwDepthTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout
+)
+	: GlwDepthTargetSpecification{ accessibility, format, layout, { } }
+{ }
+
+GlwDepthTargetSpecification::GlwDepthTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout,
+	const GlwDepthParameters parameters
+)
+	: GlwRenderTargetSpecification{ accessibility, format, layout },
+	State{ GlwStates::Enable },
+	Parameters{ parameters }
 { }

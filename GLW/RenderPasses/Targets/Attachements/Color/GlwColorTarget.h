@@ -29,35 +29,55 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwColorTargetSpecification.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+class GlwColorTarget final {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+private:
+	std::vector<GlwRenderAttachement> m_attachements;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+public:
+	/**
+	 * Constructor
+	 **/
+	GlwColorTarget( );
+
+	/**
+	 * Destructor
+	 **/
+	~GlwColorTarget( ) = default;
+
+	/**
+	 * Create function
+	 * @note : Create render target according to specification.
+	 * @param specification : Query render target specification.
+	 * @param dimensions : Current render pass dimensions.
+	 * @param framebuffer : Reference to current render pass framebuffer instance.
+	 * @param clear_flags : Reference to current render pass clear flags instance.
+	 * @return : Return true when creation succeeded.
+	 **/
+	bool Create(
+		const GlwColorTargetSpecification& specification,
+		const glm::uvec2& dimensions,
+		GlwFramebuffer& framebuffer,
+		uint32_t& clear_flags
+	);
+
+	/**
+	 * Destroy method
+	 * @note : Destroy current render target.
+	 **/
+	void Destroy( );
+
+public:
+	/**
+	 * GetAttachement const function
+	 * @note : Get query target attachement value.
+	 * @param target : Query color render target value.
+	 * @return : Return OpenGL texture handle of the attachement.
+	 **/
+	const glTexture GetAttachement( const uint32_t target ) const;
+
+};

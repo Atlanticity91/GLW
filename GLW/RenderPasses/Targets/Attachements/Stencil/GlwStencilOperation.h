@@ -29,35 +29,31 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwStencilFunction.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwStencilOperation {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    uint32_t Pass;
+    uint32_t Fail;
+    uint32_t DepthStencilPass;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+    /**
+     * Constructor
+     **/
+    GlwStencilOperation( );
+
+    /**
+     * Constructor
+     * @param pass : Query OpenGL stencil test pass action.
+     * @param fail : Query OpenGL stencil test fail action.
+     * @param depth_stencil_pass : Query OpenGL stencil test and the depth test pass action.
+     **/
+    GlwStencilOperation(
+        const uint32_t pass,
+        const uint32_t fail,
+        const uint32_t depth_stencil_pass
+    );
+
+};

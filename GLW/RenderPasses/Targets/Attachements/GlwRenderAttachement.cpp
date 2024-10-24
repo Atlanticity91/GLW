@@ -34,50 +34,61 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification( )
-    : GlwRenderPassTargetSpecification{ { }, { }, { } }
+GlwRenderAttachement::GlwRenderAttachement( )
+	: m_texture{ },
+	m_render_buffer{ }
 { }
 
-GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification( 
-    const GlwColorTargetSpecification& color 
-)
-    : GlwRenderPassTargetSpecification{ color, { }, { } }
-{ }
+bool GlwRenderAttachement::Create(
+	const GlwRenderTargetSpecification& specification,
+	const glm::uvec2& dimensions,
+	const uint32_t offset,
+	GlwFramebuffer& framebuffer
+) {
+	auto attachement_type = GetAttachementType( specification.Format ) + offset;
+	auto result			  = false;
 
-GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification(
-    const GlwColorTargetSpecification& color,
-    const GlwDepthTargetSpecification& depth
-)
-    : GlwRenderPassTargetSpecification{ color, depth, { } }
-{ }
+	if ( specification.Accessibility == GlwRenderTargetAccessibility::None ) {
+		if ( result = m_render_buffer.Create( dimensions, attachement_type ) )
+			framebuffer.AttachRenderbuffer( attachement_type, m_render_buffer );
+	} else {
+		if ( result = m_texture.Create( { specification.Format, specification.Layout, dimensions.x, dimensions.y } ) )
+			framebuffer.AttachTexture( attachement_type, m_texture );
+	}
 
-GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification(
-    const GlwColorTargetSpecification& color,
-    const GlwStencilTargetSpecification& stencil
-)
-    : GlwRenderPassTargetSpecification{ color, { }, stencil }
-{ }
+	return result;
+}
 
-GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification(
-    const GlwColorTargetSpecification& color,
-    const GlwDepthTargetSpecification& depth,
-    const GlwStencilTargetSpecification& stencil
-)
-    : Color{ color },
-    Depth{ depth },
-    Stencil{ stencil }
-{ }
+void GlwRenderAttachement::Destroy( ) {
+	m_render_buffer.Destroy( );
+	m_texture.Destroy( );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwRenderPassTargetSpecification::GetIsValid( ) const {
-    return Color.GetIsValid( ) || Depth.State == GlwStates::Enable;
+bool GlwRenderAttachement::GetIsValid( ) const {
+	return m_texture.GetIsValid( ) || m_render_buffer.GetIsValid( );
+}
+
+const glTexture GlwRenderAttachement::Get( ) const {
+	return m_texture.Get( );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-//		===	OPERATOR ===
+//		===	PRIVATE GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwRenderPassTargetSpecification::operator bool( ) const {
-    return GetIsValid( );
+const uint32_t GlwRenderAttachement::GetAttachementType(
+	const GlwTextureFormats format
+) const {
+	auto result = GL_COLOR_ATTACHMENT0;
+
+	switch ( format ) {
+		case GlwTextureFormats::Depth	: result = GL_DEPTH_ATTACHMENT;   break;
+		case GlwTextureFormats::Stencil : result = GL_STENCIL_ATTACHMENT; break;
+
+		default : break;
+	}
+
+	return result;
 }

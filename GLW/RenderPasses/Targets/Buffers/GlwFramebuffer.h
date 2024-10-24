@@ -31,53 +31,75 @@
 
 #pragma once
 
-#include "GlwTexture2DSpecification.h"
+#include "../../../Ressources/GlwRessourceManager.h"
 
-class GlwTexture2D : public GlwTexture<GlwTexture2DSpecification> { 
+class GlwFramebuffer final { 
 
 private:
-    GlwTexture2DSpecification m_specification;
+	uint32_t m_framebuffer;
 
 public:
 	/**
 	 * Constructor
 	 **/
-	GlwTexture2D( );
+	GlwFramebuffer( );
 
 	/**
 	 * Destructor
 	 **/
-	~GlwTexture2D( ) = default;
+	~GlwFramebuffer( ) = default;
 
-protected:
-    /**
-     * CreateTexture function
-     * @note : Create texture according to specification.
-     * @param specification : Query texture specification.
-     * @return : True when creation succeeded.
-     **/
-    virtual bool CreateTexture( const GlwTexture2DSpecification& specification ) override;
+	/**
+	 * Create function
+	 * @note : Create framebuffer.
+	 * @return : Return true when operation succeeded.
+	 **/
+	bool Create( );
 
-    /**
-     * SetTextureParameters method
-     * @note : Set texture parameters according to specification.
-     * @param specification : Query texture specification.
-     **/
-    virtual void SetTextureParameters( const GlwTexture2DSpecification& specification ) override;
+	/**
+	 * AttachTexture method
+	 * @note : Attach attachement to framebuffer.
+	 * @param type : Query attachement type.
+	 * @param attachment : Query OpenGL texture attachment.
+	 **/
+	void AttachTexture( 
+		const uint32_t type,
+		const glTexture attachment 
+	);
 
-    /**
-     * FillTexture method
-     * @note : Fill texture pixels according to specification.
-     * @param specification : Query filling specification.
-     **/
-    virtual void FillTexture( const GlwTextureFillSpecification& specification ) override;
+	/**
+	 * AttachRenderbuffer method
+	 * @note : Attach attachement to framebuffer.
+	 * @param type : Query attachement type.
+	 * @param attachment : Query OpenGL render buffer attachment.
+	 **/
+	void AttachRenderbuffer( const uint32_t type, const uint32_t attachment );
+
+	/**
+	 * Link method
+	 * @note : Link color attachements to framebuffer.
+	 * @param color_count : Query color attachement count.
+	 **/
+	void Link( const uint32_t color_count );
+
+	/**
+	 * Use method
+	 * @note : Bind framebuffer for usage.
+	 **/
+	void Use( );
+
+	/**
+	 * Destroy method
+	 * @note : Destroy framebuffer.
+	 **/
+	void Destroy( );
 
 public:
-    /**
-     * GetSpecification const function
-     * @note : Get current texture specification
-     * @return : Return const reference to current texture specification.
-     **/
-    const GlwTexture2DSpecification& GetSpecification( ) const;
+	/**
+	 * GetIsValid const function
+	 * @note : Get framebuffer validity.
+	 * @return : Return true when framebuffer is valid.
+	 **/
+	bool GetIsValid( ) const;
 
 };

@@ -54,3 +54,10 @@ typedef GLuint glProgram;
 typedef GLuint glBuffer;
 typedef GLuint glVertexArray;
 typedef GLuint glFramebuffer;
+
+enum class GlwStates : uint32_t {
+
+    Enable = 0,
+    Disable
+
+};

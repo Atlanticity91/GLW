@@ -35,26 +35,39 @@
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwTextureCubemap::GlwTextureCubemap( )
-	: GlwTexture{ }
+	: GlwTexture{ GlwTextureTypes::Cubemap }
 { }
 
-bool GlwTextureCubemap::Create( const GlwTextureCubemapSpecification& specification ) {
-    if ( CreateGlTexture( GL_TEXTURE_CUBE_MAP, specification ) ) {
-        SetGlFilters( specification );
-        SetGlWraps( specification );
-    }
-    
-    return GetIsValid( );
-}
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PROTECTED ===
+////////////////////////////////////////////////////////////////////////////////////////////
+bool GlwTextureCubemap::CreateTexture( const GlwTextureCubemapSpecification& specification ) {
+    glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &m_texture );
 
-bool GlwTextureCubemap::Fill( const GlwTextureFillSpecification& specification ) {
-    auto result = GetIsValid( ) && specification.Width > 0 && specification.Height > 0 && specification.Pixels != nullptr;
+    auto result = glIsValid( m_texture );
 
     if ( result ) {
-        glBindTexture( m_type, m_texture );
-        glTexImage2D( specification.Level, 0, m_format, specification.Width, specification.Y, 0, m_format, specification.Type, specification.Pixels );
-        glBindTexture( m_type, GL_NULL );
+        glBindTexture( GL_TEXTURE_CUBE_MAP, m_texture );
+
+        auto face_id = 6;
+
+        while ( face_id-- > 0 )
+            glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + face_id, 0, (uint32_t)specification.Layout, specification.Width, specification.Height, 0, (uint32_t)specification.Format, GL_UNSIGNED_BYTE, NULL );
     }
 
     return result;
+}
+
+void GlwTextureCubemap::SetTextureParameters( const GlwTextureCubemapSpecification& specification ) {
+    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, specification.Filter.Min );
+    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, specification.Filter.Mag );
+    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, specification.Wrap.R );
+    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, specification.Wrap.S );
+    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, specification.Wrap.T );
+}
+
+void GlwTextureCubemap::FillTexture( const GlwTextureFillSpecification& specification ) {
+    glBindTexture( GL_TEXTURE_CUBE_MAP, m_texture );
+    glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + specification.Level, 0, specification.X, specification.Y, specification.Width, specification.Height, (uint32_t)m_format, specification.Type, specification.Pixels );
+    glBindTexture( GL_TEXTURE_CUBE_MAP, GL_NULL );
 }

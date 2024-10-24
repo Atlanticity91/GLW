@@ -33,13 +33,6 @@
 
 #include "GlwRenderContext.h"
 
-enum class GlwStates : uint32_t {
-
-    Enable = 0,
-    Disable
-
-};
-
 class GlwGraphicsManager {
 
 protected:
@@ -93,12 +86,32 @@ public:
     void SetFaceCullingContext( const GlwFaceCulling& context );
 
     /**
-     * Create function
+     * CreateRenderPass function
      * @note : Create render pass according to specification.
      * @param specification : Query render pass specification.
      * @return : True when creation succeeded.
      **/
     bool CreateRenderPass( const GlwRenderPassSpecification& specification );
+
+    /**
+     * CreateRenderPasses function
+     * @note : Create multiple render pass according to specification.
+     * @param specification : Query render pass specification.
+     * @return : True when all creation succeeded.
+     **/
+    bool CreateRenderPasses(
+        const std::vector<GlwRenderPassSpecification>& specification
+    );
+
+    /**
+     * CreateRenderPasses function
+     * @note : Create multiple render pass according to specification.
+     * @param specification : Query render pass specification.
+     * @return : True when all creation succeeded.
+     **/
+    bool CreateRenderPasses(
+        const std::initializer_list<GlwRenderPassSpecification> specification
+    );
 
     /**
      * CreateMesh function
@@ -157,49 +170,45 @@ public:
     bool CreateMaterial( const GlwMaterialSpecification& specification );
 
     /**
-     * FillTexture2D function
+     * FillTexture2D method
      * @note : Fill texture data.
      * @param texture : Query texture to fill.
      * @param fill_specification : Query texture fill data.
-     * @return : Retun true when operation succeeded.
      **/
-    bool FillTexture2D(
+    void FillTexture2D(
         const uint32_t texture, 
         const GlwTextureFillSpecification& fill_specification
     );
     
     /**
-     * FillTexture2D function
+     * FillTexture2D method
      * @note : Fill texture data.
      * @param texture : Query texture to fill.
      * @param fill_specifications : Query texture fill data for multiple texture levels.
-     * @return : Retun true when operation succeeded.
      **/
-    bool FillTexture2D(
+    void FillTexture2D(
         const uint32_t texture,
         const std::vector<GlwTextureFillSpecification>& fill_specifications
     );
 
     /**
-     * FillCubemap function
+     * FillCubemap method
      * @note : Fill cubemap texture data.
      * @param texture : Query cubemap texture to fill.
      * @param fill_specification : Query cubemap texture fill data.
-     * @return : Retun true when operation succeeded.
      **/
-    bool FillCubemap(
+    void FillCubemap(
         const uint32_t cubemap,
         const GlwTextureFillSpecification& fill_specification
     );
 
     /**
-     * FillCubemap function
+     * FillCubemap method
      * @note : Fill cubemap texture data.
      * @param texture : Query cubemap texture to fill.
      * @param fill_specifications : Query cubemap texture fill data for multiple texture levels.
-     * @return : Retun true when operation succeeded.
      **/
-    bool FillCubemap(
+    void FillCubemap(
         const uint32_t cubemap,
         const std::vector<GlwTextureFillSpecification>& fill_specifications
     );
@@ -231,9 +240,9 @@ public:
      * @note : Bind and use render pass for rendering.
      * @param render_context : Reference to current render context.
      * @param render_pass : Query render pass.
-     * @return : Return true when operation succeeded.
+     * @return : Return pointer to current render pass instance.
      **/
-    bool CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass );
+    GlwRenderPass* CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass );
 
     /**
      * CmdUseSwapchain method
@@ -262,6 +271,30 @@ public:
      * @param state : Query capability state.
      **/
     void CmdToggleFaceCulling( GlwRenderContext& render_conext, const GlwStates state );
+
+    /**
+     * CmdSetViewport method
+     * @note : Set current render pass viewport bounds.
+     * @param render_context : Reference to current render context.
+     * @param viewport : Query new viewport bounds.
+     **/
+    void CmdSetViewport( GlwRenderContext& render_conext, const glm::uvec4& viewport );
+    
+    /**
+     * CmdSetScissor method
+     * @note : Set current render pass scissor bounds.
+     * @param render_context : Reference to current render context.
+     * @param scissor : Query new scissor bounds.
+     **/
+    void CmdSetScissor( GlwRenderContext& render_conext, const glm::uvec4& scissor );
+
+    /**
+     * CmdToggleColorWrites method
+     * @note : Toggle OpenGL color buffer write operation.
+     * @param render_context : Reference to current render context.
+     * @param state : Query capability state.
+     **/
+    void CmdToggleColorWrites( GlwRenderContext& render_conext, const GlwStates state );
 
     /**
      * CmdToggleDepthTest method

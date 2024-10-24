@@ -35,16 +35,35 @@
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwRenderTargetManager::GlwRenderTargetManager( )
+    : m_colors{ },
+    m_depth{ },
+    m_stencil{ }
 { }
 
 bool GlwRenderTargetManager::Create( 
     const GlwRenderPassTargetSpecification& specification,
+    const glm::uvec2& dimensions,
     GlwFramebuffer& framebuffer,
     uint32_t& clear_flags
 ) {
-    return  m_colors.Create( framebuffer, specification.Colors )                    &&
-            CreateDepthAttachement( specification.Depth, framebuffer, clear_flags ) &&
-            CreateStencilAttachement( specification.Stencil, framebuffer, clear_flags );
+    auto result = m_colors.Create( specification.Color, dimensions, framebuffer, clear_flags ) &&
+                  m_depth.Create( specification.Depth, dimensions, framebuffer, clear_flags );
+
+    if ( result && specification.Stencil.State == GlwStates::Enable ) {
+        if ( specification.Depth.State == GlwStates::Enable ) {
+            m_stencil.Setup( specification.Stencil, clear_flags );
+
+            auto attachement = m_depth.GetAttachement( );
+
+            if ( specification.Depth.Accessibility == GlwRenderTargetAccessibility::Texture )
+                framebuffer.AttachTexture( GL_STENCIL_ATTACHMENT, attachement );
+            else
+                framebuffer.AttachRenderbuffer( GL_DEPTH_STENCIL_ATTACHMENT, attachement );
+        } else
+            result = m_stencil.Create( specification.Stencil, dimensions, framebuffer, clear_flags );
+    }
+
+    return result;
 }
 
 void GlwRenderTargetManager::Use( ) {
@@ -59,61 +78,6 @@ void GlwRenderTargetManager::Destroy( ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-//      === PRIVATE ===
-////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwRenderTargetManager::CreateDepthAttachement(
-    const GlwDepthTargetSpecification& specification,
-    GlwFramebuffer& framebuffer,
-    uint32_t& clear_flags
-) {
-    auto result = true;
-
-    if ( specification.Enable ) {
-        clear_flags |= GL_DEPTH_BUFFER_BIT;
-
-        result = m_depth.Create( specification );
-
-        if ( result ) {
-            auto texture = m_depth.Get( );
-
-            framebuffer.Attach( GL_DEPTH_ATTACHMENT, texture );
-        }
-    }
-
-    return result;
-}
-
-bool GlwRenderTargetManager::CreateStencilAttachement(
-    const GlwStencilTargetSpecification& specification,
-    GlwFramebuffer& framebuffer,
-    uint32_t& clear_flags
-) {
-    auto result = true;
-
-    if ( specification.Parameters.Enable ) {
-        clear_flags |= GL_STENCIL_BUFFER_BIT;
-
-        if ( m_depth.GetIsValid( ) ) {
-            auto texture = m_depth.Get( );
-
-            m_stencil.Setup( specification );
-            
-            framebuffer.Attach( GL_STENCIL_ATTACHMENT, texture );
-        } else {
-            result = m_stencil.Create( specification );
-
-            if ( result ) {
-                auto texture = m_stencil.Get( );
-
-                framebuffer.Attach( GL_STENCIL_ATTACHMENT, texture );
-            }
-        }
-    }
-
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
 //      === PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 const glTexture GlwRenderTargetManager::GetColorAttachement( const uint32_t target ) const {
@@ -121,9 +85,9 @@ const glTexture GlwRenderTargetManager::GetColorAttachement( const uint32_t targ
 }
 
 const glTexture GlwRenderTargetManager::GetDepthAttachement( ) const {
-    return m_depth.Get( );
+    return m_depth.GetAttachement( );
 }
 
 const glTexture GlwRenderTargetManager::GetStencilAttachement( ) const {
-    return m_stencil.Get( );
+    return m_stencil.GetAttachement( );
 }

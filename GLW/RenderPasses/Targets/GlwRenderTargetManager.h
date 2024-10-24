@@ -36,7 +36,7 @@
 class GlwRenderTargetManager final { 
 
 private:
-	GlwColorTargetManager m_colors;
+	GlwColorTarget m_colors;
 	GlwDepthTarget m_depth;
 	GlwStencilTarget m_stencil;
 
@@ -55,12 +55,14 @@ public:
      * Create function
      * @note : Create render pass targets according to specification.
      * @param specification : Query render pass specification.
+     * @parma dimensions : Current render pass dimensions.
      * @param framebuffer : Current render pass framebuffer instance.
      * @param clear_flags : Reference to current render pass clear flags value.
      * @return : True when creation succeeded.
      **/
     bool Create(
         const GlwRenderPassTargetSpecification& specification,
+        const glm::uvec2& dimensions,
         GlwFramebuffer& framebuffer,
         uint32_t& clear_flags
     );
@@ -76,35 +78,6 @@ public:
      * @note : Destroy render pass targets.
      **/
 	void Destroy( );
-
-private:
-	/**
-	 * CreateDepthAttachement function
-	 * @note : Create depth attachement according to specification.
-	 * @param specification : Query depth specification.
-     * @param framebuffer : Current render pass framebuffer instance.
-     * @param clear_flags : Reference to current render pass clear flags value.
-	 * @return : Return true when operation succeeded.
-	 **/
-    bool CreateDepthAttachement( 
-        const GlwDepthTargetSpecification& specification,
-        GlwFramebuffer& framebuffer,
-        uint32_t& clear_flags
-    );
-
-    /**
-     * CreateStencilAttachement function
-     * @note : Create stencil attachement according to specification.
-     * @param specification : Query stencil specification.
-     * @param framebuffer : Current render pass framebuffer instance.
-     * @param clear_flags : Reference to current render pass clear flags value.
-     * @return : Return true when operation succeeded.
-     **/
-    bool CreateStencilAttachement(
-        const GlwStencilTargetSpecification& specification,
-        GlwFramebuffer& framebuffer,
-        uint32_t& clear_flags
-    );
 
 public:
     /**
