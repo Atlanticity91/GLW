@@ -190,25 +190,15 @@ public:
      * @note : Set material texture slot value.
      * @param slot : Query texture slot.
      * @param type : Query texture type.
+     * @param format : Query texture format.
      * @param texture : Query OpenGL texture value.
      **/
-    void SetTexture( const uint32_t slot, const uint32_t type, const glTexture texture );
-
-    /**
-     * SetTexture method
-     * @note : Set material texture slot value.
-     * @param slot : Query texture slot.
-     * @param texture : Query texture value.
-     **/
-    void SetTexture( const uint32_t slot, const GlwTexture2D* texture );
-
-    /**
-     * SetTexture method
-     * @note : Set material texture slot value.
-     * @param slot : Query texture slot.
-     * @param texture : Query cubemap value.
-     **/
-    void SetTexture( const uint32_t slot, const GlwTextureCubemap* cubemap );
+    void SetTexture( 
+        const uint32_t slot,
+        const GlwTextureTypes type,
+        const GlwTextureFormats format,
+        const glTexture texture 
+    );
 
     /**
      * Use function
@@ -243,6 +233,27 @@ private:
      * @return : Return true when operation succeeded.
      **/
     bool Link( const glShader shader_vert, const glShader shader_frag, const glShader shader_geom );
+
+public:
+    /**
+     * SetTexture template method
+     * @note : Set material texture slot value.
+     * @template SpecificationType : Query texture specification type.
+     * @param slot : Query texture slot.
+     * @param texture : Query texture pointer.
+     **/
+    template<typename SpecificationType>
+        requires ( std::is_base_of<GlwTextureSpecification, SpecificationType>::value )
+    void SetTexture( const uint32_t slot, const GlwTexture<SpecificationType>* texture ) {
+        if ( texture == nullptr )
+            return;
+
+        auto gl_texture = texture->Get( );
+        auto format     = texture->GetFormat( );
+        auto type       = texture->GetType( );
+
+        SetTexture( slot, type, format, gl_texture );
+    };
 
 public:
     /**
@@ -302,5 +313,20 @@ private:
      * @return : Return true when source is valid.
      **/
     bool GetIsSourceValid( const std::vector<char>& source );
+
+    /**
+     * GetTextureType const function
+     * @note : Get OpenGL texture type.
+     * @return : Return OpenGL texture type value.
+     **/
+    uint32_t GetTextureType( const GlwTextureTypes type ) const;
+
+    /**
+     * GetTextureMode const function
+     * @note : Convert format to OpenGL depth stencil texture mode.
+     * @param format : Query texture format.
+     * @return : Return OpenGL depth stencil texture mode.
+     **/
+    uint32_t GetTextureMode( const GlwTextureFormats format ) const;
 
 };

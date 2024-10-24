@@ -174,33 +174,23 @@ void GlwMaterial::SetUniformBuffer( const std::string& name, const GlwBuffer& bu
     SetUniformBuffer( location, buffer );
 }
 
-void GlwMaterial::SetTexture( const uint32_t slot, const uint32_t type, const glTexture texture ) {
+void GlwMaterial::SetTexture( 
+    const uint32_t slot,
+    const GlwTextureTypes type,
+    const GlwTextureFormats format,
+    const glTexture texture
+) {
     if ( !glIsValid( texture ) )
         return;
 
+    auto gl_type = GetTextureType( type );
+    auto gl_mode = GetTextureMode( format );
+
     glActiveTexture( GL_TEXTURE0 + slot );
-    glBindTexture( type, texture );
+    glBindTexture( gl_type, texture );
 
-    if ( type > 0 )
-        glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, ( true ) ? GL_DEPTH_COMPONENT : GL_STENCIL_INDEX );
-}
-
-void GlwMaterial::SetTexture( const uint32_t slot, const GlwTexture2D* texture ) {
-    if ( texture == nullptr )
-        return;
-
-    auto gl_texture = texture->Get( );
-
-    SetTexture( slot, GL_TEXTURE_2D, gl_texture );
-}
-
-void GlwMaterial::SetTexture( const uint32_t slot, const GlwTextureCubemap* texture ) {
-    if ( texture == nullptr )
-        return;
-
-    auto gl_texture = texture->Get( );
-
-    SetTexture( slot, GL_TEXTURE_CUBE_MAP, gl_texture );
+    if ( gl_mode > 0 )
+        glTexParameteri( gl_type, GL_DEPTH_STENCIL_TEXTURE_MODE, gl_mode );
 }
 
 GlwMaterial* GlwMaterial::Use( ) {
@@ -310,4 +300,29 @@ bool GlwMaterial::GetIsLocationValid( const int32_t location ) const {
 ////////////////////////////////////////////////////////////////////////////////////////////
 bool GlwMaterial::GetIsSourceValid( const std::vector<char>& source ) {
     return source.size( ) > 0;
+}
+
+uint32_t GlwMaterial::GetTextureType( const GlwTextureTypes type ) const {
+    auto result = GL_TEXTURE_2D;
+
+    switch ( type ) {
+        case GlwTextureTypes::Cubemap : result = GL_TEXTURE_CUBE_MAP; break;
+
+        default: break;
+    }
+
+    return result;
+}
+
+uint32_t GlwMaterial::GetTextureMode( const GlwTextureFormats format ) const {
+    auto result = 0;
+
+    switch ( format ) {
+        case GlwTextureFormats::Depth   : result = GL_DEPTH_COMPONENT; break;
+        case GlwTextureFormats::Stencil : result = GL_STENCIL_INDEX;   break;
+
+        default: break;
+    }
+
+    return result;
 }

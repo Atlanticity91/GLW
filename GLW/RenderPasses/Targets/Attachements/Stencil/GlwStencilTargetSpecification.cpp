@@ -35,7 +35,7 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwStencilTargetSpecification::GlwStencilTargetSpecification( )
-	: GlwStencilTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default, { } }
+	: GlwStencilTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::Stencil, GlwTextureLayouts::S_08, { } }
 { 
 	State = GlwStates::Disable;
 }

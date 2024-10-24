@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "GlwTextureFillSpecification.h"
+#include "Specification/GlwTextureFillSpecification.h"
 
 template<typename SpecificationType>
     requires ( std::is_base_of<GlwTextureSpecification, SpecificationType>::value )

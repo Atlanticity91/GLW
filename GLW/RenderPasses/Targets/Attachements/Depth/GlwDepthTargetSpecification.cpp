@@ -35,7 +35,7 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwDepthTargetSpecification::GlwDepthTargetSpecification( )
-	: GlwDepthTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default, { } }
+	: GlwDepthTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::Depth, GlwTextureLayouts::D_24, { } }
 { 
 	State = GlwStates::Disable;
 }

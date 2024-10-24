@@ -29,35 +29,52 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwTextureSpecification::GlwTextureSpecification( )
-	: GlwTextureSpecification{ GlwTextureFormats::None, 1, 0, 0 }
-{ }
+#include "GlwTextureWrapSpecification.h"
 
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureFormats format )
-	: GlwTextureSpecification{ format, 1, 0, 0 }
-{ }
+struct GlwTextureSpecification {
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t width,
-	const uint32_t height
-)
-	: GlwTextureSpecification{ format, 1, width, height }
-{ }
+    GlwTextureFormats Format;
+    uint32_t Levels;
+    uint32_t Width;
+    uint32_t Height;
 
-GlwTextureSpecification::GlwTextureSpecification(
-	const GlwTextureFormats format,
-	const uint32_t levels,
-	const uint32_t width,
-	const uint32_t height
-)
-	: Format{ format },
-	Levels{ levels },
-	Width{ width },
-	Height{ height } 
-{ }
+    /**
+     * Constructor
+     **/
+    GlwTextureSpecification( );
+
+    /**
+     * Constructor
+     * @param format : Query texture format.
+     **/
+    GlwTextureSpecification( const GlwTextureFormats format );
+
+    /**
+     * Constructor
+     * @param format : Query texture format.
+     * @param width : Query texture width.
+     * @param height : Query texture height.
+     **/
+    GlwTextureSpecification(
+        const GlwTextureFormats format,
+        const uint32_t width, 
+        const uint32_t height 
+    );
+
+    /**
+     * Constructor
+     * @param format : Query texture format.
+     * @param levels : Query texture level count.
+     * @param width  : Query texture width.
+     * @param height : Query texture height.
+     **/
+    GlwTextureSpecification(
+        const GlwTextureFormats format,
+        const uint32_t levels,
+        const uint32_t width,
+        const uint32_t height
+    );
+
+};

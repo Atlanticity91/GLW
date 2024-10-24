@@ -427,7 +427,7 @@ void GlwGraphicsManager::Display(
 		for ( auto& target : display_spec.Attachements ) {
 			auto texture = m_render_passes.GetColorAttachement( target.RenderPass, target.Attachement );
 
-			material->SetTexture( target.Slot, GL_TEXTURE_2D, texture );
+			//material->SetTexture( target.Slot, GlwTextureTypes::Texture2D, GlwTextureLayouts::Default, texture );
 		}
 	}
 
