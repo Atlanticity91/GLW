@@ -213,24 +213,24 @@ bool GlwGraphicsManager::Acquire(
 }
 
 GlwRenderPass* GlwGraphicsManager::CmdUseRenderPass(
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const uint32_t render_pass 
 ) {
 	auto* instance = m_render_passes.GetRenderPass( render_pass );
 
 	if ( instance != nullptr ) {
-		render_conext.RenderPass = render_pass;
+		render_context.RenderPass = render_pass;
 		
 		instance->Use( );
 
-		CmdToggleColorWrites( render_conext, GlwStates::Enable );
+		CmdToggleColorWrites( render_context, GlwStates::Enable );
 	} else
-		render_conext.RenderPass = UINT_MAX;
+		render_context.RenderPass = UINT_MAX;
 
 	return instance;
 }
 
-void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_conext ) {
+void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_context ) {
 	auto* render_pass = m_render_passes.GetLast( );
 
 	if ( render_pass != nullptr ) {
@@ -241,11 +241,11 @@ void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_conext ) {
 }
 
 void GlwGraphicsManager::CmdToggle(
-	GlwRenderContext& render_conext,
+	GlwRenderContext& render_context,
 	const uint32_t capability,
 	const GlwStates state 
 ) {
-	if ( !render_conext.GetInUse( ) )
+	if ( !render_context.GetInUse( ) )
 		return;
 
 	if ( state == GlwStates::Enable )
@@ -255,37 +255,37 @@ void GlwGraphicsManager::CmdToggle(
 }
 
 void GlwGraphicsManager::CmdToggleFaceCulling(
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const GlwStates state 
 ) {
-	CmdToggle( render_conext, GL_CULL_FACE, state );
+	CmdToggle( render_context, GL_CULL_FACE, state );
 }
 
 void GlwGraphicsManager::CmdSetViewport(
-	GlwRenderContext& render_conext,
+	GlwRenderContext& render_context,
 	const glm::uvec4& viewport 
 ) {
-	if ( !render_conext.GetInUse( ) )
+	if ( !render_context.GetInUse( ) )
 		return;
 
 	glViewport( viewport.x, viewport.y, viewport.z, viewport.w );
 }
 
 void GlwGraphicsManager::CmdSetScissor(
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const glm::uvec4& scissor 
 ) {
-	if ( !render_conext.GetInUse( ) )
+	if ( !render_context.GetInUse( ) )
 		return;
 
 	glScissor( scissor.x, scissor.y, scissor.z, scissor.w );
 }
 
 void GlwGraphicsManager::CmdToggleColorWrites(
-	GlwRenderContext& render_conext,
+	GlwRenderContext& render_context,
 	const GlwStates state
 ) {
-	if ( !render_conext.GetInUse( ) )
+	if ( !render_context.GetInUse( ) )
 		return;
 
 	auto value = ( state == GlwStates::Enable ) ? GL_TRUE : GL_FALSE;
@@ -294,24 +294,57 @@ void GlwGraphicsManager::CmdToggleColorWrites(
 }
 
 void GlwGraphicsManager::CmdToggleDepthTest( 
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const GlwStates state 
 ) {
-	CmdToggle( render_conext, GL_DEPTH_TEST, state );
+	CmdToggle( render_context, GL_DEPTH_TEST, state );
 }
 
 void GlwGraphicsManager::CmdToggleStencilTest( 
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const GlwStates state 
 ) {
-	CmdToggle( render_conext, GL_STENCIL_TEST, state );
+	CmdToggle( render_context, GL_STENCIL_TEST, state );
 }
 
-void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_conext, GlwStates state ) {
-	if ( !render_conext.GetInUse( ) )
+void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_context, GlwStates state ) {
+	if ( !render_context.GetInUse( ) )
 		return;
 
 	glStencilMask( ( state == GlwStates::Enable ) ? 0xFF : 0x00 );
+}
+
+void GlwGraphicsManager::CmdClearColor(
+	GlwRenderContext& render_context,
+	const uint32_t attachement,
+	const glm::vec4& clear_value
+) {
+	if ( !render_context.GetInUse( ) )
+		return;
+
+	auto* color = glm::value_ptr( clear_value );
+
+	glClearBufferfv( GL_COLOR, attachement, color );
+}
+
+void GlwGraphicsManager::CmdClearDepth(
+	GlwRenderContext& render_context,
+	const float clear_value
+) {
+	if ( !render_context.GetInUse( ) )
+		return;
+
+	glClearDepth( clear_value );
+}
+
+void GlwGraphicsManager::CmdClearStencil(
+	GlwRenderContext& render_context, 
+	const uint8_t clear_value 
+) {
+	if ( !render_context.GetInUse( ) )
+		return;
+
+	glClearStencil( clear_value );
 }
 
 void GlwGraphicsManager::CmdBlitRenderTarget(
@@ -325,47 +358,47 @@ void GlwGraphicsManager::CmdBlitRenderTarget(
 }
 
 GlwMaterial* GlwGraphicsManager::CmdUseMaterial(
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const uint32_t material 
 ) {
 	auto* instance = (GlwMaterial*)nullptr;
 	
-	if ( render_conext.GetInUse( ) ) {
+	if ( render_context.GetInUse( ) ) {
 		instance = m_ressources.UseMaterial( material );
 
-		render_conext.Material = ( instance != nullptr ) ? material : UINT_MAX;
+		render_context.Material = ( instance != nullptr ) ? material : UINT_MAX;
 	}
 
 	return instance;
 }
 
 GlwMesh* GlwGraphicsManager::CmdUseMesh(
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const uint32_t mesh 
 ) {
 	auto* instance = (GlwMesh*)nullptr;
 
-	if ( render_conext.GetInUse( ) ) {
+	if ( render_context.GetInUse( ) ) {
 		instance = m_ressources.UseMesh( mesh );
 
 		if ( instance != nullptr ) {
-			render_conext.Mesh	   = mesh;
-			render_conext.UseIndex = instance->GetHasIndex( );
+			render_context.Mesh	   = mesh;
+			render_context.UseIndex = instance->GetHasIndex( );
 		} else 
-			render_conext.Mesh = UINT_MAX;
+			render_context.Mesh = UINT_MAX;
 	}
 
 	return instance;
 }
 
 void GlwGraphicsManager::CmdDraw( 
-	GlwRenderContext& render_conext, 
+	GlwRenderContext& render_context, 
 	const uint32_t vertice_count 
 ) {
-	if ( !render_conext.GetCanDraw( ) )
+	if ( !render_context.GetCanDraw( ) )
 		return;
 
-	if ( render_conext.UseIndex )
+	if ( render_context.UseIndex )
 		glDrawElements( GL_TRIANGLES, vertice_count, GL_UNSIGNED_INT, NULL );
 	else
 		glDrawArrays( GL_TRIANGLES, 0, vertice_count );

@@ -66,11 +66,13 @@ void GlwRenderPass::SetRefreshColor( const glm::vec4& color ) {
 
 void GlwRenderPass::Use( ) {
     m_framebuffer.Use( );
-    m_targets.Use( );
-    m_color_blend.Use( );
 
     glViewport( 0, 0, m_dimensions.x, m_dimensions.y );
     glScissor( 0, 0, m_dimensions.x, m_dimensions.y );
+    
+    m_targets.Use( );
+    m_color_blend.Use( );
+
     glClearColor( m_refresh.r, m_refresh.g, m_refresh.b, m_refresh.a );
     glClear( m_clear_flags );
 }

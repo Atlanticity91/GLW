@@ -75,6 +75,7 @@ void GlwStencilTarget::Use( ) {
         glStencilOpSeparate( GL_FRONT, m_parameters.FrontOperation.Fail, m_parameters.FrontOperation.Pass, m_parameters.FrontOperation.DepthStencilPass );
         glStencilFuncSeparate( GL_BACK, m_parameters.BackFunction.Function, m_parameters.BackFunction.Reference, m_parameters.BackFunction.Mask );
         glStencilOpSeparate( GL_BACK, m_parameters.BackOperation.Fail, m_parameters.BackOperation.Pass, m_parameters.BackOperation.DepthStencilPass );
+        glClearStencil( 0 );
     } else {
         glDisable( GL_STENCIL_TEST );
         glStencilMask( 0x00 );

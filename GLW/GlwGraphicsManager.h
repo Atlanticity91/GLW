@@ -246,14 +246,14 @@ public:
      * @param render_pass : Query render pass.
      * @return : Return pointer to current render pass instance.
      **/
-    GlwRenderPass* CmdUseRenderPass( GlwRenderContext& render_conext, const uint32_t render_pass );
+    GlwRenderPass* CmdUseRenderPass( GlwRenderContext& render_context, const uint32_t render_pass );
 
     /**
      * CmdUseSwapchain method
      * @note : Use current graphics swapchain
      * @param render_context : Reference to current render context.
      **/
-    void CmdUseSwapchain( GlwRenderContext& render_conext );
+    void CmdUseSwapchain( GlwRenderContext& render_context );
 
     /**
      * CmdToggle method
@@ -263,7 +263,7 @@ public:
      * @param state : Query capability state.
      **/
     void CmdToggle( 
-        GlwRenderContext& render_conext, 
+        GlwRenderContext& render_context, 
         const uint32_t capability, 
         const GlwStates state 
     );
@@ -274,7 +274,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleFaceCulling( GlwRenderContext& render_conext, const GlwStates state );
+    void CmdToggleFaceCulling( GlwRenderContext& render_context, const GlwStates state );
 
     /**
      * CmdSetViewport method
@@ -282,7 +282,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param viewport : Query new viewport bounds.
      **/
-    void CmdSetViewport( GlwRenderContext& render_conext, const glm::uvec4& viewport );
+    void CmdSetViewport( GlwRenderContext& render_context, const glm::uvec4& viewport );
     
     /**
      * CmdSetScissor method
@@ -290,7 +290,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param scissor : Query new scissor bounds.
      **/
-    void CmdSetScissor( GlwRenderContext& render_conext, const glm::uvec4& scissor );
+    void CmdSetScissor( GlwRenderContext& render_context, const glm::uvec4& scissor );
 
     /**
      * CmdToggleColorWrites method
@@ -298,7 +298,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleColorWrites( GlwRenderContext& render_conext, const GlwStates state );
+    void CmdToggleColorWrites( GlwRenderContext& render_context, const GlwStates state );
 
     /**
      * CmdToggleDepthTest method
@@ -306,7 +306,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleDepthTest( GlwRenderContext& render_conext, const GlwStates state );
+    void CmdToggleDepthTest( GlwRenderContext& render_context, const GlwStates state );
 
     /**
      * CmdToggleStencilTest method
@@ -314,7 +314,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleStencilTest( GlwRenderContext& render_conext, const GlwStates state );
+    void CmdToggleStencilTest( GlwRenderContext& render_context, const GlwStates state );
     
     /**
      * CmdToggleStencilWrite method
@@ -322,7 +322,36 @@ public:
      * @param render_context : Reference to current render context.
      * @param state : Query capability state.
      **/
-    void CmdToggleStencilWrite( GlwRenderContext& render_conext, const GlwStates state );
+    void CmdToggleStencilWrite( GlwRenderContext& render_context, const GlwStates state );
+
+    /**
+     * CmdClearColor method
+     * @note : Manual clear of a color attachement of the current render pass.
+     * @param render_context : Reference to current render context.
+     * @param attachement : Query color attachement value.
+     * @param clear_value : Query color attachement clear value.
+     **/
+    void CmdClearColor(
+        GlwRenderContext& render_context,
+        const uint32_t attachement,
+        const glm::vec4& clear_value
+    );
+
+    /**
+     * CmdClearDepth method
+     * @note : Manual clear of a depth attachement of the current render pass.
+     * @param render_context : Reference to current render context.
+     * @param clear_value : Query depth attachement clear value.
+     **/
+    void CmdClearDepth( GlwRenderContext& render_context, const float clear_value );
+
+    /**
+     * CmdClearStencil method
+     * @note : Manual clear of a stencil attachement of the current render pass.
+     * @param render_context : Reference to current render context.
+     * @param clear_value : Query stencil attachement clear value.
+     **/
+    void CmdClearStencil( GlwRenderContext& render_context, const uint8_t clear_value );
 
     /**
      * CmdBlitRenderTarget method
@@ -342,7 +371,7 @@ public:
      * @param material : Query material.
      * @return : Return pointer to query material instance.
      **/
-    GlwMaterial* CmdUseMaterial( GlwRenderContext& render_conext, const uint32_t material );
+    GlwMaterial* CmdUseMaterial( GlwRenderContext& render_context, const uint32_t material );
 
     /**
      * CmdUseMesh function
@@ -351,7 +380,7 @@ public:
      * @param mesh : Query mesh.
      * @return : Return pointer to query mesh instance.
      **/
-    GlwMesh* CmdUseMesh( GlwRenderContext& render_conext, const uint32_t mesh );
+    GlwMesh* CmdUseMesh( GlwRenderContext& render_context, const uint32_t mesh );
 
     /**
      * CmdDraw method
@@ -359,7 +388,7 @@ public:
      * @param render_context : Reference to current render context.
      * @param vertice_count : Query vertex count.
      **/
-    void CmdDraw( GlwRenderContext& render_conext, const uint32_t vertice_count );
+    void CmdDraw( GlwRenderContext& render_context, const uint32_t vertice_count );
 
     /**
      * Present method

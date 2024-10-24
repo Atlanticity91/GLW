@@ -67,6 +67,7 @@ void GlwDepthTarget::Use( ) {
         glEnable( GL_DEPTH_TEST );
         glDepthFunc( m_parameters.Function );
         glDepthRange( m_parameters.ClampedNear, m_parameters.ClampedFar );
+        glClearDepth( m_parameters.ClampedFar );
     } else
         glDisable( GL_DEPTH_TEST );
 }
