@@ -51,4 +51,28 @@ struct GlwDisplaySpecification {
 	 **/
 	GlwDisplaySpecification( const uint32_t material, const uint32_t mesh );
 
+	/**
+	 * Constructor
+	 * @param material : Query display material.
+	 * @param mesh : Query display mesh.
+	 * @param attachement_binds : Query display attachement bindings.
+	 **/
+	GlwDisplaySpecification(
+		const uint32_t material, 
+		const uint32_t mesh,
+		std::initializer_list<GlwDisplayAttachementBind> attachement_binds
+	);
+
+	/**
+	 * Constructor
+	 * @param material : Query display material.
+	 * @param mesh : Query display mesh.
+	 * @param attachement_binds : Query display attachement bindings.
+	 **/
+	GlwDisplaySpecification(
+		const uint32_t material,
+		const uint32_t mesh,
+		const std::vector<GlwDisplayAttachementBind>& attachement_binds
+	);
+
 };

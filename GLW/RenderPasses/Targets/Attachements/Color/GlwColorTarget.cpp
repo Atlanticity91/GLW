@@ -67,6 +67,10 @@ void GlwColorTarget::Destroy( ) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+uint32_t GlwColorTarget::GetCount( ) const {
+	return (uint32_t)m_attachements.size( );
+}
+
 const glTexture GlwColorTarget::GetAttachement( const uint32_t target ) const {
 	auto texture = GL_TEXTURE_NULL;
 

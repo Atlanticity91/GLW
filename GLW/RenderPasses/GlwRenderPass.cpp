@@ -39,7 +39,7 @@ GlwRenderPass::GlwRenderPass( )
     m_targets{ },
     m_color_blend{ },
     m_dimensions{ 1280, 720 },
-    m_refresh{ 1.f, .256f, .512f, .0f },
+    m_refresh{ .0f, .0f, .0f, .0f },
     m_clear_flags{ }
 { }
 
@@ -50,8 +50,11 @@ bool GlwRenderPass::Create( const GlwRenderPassSpecification& specification ) {
         result = m_framebuffer.Create( ) &&
                  m_targets.Create( specification.Targets, specification.Dimensions, m_framebuffer, m_clear_flags );
 
-        if ( result )
+        if ( result ) {
             m_color_blend.Create( specification.ColorBlend );
+
+            m_refresh = specification.Refresh;
+        }
     }
 
     return result;
@@ -90,6 +93,10 @@ glm::ivec2 GlwRenderPass::GetDimensions( ) const {
 
 glm::vec4 GlwRenderPass::GetRefreshColor( ) const {
     return { m_refresh };
+}
+
+uint32_t GlwRenderPass::GetColorAttachementCount( ) const {
+    return m_targets.GetColorAttachementCount( );
 }
 
 const glTexture GlwRenderPass::GetColorAttachement( const uint32_t target ) const {

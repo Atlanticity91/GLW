@@ -80,6 +80,10 @@ void GlwRenderTargetManager::Destroy( ) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //      === PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+uint32_t GlwRenderTargetManager::GetColorAttachementCount( ) const {
+    return m_colors.GetCount( );
+}
+
 const glTexture GlwRenderTargetManager::GetColorAttachement( const uint32_t target ) const {
     return m_colors.GetAttachement( target );
 }

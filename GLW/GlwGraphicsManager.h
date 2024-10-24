@@ -40,6 +40,7 @@ protected:
     GlwSwapchain m_swapchain;
     GlwRenderPassManager m_render_passes;
     GlwRessourceManager m_ressources;
+    bool m_need_resize;
 
 public:
     /**
@@ -65,11 +66,10 @@ public:
     );
 
     /**
-     * Resize method
-     * @note : Execute backend resize operation.
-     * @param window : Pointer to current window instance.
+     * MarkResize method
+     * @note : Mark graphic manager for resize operation.
      **/
-    void Resize( const GlwWindow* window );
+    void MarkResize( );
 
     /**
      * SetDebugContext method
@@ -230,10 +230,14 @@ public:
     /**
      * Acquire function
      * @note : Acquire render context.
+     * @param window : Pointer to current window instance.
      * @param render_context : Reference to current render context.
      * @return : Return true when drawing operation can be performed.
      **/
-    bool Acquire( GlwRenderContext& render_context );
+    bool Acquire( 
+        const GlwWindow* window, 
+        GlwRenderContext& render_context 
+    );
 
     /**
      * CmdUseRenderPass function
@@ -428,6 +432,13 @@ protected:
     virtual void PlatformDestroy( const GlwWindow* window ) = 0;
 
     /**
+     * Resize method
+     * @note : Execute backend resize operation.
+     * @param window : Pointer to current window instance.
+     **/
+    virtual void Resize( const GlwWindow* window );
+
+    /**
      * Display method
      * @note : Used internaly for display last render pass to the screen.
      * @param render_context : Reference to current render context.
@@ -497,6 +508,13 @@ public:
      * @return : Return true when material is valid.
      **/
     bool GetMaterialExist( const uint32_t material ) const;
+
+    /**
+     * GetRenderPass const function
+     * @note : Get render pass instance.
+     * @return : Return pointer to query render pass instance.
+     **/
+    GlwRenderPass* GetRenderPass( const uint32_t render_pass ) const;
 
     /**
      * GetMesh function

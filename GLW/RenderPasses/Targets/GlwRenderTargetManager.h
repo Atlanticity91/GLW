@@ -81,6 +81,13 @@ public:
 
 public:
     /**
+     * GetColorAttachementCount const function
+     * @note : Get current color attachement count.
+     * @return : Return current color attachement count value.
+     **/
+    uint32_t GetColorAttachementCount( ) const;
+
+    /**
      * GetColorAttachement const function
      * @note : Get color attachement OpenGL texture handle.
      * @param target : Query render pass target.

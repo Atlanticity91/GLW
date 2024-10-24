@@ -38,7 +38,8 @@ GlwGraphicsManager::GlwGraphicsManager( )
 	: m_state{ GlwStates::Enable },
 	m_swapchain{ },
 	m_render_passes{ },
-	m_ressources{ }
+	m_ressources{ }, 
+	m_need_resize{ false }
 { }
 
 bool GlwGraphicsManager::Create(
@@ -63,11 +64,8 @@ bool GlwGraphicsManager::Create(
 	return result;
 }
 
-void GlwGraphicsManager::Resize( const GlwWindow* window ) {
-	if ( window == nullptr )
-		return;
-
-	m_swapchain.Resize( window );
+void GlwGraphicsManager::MarkResize( ) {
+	m_need_resize = true;
 }
 
 void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {
@@ -199,11 +197,17 @@ void GlwGraphicsManager::SetRefresh( const glm::vec4& color ) {
 	m_swapchain.SetRefresh( color );
 }
 
-bool GlwGraphicsManager::Acquire( GlwRenderContext& render_context ) {
+bool GlwGraphicsManager::Acquire( 
+	const GlwWindow* window, 
+	GlwRenderContext& render_context 
+) {
 	render_context = { };
 
-	if ( m_render_passes.GetLast( ) == nullptr )
+	if ( m_render_passes.GetLast( ) == nullptr ) {
+		Resize( window );
+
 		m_swapchain.Use( );
+	}
 
 	return m_state == GlwStates::Enable;
 }
@@ -402,6 +406,15 @@ void GlwGraphicsManager::Destroy( const GlwWindow* window ) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PROTECTED ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+void GlwGraphicsManager::Resize( const GlwWindow* window ) {
+	if ( window == nullptr || !m_need_resize )
+		return;
+
+	m_swapchain.Resize( window );
+
+	m_need_resize = false;
+}
+
 void GlwGraphicsManager::Display( 
 	GlwRenderContext& render_context,
 	const GlwDisplaySpecification& display_spec 
@@ -447,6 +460,10 @@ bool GlwGraphicsManager::GetCubemapExist( const uint32_t cubemap ) const {
 
 bool GlwGraphicsManager::GetMaterialExist( const uint32_t material ) const {
 	return m_ressources.GetMaterialExist( material );
+}
+
+GlwRenderPass* GlwGraphicsManager::GetRenderPass( const uint32_t render_pass ) const {
+	return m_render_passes.GetRenderPass( render_pass );
 }
 
 GlwMesh* GlwGraphicsManager::GetMesh( const uint32_t mesh ) {

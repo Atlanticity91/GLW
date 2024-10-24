@@ -39,21 +39,28 @@ GlwRenderPassSpecification::GlwRenderPassSpecification( )
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification( const glm::uvec2& dimensions )
-    : GlwRenderPassSpecification{ dimensions, GlwRenderPassDepthStencilBind::Combined, { }, { } }
+    : GlwRenderPassSpecification{ dimensions, { }, GlwRenderPassDepthStencilBind::Combined, { }, { } }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const glm::uvec2& dimensions,
+    const glm::vec4& refresh
+)
+    : GlwRenderPassSpecification{ dimensions, refresh, GlwRenderPassDepthStencilBind::Combined, { }, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification( 
 	const uint32_t width,
 	const uint32_t height 
 )
-    : GlwRenderPassSpecification{ { width, height }, GlwRenderPassDepthStencilBind::Combined, { }, { } }
+    : GlwRenderPassSpecification{ { width, height },{ }, GlwRenderPassDepthStencilBind::Combined, { }, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
     const glm::uvec2& dimensions,
     const GlwRenderPassTargetSpecification& targets
 )
-    : GlwRenderPassSpecification{ dimensions, GlwRenderPassDepthStencilBind::Combined, targets, { } }
+    : GlwRenderPassSpecification{ dimensions, { }, GlwRenderPassDepthStencilBind::Combined, targets, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
@@ -61,7 +68,15 @@ GlwRenderPassSpecification::GlwRenderPassSpecification(
     const uint32_t height,
     const GlwRenderPassTargetSpecification& targets
 )
-    : GlwRenderPassSpecification{ { width, height }, GlwRenderPassDepthStencilBind::Combined, targets, { } }
+    : GlwRenderPassSpecification{ { width, height }, { }, GlwRenderPassDepthStencilBind::Combined, targets, { } }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const glm::uvec2& dimensions,
+    const glm::vec4& refresh,
+    const GlwRenderPassTargetSpecification& targets
+)
+    : GlwRenderPassSpecification{ dimensions, refresh, GlwRenderPassDepthStencilBind::Combined, targets, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
@@ -69,7 +84,25 @@ GlwRenderPassSpecification::GlwRenderPassSpecification(
     const GlwRenderPassDepthStencilBind depth_stencil_bind,
     const GlwRenderPassTargetSpecification& targets
 )
-    : GlwRenderPassSpecification{ dimensions, depth_stencil_bind, targets, { } }
+    : GlwRenderPassSpecification{ dimensions, { }, depth_stencil_bind, targets, { } }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const uint32_t width,
+    const uint32_t height,
+    const glm::vec4& refresh,
+    const GlwRenderPassTargetSpecification& targets
+)
+    : GlwRenderPassSpecification{ { width, height }, refresh, GlwRenderPassDepthStencilBind::Combined, targets, { } }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const glm::uvec2& dimensions,
+    const glm::vec4& refresh,
+    const GlwRenderPassDepthStencilBind depth_stencil_bind,
+    const GlwRenderPassTargetSpecification& targets
+)
+    : GlwRenderPassSpecification{ dimensions, refresh, depth_stencil_bind, targets, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
@@ -78,29 +111,61 @@ GlwRenderPassSpecification::GlwRenderPassSpecification(
     const GlwRenderPassDepthStencilBind depth_stencil_bind,
     const GlwRenderPassTargetSpecification& targets
 )
-    : GlwRenderPassSpecification{ { width, height }, depth_stencil_bind, targets, { } }
+    : GlwRenderPassSpecification{ { width, height }, { }, depth_stencil_bind, targets, { } }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const uint32_t width,
+    const uint32_t height,
+    const glm::vec4& refresh,
+    const GlwRenderPassDepthStencilBind depth_stencil_bind,
+    const GlwRenderPassTargetSpecification& targets
+)
+    : GlwRenderPassSpecification{ { width, height }, refresh, depth_stencil_bind, targets, { } }
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
     const glm::uvec2& dimensions,
+    const GlwRenderPassDepthStencilBind depth_stencil_bind,
+    const GlwRenderPassTargetSpecification& targets,
+    const GlwColorBlendSpecification& color_blend
+)
+    : GlwRenderPassSpecification{ dimensions, { }, depth_stencil_bind, targets, color_blend }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const uint32_t width,
+    const uint32_t height,
+    const GlwRenderPassDepthStencilBind depth_stencil_bind,
+    const GlwRenderPassTargetSpecification& targets,
+    const GlwColorBlendSpecification& color_blend
+)
+    : GlwRenderPassSpecification{ { width, height }, { }, depth_stencil_bind, targets, color_blend }
+{ }
+
+GlwRenderPassSpecification::GlwRenderPassSpecification(
+    const glm::uvec2& dimensions,
+    const glm::vec4& refresh,
     const GlwRenderPassDepthStencilBind depth_stencil_bind,
     const GlwRenderPassTargetSpecification& targets,
     const GlwColorBlendSpecification& color_blend
 )
     : Dimensions{ dimensions },
+    Refresh{ refresh },
     DepthStencilBind{ depth_stencil_bind },
     Targets{ targets },
-    ColorBlend{ color_blend }
+    ColorBlend{ color_blend } 
 { }
 
 GlwRenderPassSpecification::GlwRenderPassSpecification(
     const uint32_t width,
     const uint32_t height,
+    const glm::vec4& refresh,
     const GlwRenderPassDepthStencilBind depth_stencil_bind,
     const GlwRenderPassTargetSpecification& targets,
     const GlwColorBlendSpecification& color_blend
 )
-    : GlwRenderPassSpecification{ { width, height }, depth_stencil_bind, targets, color_blend }
+    : GlwRenderPassSpecification{ { width, height }, refresh, depth_stencil_bind, targets, color_blend }
 { }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

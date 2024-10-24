@@ -36,6 +36,7 @@
 struct GlwRenderPassSpecification {
 
     glm::uvec2 Dimensions;
+    glm::vec4 Refresh;
     GlwRenderPassDepthStencilBind DepthStencilBind;
     GlwRenderPassTargetSpecification Targets;
     GlwColorBlendSpecification ColorBlend;
@@ -47,21 +48,31 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param dimensions : Query render target dimensions.
+     * @param dimensions : Query render pass dimensions.
      **/
     GlwRenderPassSpecification( const glm::uvec2& dimensions );
 
     /**
      * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
+     * @param dimensions : Query render pass dimensions.
+     * @param refresh : Query render pass refresh color.
+     **/
+    GlwRenderPassSpecification( 
+        const glm::uvec2& dimensions,
+        const glm::vec4& refresh
+    );
+
+    /**
+     * Constructor
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
      **/
     GlwRenderPassSpecification( const uint32_t width, const uint32_t height );
 
     /**
      * Constructor
-     * @param dimensions : Query render target dimensions.
-     * @param targets : Query render targets specification.
+     * @param dimensions : Query render pass dimensions.
+     * @param targets : Query render pass specification.
      **/
     GlwRenderPassSpecification(
         const glm::uvec2& dimensions,
@@ -70,8 +81,8 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
      * @param targets : Query render targets specification.
      **/
     GlwRenderPassSpecification( 
@@ -82,7 +93,19 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param dimensions : Query render target dimensions.
+     * @param dimensions : Query render pass dimensions.
+     * @param refresh : Query render pass refresh color.
+     * @param targets : Query render pass specification.
+     **/
+    GlwRenderPassSpecification(
+        const glm::uvec2& dimensions,
+        const glm::vec4& refresh,
+        const GlwRenderPassTargetSpecification& targets
+    );
+
+    /**
+     * Constructor
+     * @param dimensions : Query render pass dimensions.
      * @param depth_stencil_bind : Query depth and stencil target bind mode.
      * @param targets : Query render targets specification.
      **/
@@ -94,8 +117,36 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
+     * @param refresh : Query render pass refresh color.
+     * @param targets : Query render targets specification.
+     **/
+    GlwRenderPassSpecification(
+        const uint32_t width,
+        const uint32_t height,
+        const glm::vec4& refresh,
+        const GlwRenderPassTargetSpecification& targets
+    );
+
+    /**
+     * Constructor
+     * @param dimensions : Query render pass dimensions.
+     * @param refresh : Query render pass refresh color.
+     * @param depth_stencil_bind : Query depth and stencil target bind mode.
+     * @param targets : Query render targets specification.
+     **/
+    GlwRenderPassSpecification(
+        const glm::uvec2& dimensions,
+        const glm::vec4& refresh,
+        const GlwRenderPassDepthStencilBind depth_stencil_bind,
+        const GlwRenderPassTargetSpecification& targets
+    );
+
+    /**
+     * Constructor
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
      * @param depth_stencil_bind : Query depth and stencil target bind mode.
      * @param targets : Query render targets specification.
      **/
@@ -108,7 +159,23 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param dimensions : Query render target dimensions.
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
+     * @param refresh : Query render pass refresh color.
+     * @param depth_stencil_bind : Query depth and stencil target bind mode.
+     * @param targets : Query render targets specification.
+     **/
+    GlwRenderPassSpecification(
+        const uint32_t width,
+        const uint32_t height,
+        const glm::vec4& refresh,
+        const GlwRenderPassDepthStencilBind depth_stencil_bind,
+        const GlwRenderPassTargetSpecification& targets
+    );
+
+    /**
+     * Constructor
+     * @param dimensions : Query render pass dimensions.
      * @param depth_stencil_bind : Query depth and stencil target bind mode.
      * @param targets : Query render targets specification.
      * @param color_blend : Query color blending specification.
@@ -122,8 +189,8 @@ struct GlwRenderPassSpecification {
 
     /**
      * Constructor
-     * @param width : Query render target width.
-     * @param height : Query render target height.
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
      * @param depth_stencil_bind : Query depth and stencil target bind mode.
      * @param targets : Query render targets specification.
      * @param color_blend : Query color blending specification.
@@ -131,6 +198,40 @@ struct GlwRenderPassSpecification {
     GlwRenderPassSpecification(
         const uint32_t width,
         const uint32_t height,
+        const GlwRenderPassDepthStencilBind depth_stencil_bind,
+        const GlwRenderPassTargetSpecification& targets,
+        const GlwColorBlendSpecification& color_blend
+    );
+
+    /**
+     * Constructor
+     * @param dimensions : Query render pass dimensions.
+     * @param refresh : Query render pass refresh color.
+     * @param depth_stencil_bind : Query depth and stencil target bind mode.
+     * @param targets : Query render targets specification.
+     * @param color_blend : Query color blending specification.
+     **/
+    GlwRenderPassSpecification(
+        const glm::uvec2& dimensions,
+        const glm::vec4& refresh,
+        const GlwRenderPassDepthStencilBind depth_stencil_bind,
+        const GlwRenderPassTargetSpecification& targets,
+        const GlwColorBlendSpecification& color_blend
+    );
+
+    /**
+     * Constructor
+     * @param width : Query render pass width.
+     * @param height : Query render pass height.
+     * @param refresh : Query render pass refresh color.
+     * @param depth_stencil_bind : Query depth and stencil target bind mode.
+     * @param targets : Query render targets specification.
+     * @param color_blend : Query color blending specification.
+     **/
+    GlwRenderPassSpecification(
+        const uint32_t width,
+        const uint32_t height,
+        const glm::vec4& refresh,
         const GlwRenderPassDepthStencilBind depth_stencil_bind,
         const GlwRenderPassTargetSpecification& targets,
         const GlwColorBlendSpecification& color_blend

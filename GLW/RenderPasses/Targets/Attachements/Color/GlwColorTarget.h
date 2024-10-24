@@ -73,6 +73,13 @@ public:
 
 public:
 	/**
+	 * GetCount const function
+	 * @note : Get color attachement count.
+	 * @return : Return color attachement count value.
+	 **/
+	uint32_t GetCount( ) const;
+
+	/**
 	 * GetAttachement const function
 	 * @note : Get query target attachement value.
 	 * @param target : Query color render target value.

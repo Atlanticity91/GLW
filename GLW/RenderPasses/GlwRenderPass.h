@@ -102,6 +102,13 @@ public:
      * @return : Return refresh color value as vector 4.
      **/
     glm::vec4 GetRefreshColor( ) const;
+
+    /**
+     * GetColorAttachementCount const function
+     * @note : Get current render pass color attachement count.
+     * @return : Return current render pass color attachement count value.
+     **/
+    uint32_t GetColorAttachementCount( ) const;
     
     /**
      * GetColorAttachement const function
