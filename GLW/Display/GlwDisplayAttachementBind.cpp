@@ -35,7 +35,25 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwDisplayAttachementBind::GlwDisplayAttachementBind( )
-	: RenderPass{ 0 },
-	Attachement{ 0 },
-	Slot{ 0 }
+	: GlwDisplayAttachementBind{ 0, 0, GlwRenderAttachementTypes::Color, 0 }
+{ }
+
+GlwDisplayAttachementBind::GlwDisplayAttachementBind(
+	const uint32_t slot,
+	const uint32_t render_pass,
+	const uint32_t attachement
+)
+	: GlwDisplayAttachementBind{ slot, render_pass, GlwRenderAttachementTypes::Color, attachement }
+{ }
+
+GlwDisplayAttachementBind::GlwDisplayAttachementBind(
+	const uint32_t slot,
+	const uint32_t render_pass,
+	const GlwRenderAttachementTypes type,
+	const uint32_t attachement
+)
+	: RenderPass{ slot },
+	Type{ type },
+	Attachement{ attachement },
+	Slot{ render_pass }
 { }

@@ -33,7 +33,7 @@
 
 #include "GlwBlitRenderTargetSpecifiction.h"
 
-enum GlwRenderAttachementTypes : uint32_t {
+enum class GlwRenderAttachementTypes : uint32_t {
 
     Color   = GL_COLOR_BUFFER_BIT,
     Depth   = GL_DEPTH_BUFFER_BIT,

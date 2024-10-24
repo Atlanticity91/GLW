@@ -74,7 +74,7 @@ void GlwRenderPassManager::CmdBlitRenderTarget(
 		dst_range.z,
 		dst_range.w,
 		
-		blit_specification.Type,
+		(uint32_t)blit_specification.Type,
 		blit_specification.Mode 
 	);
 }

@@ -36,6 +36,7 @@
 struct GlwDisplayAttachementBind {
 
 	uint32_t RenderPass;
+	GlwRenderAttachementTypes Type;
 	uint32_t Attachement;
 	uint32_t Slot;
 
@@ -43,5 +44,31 @@ struct GlwDisplayAttachementBind {
 	 * Constructor
 	 **/
 	GlwDisplayAttachementBind( );
+
+	/**
+	 * Constructor
+	 * @param slot : Query texture bind slot.
+	 * @param render_pass : Query render pass.
+	 * @param attachement : Query render pass attachement value.
+	 **/
+	GlwDisplayAttachementBind(
+		const uint32_t slot,
+		const uint32_t render_pass,
+		const uint32_t attachement
+	);
+
+	/**
+	 * Constructor
+	 * @param slot : Query texture bind slot.
+	 * @param render_pass : Query render pass.
+	 * @param type : Query render pass attachement type.
+	 * @param attachement : Query render pass attachement value.
+	 **/
+	GlwDisplayAttachementBind(
+		const uint32_t slot,
+		const uint32_t render_pass,
+		const GlwRenderAttachementTypes type,
+		const uint32_t attachement
+	);
 
 };

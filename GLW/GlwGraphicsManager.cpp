@@ -425,9 +425,15 @@ void GlwGraphicsManager::Display(
 	
 	if ( material ) {
 		for ( auto& target : display_spec.Attachements ) {
-			auto texture = m_render_passes.GetColorAttachement( target.RenderPass, target.Attachement );
+			auto texture = m_render_passes.GetAttachement( target.Type, target.RenderPass, target.Attachement );
+			auto format  = GlwTextureFormats::RGBA;
 
-			//material->SetTexture( target.Slot, GlwTextureTypes::Texture2D, GlwTextureLayouts::Default, texture );
+			if ( target.Type == GlwRenderAttachementTypes::Depth )
+				format = GlwTextureFormats::Depth;
+			else if ( target.Type == GlwRenderAttachementTypes::Stencil )
+				format = GlwTextureFormats::Stencil;
+
+			material->SetTexture( target.Slot, GlwTextureTypes::Texture2D, format, texture );
 		}
 	}
 
