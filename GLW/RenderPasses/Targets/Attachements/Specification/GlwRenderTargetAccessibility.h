@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "../../Buffers/GlwRenderbuffer.h"
+#include "GlwRenderTargetDepthStencilBind.h"
 
 enum GlwRenderTargetAccessibility : uint32_t {
 

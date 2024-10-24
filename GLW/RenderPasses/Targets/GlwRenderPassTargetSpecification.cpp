@@ -66,7 +66,12 @@ GlwRenderPassTargetSpecification::GlwRenderPassTargetSpecification(
     : Color{ color },
     Depth{ depth },
     Stencil{ stencil }
-{ }
+{
+    if ( Depth.State == GlwStates::Enable && Stencil.State == GlwStates::Enable )
+        DepthStencilBind = GlwRenderTargetDepthStencilBind::Combined;
+    else
+        DepthStencilBind = GlwRenderTargetDepthStencilBind::Separate;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===

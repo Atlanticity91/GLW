@@ -38,6 +38,7 @@ struct GlwRenderPassTargetSpecification {
     GlwColorTargetSpecification Color;
     GlwDepthTargetSpecification Depth;
     GlwStencilTargetSpecification Stencil;
+    GlwRenderTargetDepthStencilBind DepthStencilBind;
 
     /**
      * Constructor

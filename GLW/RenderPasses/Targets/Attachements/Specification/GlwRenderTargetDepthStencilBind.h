@@ -31,9 +31,9 @@
 
 #pragma once
 
-#include "../Blits/GlwBlitSpecification.h"
+#include "../../Buffers/GlwRenderbuffer.h"
 
-enum class GlwRenderPassDepthStencilBind : uint32_t {
+enum class GlwRenderTargetDepthStencilBind : uint32_t {
 
     Combined = 0,
     Separate

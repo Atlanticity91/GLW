@@ -42,7 +42,8 @@ GlwRenderTargetSpecification::GlwRenderTargetSpecification(
 	const GlwRenderTargetAccessibility accessibility,
 	const GlwTextureFormats format,
 	const GlwTextureLayouts layout
-) : Accessibility{ accessibility },
+) 
+	: Accessibility{ accessibility },
 	Format{ format },
 	Layout{ layout }
 { }
