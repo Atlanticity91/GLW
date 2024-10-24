@@ -44,17 +44,23 @@ bool GlwColorTarget::Create(
 	GlwFramebuffer& framebuffer,
 	uint32_t& clear_flags
 ) {
-	auto attachement_id = specification.Colors.size( );
-	auto result			= true;
+	auto attachement_count = specification.Colors.size( );
+	auto result			   = true;
 
-	if ( attachement_id > 0 )
-		m_attachements.resize( attachement_id );
+	if ( attachement_count > 0 ) {
+		m_attachements.resize( attachement_count );
 
-	while ( result && attachement_id-- > 0 )
-		result = m_attachements[ attachement_id ].Create( specification.Colors[ attachement_id ], dimensions, (uint32_t)attachement_id, framebuffer );
+		auto attachement_id = (uint32_t)specification.Colors.size( );
 
-	if ( result )
-		clear_flags |= GL_COLOR_BUFFER_BIT;
+		while ( result && attachement_id-- > 0 )
+			result = m_attachements[ attachement_id ].Create( specification.Colors[ attachement_id ], dimensions, (uint32_t)attachement_id, framebuffer );
+
+		if ( result ) {
+			clear_flags |= GL_COLOR_BUFFER_BIT;
+
+			framebuffer.Link( (uint32_t)attachement_count );
+		}
+	}
 
 	return result;
 }

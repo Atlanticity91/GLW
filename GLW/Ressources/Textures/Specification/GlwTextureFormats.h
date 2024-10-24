@@ -45,6 +45,6 @@ enum class GlwTextureFormats : uint32_t {
     Color   = RGBA,
     Depth   = GL_DEPTH_COMPONENT,
     Stencil = GL_STENCIL_INDEX,
-    Depth_Stencil = 0,
+    Depth_Stencil = GL_DEPTH_STENCIL
 
 };

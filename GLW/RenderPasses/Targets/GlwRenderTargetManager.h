@@ -79,6 +79,23 @@ public:
      **/
 	void Destroy( );
 
+private:
+    /**
+     * CreateDepthStencil function
+     * @note : Create depth and stencil attachement.
+     * @param specification : Query render pass specification.
+     * @parma dimensions : Current render pass dimensions.
+     * @param framebuffer : Current render pass framebuffer instance.
+     * @param clear_flags : Reference to current render pass clear flags value.
+     * @return : Return true when creation succeeded.
+     **/
+    bool CreateDepthStencil(
+        const GlwRenderPassTargetSpecification& specification,
+        const glm::uvec2& dimensions,
+        GlwFramebuffer& framebuffer,
+        uint32_t& clear_flags
+    );
+
 public:
     /**
      * GetColorAttachementCount const function

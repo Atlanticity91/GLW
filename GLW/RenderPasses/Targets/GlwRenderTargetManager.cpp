@@ -46,24 +46,8 @@ bool GlwRenderTargetManager::Create(
     GlwFramebuffer& framebuffer,
     uint32_t& clear_flags
 ) {
-    auto result = m_colors.Create( specification.Color, dimensions, framebuffer, clear_flags ) &&
-                  m_depth.Create( specification.Depth, dimensions, framebuffer, clear_flags );
-
-    if ( result && specification.Stencil.State == GlwStates::Enable ) {
-        if ( specification.Depth.State == GlwStates::Enable ) {
-            m_stencil.Setup( specification.Stencil, clear_flags );
-
-            auto attachement = m_depth.GetAttachement( );
-
-            if ( specification.Depth.Accessibility == GlwRenderTargetAccessibility::Texture )
-                framebuffer.AttachTexture( GL_STENCIL_ATTACHMENT, attachement );
-            else
-                framebuffer.AttachRenderbuffer( GL_DEPTH_STENCIL_ATTACHMENT, attachement );
-        } else
-            result = m_stencil.Create( specification.Stencil, dimensions, framebuffer, clear_flags );
-    }
-
-    return result;
+    return  m_colors.Create( specification.Color, dimensions, framebuffer, clear_flags ) &&
+            CreateDepthStencil( specification, dimensions, framebuffer, clear_flags );
 }
 
 void GlwRenderTargetManager::Use( ) {
@@ -75,6 +59,37 @@ void GlwRenderTargetManager::Destroy( ) {
 	m_stencil.Destroy( );
 	m_depth.Destroy( );
 	m_colors.Destroy( );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//      === PRIVATE ===
+////////////////////////////////////////////////////////////////////////////////////////////
+bool GlwRenderTargetManager::CreateDepthStencil(
+    const GlwRenderPassTargetSpecification& specification,
+    const glm::uvec2& dimensions,
+    GlwFramebuffer& framebuffer,
+    uint32_t& clear_flags
+) {
+    auto result = false;
+
+    if ( specification.Depth.State == GlwStates::Enable || specification.Stencil.State == GlwStates::Enable ) {
+        if ( specification.Depth.State == GlwStates::Enable && specification.Stencil.State == GlwStates::Enable ) {
+            auto depth_stencil_spec = GlwDepthTargetSpecification{
+                GlwTextureFormats::Depth_Stencil,
+                GlwTextureLayouts::D24_S08,
+                specification.Depth.Parameters
+            };
+            
+            result = m_depth.Create( depth_stencil_spec, dimensions, framebuffer, clear_flags );
+
+            m_stencil.Setup( specification.Stencil, clear_flags );
+        } else if ( specification.Depth.State == GlwStates::Enable )
+            result = m_depth.Create( specification.Depth, dimensions, framebuffer, clear_flags );
+        else if ( specification.Stencil.State == GlwStates::Enable ) 
+            result = m_stencil.Create( specification.Stencil, dimensions, framebuffer, clear_flags );
+    }
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
