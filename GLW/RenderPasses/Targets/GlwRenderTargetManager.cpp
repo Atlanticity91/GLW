@@ -51,6 +51,7 @@ bool GlwRenderTargetManager::Create(
 }
 
 void GlwRenderTargetManager::Use( ) {
+    m_colors.Use( );
     m_depth.Use( );
     m_stencil.Use( );
 }

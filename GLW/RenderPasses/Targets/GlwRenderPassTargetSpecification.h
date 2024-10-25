@@ -45,13 +45,23 @@ struct GlwRenderPassTargetSpecification {
      **/
     GlwRenderPassTargetSpecification( );
 
+
     /**
      * Constructor
+     * @param color : Query color target specification.
      **/
     GlwRenderPassTargetSpecification( const GlwColorTargetSpecification& color );
+
+    /**
+     * Constructor
+     * @param depth : Query depth target specification.
+     **/
+    GlwRenderPassTargetSpecification( const GlwDepthTargetSpecification& depth );
     
     /**
      * Constructor
+     * @param color : Query color target specification.
+     * @param depth : Query depth target specification.
      **/
     GlwRenderPassTargetSpecification(
         const GlwColorTargetSpecification& color,
@@ -60,6 +70,8 @@ struct GlwRenderPassTargetSpecification {
 
     /**
      * Constructor
+     * @param color : Query color target specification.
+     * @param stencil : Query stencil target specification.
      **/
     GlwRenderPassTargetSpecification(
         const GlwColorTargetSpecification& color,
@@ -68,6 +80,9 @@ struct GlwRenderPassTargetSpecification {
 
     /**
      * Constructor
+     * @param color : Query color target specification.
+     * @param depth : Query depth target specification.
+     * @param stencil : Query stencil target specification.
      **/
     GlwRenderPassTargetSpecification( 
         const GlwColorTargetSpecification& color,

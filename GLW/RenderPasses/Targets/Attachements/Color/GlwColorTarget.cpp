@@ -35,7 +35,8 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwColorTarget::GlwColorTarget( )
-	: m_attachements{ }
+	: m_enabled{ false }, 
+	m_attachements{ }
 { }
 
 bool GlwColorTarget::Create(
@@ -47,7 +48,9 @@ bool GlwColorTarget::Create(
 	auto attachement_count = specification.Colors.size( );
 	auto result			   = true;
 
-	if ( attachement_count > 0 ) {
+	m_enabled = attachement_count > 0;
+
+	if ( m_enabled ) {
 		m_attachements.resize( attachement_count );
 
 		auto attachement_id = (uint32_t)specification.Colors.size( );
@@ -63,6 +66,12 @@ bool GlwColorTarget::Create(
 	}
 
 	return result;
+}
+
+void GlwColorTarget::Use( ) {
+	auto value = ( m_enabled ) ? GL_TRUE : GL_FALSE;
+
+	glColorMask( value, value, value, value );
 }
 
 void GlwColorTarget::Destroy( ) {

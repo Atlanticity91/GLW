@@ -285,12 +285,20 @@ void GlwGraphicsManager::CmdToggleColorWrites(
 	GlwRenderContext& render_context,
 	const GlwStates state
 ) {
+	CmdToggleColorWrites( render_context, 0, state );
+}
+
+void GlwGraphicsManager::CmdToggleColorWrites(
+	GlwRenderContext& render_context,
+	const uint32_t attachement,
+	const GlwStates state
+) {
 	if ( !render_context.GetInUse( ) )
 		return;
 
 	auto value = ( state == GlwStates::Enable ) ? GL_TRUE : GL_FALSE;
 
-	glColorMask( value, value, value, value );
+	glColorMaski( attachement, value, value, value, value );
 }
 
 void GlwGraphicsManager::CmdToggleDepthTest( 

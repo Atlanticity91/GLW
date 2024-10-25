@@ -299,6 +299,19 @@ public:
      * @param state : Query capability state.
      **/
     void CmdToggleColorWrites( GlwRenderContext& render_context, const GlwStates state );
+    
+    /**
+     * CmdToggleColorWrites method
+     * @note : Toggle OpenGL color buffer write operation.
+     * @param render_context : Reference to current render context.
+     * @param attachement : Query color attachement value.
+     * @param state : Query capability state.
+     **/
+    void CmdToggleColorWrites( 
+        GlwRenderContext& render_context,
+        const uint32_t attachement,
+        const GlwStates state 
+    );
 
     /**
      * CmdToggleDepthTest method

@@ -36,6 +36,7 @@
 class GlwColorTarget final {
 
 private:
+	bool m_enabled;
 	std::vector<GlwRenderAttachement> m_attachements;
 
 public:
@@ -64,6 +65,12 @@ public:
 		GlwFramebuffer& framebuffer,
 		uint32_t& clear_flags
 	);
+
+	/**
+	 * Use method
+	 * @note : Bind color buffer for usage.
+	 **/
+	void Use( );
 
 	/**
 	 * Destroy method
