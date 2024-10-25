@@ -38,8 +38,41 @@ GlwDisplaySpecification::GlwDisplaySpecification( )
 	: GlwDisplaySpecification{ 0, 0 }
 { }
 
-GlwDisplaySpecification::GlwDisplaySpecification( const uint32_t material, const uint32_t mesh )
+GlwDisplaySpecification::GlwDisplaySpecification( 
+	const uint32_t material,
+	const uint32_t mesh 
+)
 	: Material{ material },
 	Mesh{ mesh },
 	Attachements{ }
+{ }
+
+GlwDisplaySpecification::GlwDisplaySpecification(
+	const uint32_t material,
+	const uint32_t mesh,
+	const GlwDisplayAttachementBind& attachement_bind
+)
+	: Material{ material },
+	Mesh{ mesh },
+	Attachements{ attachement_bind }
+{ }
+
+GlwDisplaySpecification::GlwDisplaySpecification(
+	const uint32_t material,
+	const uint32_t mesh,
+	std::initializer_list<GlwDisplayAttachementBind> attachement_binds
+)
+	: Material{ material },
+	Mesh{ mesh },
+	Attachements{ attachement_binds }
+{ }
+
+GlwDisplaySpecification::GlwDisplaySpecification(
+	const uint32_t material,
+	const uint32_t mesh,
+	const std::vector<GlwDisplayAttachementBind>& attachement_binds
+)
+	: Material{ material },
+	Mesh{ mesh },
+	Attachements{ attachement_binds }
 { }
