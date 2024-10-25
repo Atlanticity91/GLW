@@ -52,8 +52,8 @@ GlwDisplayAttachementBind::GlwDisplayAttachementBind(
 	const GlwRenderAttachementTypes type,
 	const uint32_t attachement
 )
-	: RenderPass{ slot },
+	: Slot{ slot },
+	RenderPass{ render_pass },
 	Type{ type },
-	Attachement{ attachement },
-	Slot{ render_pass }
+	Attachement{ attachement }
 { }

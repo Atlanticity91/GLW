@@ -35,10 +35,10 @@
 
 struct GlwDisplayAttachementBind {
 
+	uint32_t Slot;
 	uint32_t RenderPass;
 	GlwRenderAttachementTypes Type;
 	uint32_t Attachement;
-	uint32_t Slot;
 
 	/**
 	 * Constructor
