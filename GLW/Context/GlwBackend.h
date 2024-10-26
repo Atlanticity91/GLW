@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "GlwDebugContext.h"
+#include "../Debug/GlwDebugContext.h"
 
 struct GlwBackend {
 

@@ -39,6 +39,7 @@ GlwGraphicsManager::GlwGraphicsManager( )
 	m_swapchain{ },
 	m_render_passes{ },
 	m_ressources{ }, 
+	m_debug_tracker{ },
 	m_need_resize{ false }
 { }
 
@@ -72,7 +73,7 @@ void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {
 	if ( context.Callback == nullptr )
 		return;
 
-#	if defined( _DEBUG )|| defined( DEBUG )
+#	if defined( _DEBUG ) || defined( DEBUG )
 	glEnable( GL_DEBUG_OUTPUT );
 	glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
 
@@ -90,7 +91,12 @@ void GlwGraphicsManager::SetFaceCullingContext( const GlwFaceCulling& context ) 
 }
 
 bool GlwGraphicsManager::CreateRenderPass( const GlwRenderPassSpecification& specification ) {
-	return m_render_passes.Create( specification );
+	auto result = m_render_passes.Create( specification );
+
+	if ( result )
+		m_debug_tracker.RenderPass.emplace_back( );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateRenderPasses(
@@ -99,7 +105,7 @@ bool GlwGraphicsManager::CreateRenderPasses(
 	auto result = false;
 
 	for ( auto& render_pass_spec : specification ) {
-		result = m_render_passes.Create( render_pass_spec );
+		result = CreateRenderPass( render_pass_spec );
 
 		if ( !result )
 			break;
@@ -114,7 +120,7 @@ bool GlwGraphicsManager::CreateRenderPasses(
 	auto result = false;
 
 	for ( auto& render_pass_spec : specification ) {
-		result = m_render_passes.Create( render_pass_spec );
+		result = CreateRenderPass( render_pass_spec );
 
 		if ( !result )
 			break;
@@ -124,33 +130,63 @@ bool GlwGraphicsManager::CreateRenderPasses(
 }
 
 bool GlwGraphicsManager::CreateMesh( const GlwMeshSpecification& specification ) {
-	return m_ressources.CreateMesh( specification );
+	auto result = m_ressources.CreateMesh( specification );
+
+	if ( result )
+		GlwTrackMesh( m_debug_tracker );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateTexture2D( const GlwTexture2DSpecification& specification ) {
-	return m_ressources.CreateTexture2D( specification );
+	auto result = m_ressources.CreateTexture2D( specification );
+
+	if ( result )
+		GlwTrackTexture( m_debug_tracker );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateTexture2D(
 	const GlwTexture2DSpecification& specification,
 	const std::vector<uint8_t>& pixels
 ) {
-	return m_ressources.CreateTexture2D( specification, pixels );
+	auto result = m_ressources.CreateTexture2D( specification, pixels );
+
+	if ( result )
+		GlwTrackTexture( m_debug_tracker );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateCubemap( const GlwTextureCubemapSpecification& specification ) {
-	return m_ressources.CreateCubemap( specification );
+	auto result = m_ressources.CreateCubemap( specification );
+
+	if ( result )
+		GlwTrackTexture( m_debug_tracker );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateCubemap(
 	const GlwTextureCubemapSpecification& specification,
 	const std::vector<uint8_t> face_pixels[ GlwTextureCubemap::FaceCount ]
 ) {
-	return m_ressources.CreateCubemap( specification, face_pixels );
+	auto result = m_ressources.CreateCubemap( specification, face_pixels );
+
+	if ( result )
+		GlwTrackTexture( m_debug_tracker );
+
+	return result;
 }
 
 bool GlwGraphicsManager::CreateMaterial( const GlwMaterialSpecification& specification ) {
-	return m_ressources.CreateMaterial( specification );
+	auto result = m_ressources.CreateMaterial( specification );
+
+	if ( result )
+		GlwTrackMaterial( m_debug_tracker );
+
+	return result;
 }
 
 void GlwGraphicsManager::FillTexture2D(
@@ -227,6 +263,8 @@ GlwRenderPass* GlwGraphicsManager::CmdUseRenderPass(
 	} else
 		render_context.RenderPass = UINT_MAX;
 
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdUseRenderPass", instance );
+
 	return instance;
 }
 
@@ -238,6 +276,8 @@ void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_context ) {
 
 		m_swapchain.Use( dimensions );
 	}
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdUseSwapchain", render_pass );
 }
 
 void GlwGraphicsManager::CmdToggle(
@@ -259,6 +299,8 @@ void GlwGraphicsManager::CmdToggleFaceCulling(
 	const GlwStates state 
 ) {
 	CmdToggle( render_context, GL_CULL_FACE, state );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleFaceCulling", state );
 }
 
 void GlwGraphicsManager::CmdSetViewport(
@@ -269,6 +311,8 @@ void GlwGraphicsManager::CmdSetViewport(
 		return;
 
 	glViewport( viewport.x, viewport.y, viewport.z, viewport.w );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdSetViewport", 0 );
 }
 
 void GlwGraphicsManager::CmdSetScissor(
@@ -279,6 +323,8 @@ void GlwGraphicsManager::CmdSetScissor(
 		return;
 
 	glScissor( scissor.x, scissor.y, scissor.z, scissor.w );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdSetScissor", 0 );
 }
 
 void GlwGraphicsManager::CmdToggleColorWrites(
@@ -286,6 +332,8 @@ void GlwGraphicsManager::CmdToggleColorWrites(
 	const GlwStates state
 ) {
 	CmdToggleColorWrites( render_context, 0, state );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleColorWrites", ( (uint64_t)0 << 32 ) & (uint32_t)state );
 }
 
 void GlwGraphicsManager::CmdToggleColorWrites(
@@ -299,6 +347,8 @@ void GlwGraphicsManager::CmdToggleColorWrites(
 	auto value = ( state == GlwStates::Enable ) ? GL_TRUE : GL_FALSE;
 
 	glColorMaski( attachement, value, value, value, value );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleColorWrites", ( (uint64_t)attachement << 32 ) & (uint32_t)state );
 }
 
 void GlwGraphicsManager::CmdToggleDepthTest( 
@@ -306,6 +356,8 @@ void GlwGraphicsManager::CmdToggleDepthTest(
 	const GlwStates state 
 ) {
 	CmdToggle( render_context, GL_DEPTH_TEST, state );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleDepthTest", state );
 }
 
 void GlwGraphicsManager::CmdToggleStencilTest( 
@@ -313,6 +365,8 @@ void GlwGraphicsManager::CmdToggleStencilTest(
 	const GlwStates state 
 ) {
 	CmdToggle( render_context, GL_STENCIL_TEST, state );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleStencilTest", state );
 }
 
 void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_context, GlwStates state ) {
@@ -320,6 +374,8 @@ void GlwGraphicsManager::CmdToggleStencilWrite( GlwRenderContext& render_context
 		return;
 
 	glStencilMask( ( state == GlwStates::Enable ) ? 0xFF : 0x00 );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleStencilWrite", state );
 }
 
 void GlwGraphicsManager::CmdClearColor(
@@ -333,6 +389,8 @@ void GlwGraphicsManager::CmdClearColor(
 	auto* color = glm::value_ptr( clear_value );
 
 	glClearBufferfv( GL_COLOR, attachement, color );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdClearColor", attachement );
 }
 
 void GlwGraphicsManager::CmdClearDepth(
@@ -343,6 +401,8 @@ void GlwGraphicsManager::CmdClearDepth(
 		return;
 
 	glClearDepth( clear_value );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdClearDepth", clear_value );
 }
 
 void GlwGraphicsManager::CmdClearStencil(
@@ -353,6 +413,8 @@ void GlwGraphicsManager::CmdClearStencil(
 		return;
 
 	glClearStencil( clear_value );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdClearStencil", clear_value );
 }
 
 void GlwGraphicsManager::CmdBlitRenderTarget(
@@ -363,6 +425,8 @@ void GlwGraphicsManager::CmdBlitRenderTarget(
 		return;
 
 	m_render_passes.CmdBlitRenderTarget( blit_specification );
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdBlitRenderTarget", blit_specification.Type );
 }
 
 GlwMaterial* GlwGraphicsManager::CmdUseMaterial(
@@ -376,6 +440,8 @@ GlwMaterial* GlwGraphicsManager::CmdUseMaterial(
 
 		render_context.Material = ( instance != nullptr ) ? material : UINT_MAX;
 	}
+
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdUseMaterial", instance );
 
 	return instance;
 }
@@ -396,6 +462,8 @@ GlwMesh* GlwGraphicsManager::CmdUseMesh(
 			render_context.Mesh = UINT_MAX;
 	}
 
+	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdUseMesh", instance );
+
 	return instance;
 }
 
@@ -403,13 +471,15 @@ void GlwGraphicsManager::CmdDraw(
 	GlwRenderContext& render_context, 
 	const uint32_t vertice_count 
 ) {
-	if ( !render_context.GetCanDraw( ) )
+	if ( !render_context.GetCanDraw( ) && vertice_count > 0 )
 		return;
 
 	if ( render_context.UseIndex )
 		glDrawElements( GL_TRIANGLES, vertice_count, GL_UNSIGNED_INT, NULL );
 	else
 		glDrawArrays( GL_TRIANGLES, 0, vertice_count );
+
+	GlwTrackDraw( m_debug_tracker, render_context.RenderPass, vertice_count );
 }
 
 void GlwGraphicsManager::Present( 
@@ -485,6 +555,10 @@ void GlwGraphicsManager::Display(
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+const GlwDebugTracker& GlwGraphicsManager::GetDebugTracker( ) const {
+	return m_debug_tracker;
+}
+
 GlwStates GlwGraphicsManager::GetDrawState( ) const {
 	return m_state;
 }

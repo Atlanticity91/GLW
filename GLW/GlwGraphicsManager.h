@@ -40,6 +40,7 @@ protected:
     GlwSwapchain m_swapchain;
     GlwRenderPassManager m_render_passes;
     GlwRessourceManager m_ressources;
+    GlwDebugTracker m_debug_tracker;
     bool m_need_resize;
 
 public:
@@ -501,10 +502,22 @@ public:
      **/
     template<typename VertexType>
     bool CreateMesh( const GlwMeshStaticSpecification<VertexType>& specification ) { 
-        return m_ressources.CreateMesh<VertexType>( specification );
+        auto result = m_ressources.CreateMesh<VertexType>( specification );
+
+        if ( result )
+            GlwTrackTexture( m_debug_tracker );
+
+        return result;
     };
 
 public:
+    /**
+     * GetDebugTracker const function
+     * @note : Get reference to internal debug tracker instance.
+     * @return : Return constant reference to internal debug tracker instance.
+     **/
+    const GlwDebugTracker& GetDebugTracker( ) const;
+
     /**
      * GetDrawState const function
      * @note : Get current graphic manager drawing state.
