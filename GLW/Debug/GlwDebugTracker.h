@@ -37,11 +37,16 @@
 #define GlwTrackMaterial( TRACKER ) TRACKER.MaterialCount += 1
 #define GlwTrackTexture( TRACKER ) TRACKER.TextureCount += 1
 
-#ifdef DEBUG
+#ifdef GLW_DEBUG
+
 #   define GlwTrackCommand( TRACKER, RENDER_PASS, NAME, VALUE )\
-        TRACKER.RenderPass[ RENDER_PASS ].Commands.emplace_back( GlwDebugTrackerCommands{ NAME, (uint64_t)VALUE } );
-#define GlwTrackDraw( TRACKER, RENDER_PASS, VERTICE_COUNT )\
-        TRACKER.RenderPass[ RENDER_PASS ].Draws.emplace_back( GlwDebugTracherDraws{ VERTICE_COUNT } );
+        if ( RENDER_PASS < (uint32_t)TRACKER.RenderPass.size( ) )\
+            TRACKER.RenderPass[ RENDER_PASS ].Commands.emplace_back( GlwDebugTrackerCommands{ NAME, (uint64_t)VALUE } );
+
+#   define GlwTrackDraw( TRACKER, RENDER_PASS, VERTICE_COUNT )\
+        if ( RENDER_PASS < (uint32_t)TRACKER.RenderPass.size( ) )\
+            TRACKER.RenderPass[ RENDER_PASS ].Draws.emplace_back( GlwDebugTracherDraws{ VERTICE_COUNT } );
+
 #else
 #   define GlwTrackCommand( TRACKER, RENDER_PASS, NAME, VALUE ) 
 #   define GlwTrackDraw( TRACKER, RENDER_PASS, VERTICE_COUNT )
@@ -58,6 +63,12 @@ struct GlwDebugTracker {
      * Constructor
      **/
     GlwDebugTracker( );
+
+    /**
+     * Reset method
+     * @note : Reset tracker for next frame.
+     **/
+    void Reset( );
 
     /**
      * GetTotalDrawCall const function

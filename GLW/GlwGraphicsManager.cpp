@@ -73,7 +73,7 @@ void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {
 	if ( context.Callback == nullptr )
 		return;
 
-#	if defined( _DEBUG ) || defined( DEBUG )
+#	ifdef GLW_DEBUG
 	glEnable( GL_DEBUG_OUTPUT );
 	glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
 
@@ -238,6 +238,8 @@ bool GlwGraphicsManager::Acquire(
 	GlwRenderContext& render_context 
 ) {
 	render_context = { };
+
+	m_debug_tracker.Reset( );
 
 	if ( m_render_passes.GetLast( ) == nullptr ) {
 		Resize( window );

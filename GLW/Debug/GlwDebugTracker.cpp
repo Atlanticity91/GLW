@@ -41,6 +41,15 @@ GlwDebugTracker::GlwDebugTracker( )
     RenderPass{ }
 { }
 
+void GlwDebugTracker::Reset( ) {
+#   ifdef GLW_DEBUG
+    for ( auto& render_pass : RenderPass ) {
+        render_pass.Commands.clear( );
+        render_pass.Draws.clear( );
+    }
+#   endif
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////

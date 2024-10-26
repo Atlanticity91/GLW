@@ -41,6 +41,10 @@ extern "C" {
 #define GLEW_STATIC
 #include "../Thirdparty/GLEW/include/GL/glew.h"
 
+#if defined( _DEBUG ) || defined( DEBUG )
+#   define GLW_DEBUG
+#endif
+
 #define GL_NULL 0
 #define GL_SHADER_NULL ((glShader)GL_NULL)
 #define GL_TEXTURE_NULL ((glTexture)GL_NULL)
