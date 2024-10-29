@@ -50,13 +50,25 @@ struct GlwMeshStaticSpecification {
 	/**
 	 * Constructor
 	 * @param vertices : Vertex list.
+	 * @param attributes : Vertex attribute list.
+	 **/
+	GlwMeshStaticSpecification(
+		const std::vector<VertexType>& vertices,
+		const std::vector<GlwVertexAttribute>& attributes
+	)
+		: GlwMeshStaticSpecification{ vertices, { }, attributes } 
+	{ };
+
+	/**
+	 * Constructor
+	 * @param vertices : Vertex list.
 	 * @param indexes : Index list.
 	 * @param attributes : Vertex attribute list.
 	 **/
 	GlwMeshStaticSpecification(
-		std::vector<VertexType> vertices,
-		std::vector<uint32_t> indexes,
-		std::vector<GlwVertexAttribute> attributes
+		const std::vector<VertexType>& vertices,
+		const std::vector<uint32_t>& indexes,
+		const std::vector<GlwVertexAttribute>& attributes
 	)
 		: Vertices{ vertices },
 		Indexes{ indexes },
@@ -65,7 +77,7 @@ struct GlwMeshStaticSpecification {
 
 	/**
 	 * GetMeshSpec const function
-	 * @note :
+	 * @note : Get mesh specification from current statis mesh specification.
 	 * @return : Return mesh specification value.
 	 **/
 	GlwMeshSpecification GetMeshSpec( ) const {

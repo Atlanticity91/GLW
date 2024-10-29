@@ -241,11 +241,10 @@ bool GlwGraphicsManager::Acquire(
 
 	m_debug_tracker.Reset( );
 
-	if ( m_render_passes.GetLast( ) == nullptr ) {
-		Resize( window );
+	Resize( window );
 
+	if ( m_render_passes.GetLast( ) == nullptr )
 		m_swapchain.Use( );
-	}
 
 	return m_state == GlwStates::Enable;
 }
@@ -273,11 +272,14 @@ GlwRenderPass* GlwGraphicsManager::CmdUseRenderPass(
 void GlwGraphicsManager::CmdUseSwapchain( GlwRenderContext& render_context ) {
 	auto* render_pass = m_render_passes.GetLast( );
 
+	render_context.RenderPass = 0;
+
 	if ( render_pass != nullptr ) {
 		auto dimensions = render_pass->GetDimensions( );
 
 		m_swapchain.Use( dimensions );
-	}
+	} else
+		m_swapchain.Use( );
 
 	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdUseSwapchain", render_pass );
 }

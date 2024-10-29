@@ -45,4 +45,26 @@ struct GlwMeshSpecification {
 	 **/
 	GlwMeshSpecification( );
 
+	/**
+	 * Constructor
+	 * @param vertex : Query vertex buffer specification.
+	 * @param attributes : Query mesh attributes specification.
+	 **/
+	GlwMeshSpecification(
+		const GlwBufferSpecification& vertex,
+		const std::vector<GlwVertexAttribute>& attributes
+	);
+
+	/**
+	 * Constructor
+	 * @param vertex : Query vertex buffer specification.
+	 * @param index : Query index buffer specification.
+	 * @param attributes : Query mesh attributes specification.
+	 **/
+	GlwMeshSpecification(
+		const GlwBufferSpecification& vertex,
+		const GlwBufferSpecification& index,
+		const std::vector<GlwVertexAttribute>& attributes
+	);
+
 };

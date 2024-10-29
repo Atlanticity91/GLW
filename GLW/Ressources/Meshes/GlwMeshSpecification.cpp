@@ -40,3 +40,24 @@ GlwMeshSpecification::GlwMeshSpecification( )
 	Index{ },
 	Attributes{ }
 { }
+
+GlwMeshSpecification::GlwMeshSpecification(
+	const GlwBufferSpecification& vertex,
+	const std::vector<GlwVertexAttribute>& attributes
+)
+	: UseIndex{ false },
+	Vertex{ vertex },
+	Index{ },
+	Attributes{ attributes }
+{ }
+
+GlwMeshSpecification::GlwMeshSpecification(
+	const GlwBufferSpecification& vertex,
+	const GlwBufferSpecification& index,
+	const std::vector<GlwVertexAttribute>& attributes
+)
+	: UseIndex{ true },
+	Vertex{ vertex },
+	Index{ index },
+	Attributes{ attributes }
+{ }
