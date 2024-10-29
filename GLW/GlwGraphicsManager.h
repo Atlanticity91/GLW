@@ -247,7 +247,10 @@ public:
      * @param render_pass : Query render pass.
      * @return : Return pointer to current render pass instance.
      **/
-    GlwRenderPass* CmdUseRenderPass( GlwRenderContext& render_context, const uint32_t render_pass );
+    GlwRenderPass* CmdUseRenderPass( 
+        GlwRenderContext& render_context, 
+        const uint32_t render_pass
+    );
 
     /**
      * CmdUseSwapchain method
@@ -416,19 +419,6 @@ public:
     );
 
     /**
-     * Present method
-     * @note : Present all previous operation to screen.
-     * @param window : Pointer to current window instance.
-     * @param render_context : Reference to current render context.
-     * @param display_spec : Query display specification.
-     **/
-    void Present(
-        const GlwWindow* window,
-        GlwRenderContext& render_context,
-        const GlwDisplaySpecification& display_spec
-    );
-
-    /**
      * Destroy method
      * @note : Destroy graphic manager.
      * @param window : Pointer to current window instance.
@@ -480,17 +470,6 @@ protected:
      * @param window : Pointer to current window instance.
      **/
     virtual void Resize( const GlwWindow* window );
-
-    /**
-     * Display method
-     * @note : Used internaly for display last render pass to the screen.
-     * @param render_context : Reference to current render context.
-     * @param display_spec : Query display specification.
-     **/
-    virtual void Display( 
-        GlwRenderContext& render_context,
-        const GlwDisplaySpecification& display_spec 
-    );
 
 public:
     /**

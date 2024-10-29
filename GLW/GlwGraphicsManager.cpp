@@ -491,24 +491,6 @@ void GlwGraphicsManager::Present(
 	PlatformSwapBuffers( window );
 }
 
-void GlwGraphicsManager::Present(
-	const GlwWindow* window,
-	GlwRenderContext& render_context,
-	const GlwDisplaySpecification& display_spec
-) {
-	auto* render_pass = m_render_passes.GetLast( );
-
-	if ( render_pass != nullptr ) {
-		auto dimensions = render_pass->GetDimensions( );
-
-		m_swapchain.Use( dimensions );
-
-		Display( render_context, display_spec );
-	}
-
-	PlatformSwapBuffers( window );
-}
-
 void GlwGraphicsManager::Destroy( const GlwWindow* window ) {
 	m_ressources.Destroy( );
 	m_render_passes.Destroy( );
@@ -526,32 +508,6 @@ void GlwGraphicsManager::Resize( const GlwWindow* window ) {
 	m_swapchain.Resize( window );
 
 	m_need_resize = false;
-}
-
-void GlwGraphicsManager::Display( 
-	GlwRenderContext& render_context,
-	const GlwDisplaySpecification& display_spec 
-) {
-	render_context.RenderPass = 0;
-
-	auto* material = CmdUseMaterial( render_context, display_spec.Material );
-	
-	if ( material ) {
-		for ( auto& target : display_spec.Attachements ) {
-			auto texture = m_render_passes.GetAttachement( target.Type, target.RenderPass, target.Attachement );
-			auto format  = GlwTextureFormats::RGBA;
-
-			if ( target.Type == GlwRenderAttachementTypes::Depth )
-				format = GlwTextureFormats::Depth;
-			else if ( target.Type == GlwRenderAttachementTypes::Stencil )
-				format = GlwTextureFormats::Stencil;
-
-			material->SetTexture( target.Slot, GlwTextureTypes::Texture2D, format, texture );
-		}
-	}
-
-	CmdUseMesh( render_context, display_spec.Mesh );
-	CmdDraw( render_context, 6 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

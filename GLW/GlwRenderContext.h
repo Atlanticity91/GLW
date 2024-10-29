@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "Display/GlwDisplaySpecification.h"
+#include "Display/GlwSwapchain.h"
 
 struct GlwRenderContext {
 
