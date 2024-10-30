@@ -35,7 +35,7 @@
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwMaterialSpecification::GlwMaterialSpecification( )
-    : GlwMaterialSpecification{ }
+    : GlwMaterialSpecification{ { }, { }, { } }
 { }
 
 GlwMaterialSpecification::GlwMaterialSpecification(
