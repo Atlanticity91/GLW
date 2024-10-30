@@ -72,4 +72,13 @@ protected:
      **/
     virtual void FillTexture( const GlwTextureFillSpecification& specification ) override;
 
+public:
+    /**
+     * Assign operator
+     * @note : Destroy current texture cubemap and assign other to replace it.
+     * @param other : The other texture cubemap.
+     * @return : Return reference to current texture cubemap instance.
+     **/
+    GlwTextureCubemap& operator=( const GlwTextureCubemap& other );
+
 };

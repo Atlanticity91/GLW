@@ -45,6 +45,28 @@ struct GlwMaterialSpecification {
     GlwMaterialSpecification( );
 
     /**
+     * Constrctor
+     * @param vertex : Query material vertex shader source.
+     * @param fragment : Query material fragment shader source.
+     **/
+    GlwMaterialSpecification( 
+        const std::vector<char>& vertex,
+        const std::vector<char>& fragment
+    );
+
+    /**
+     * Constrctor
+     * @param vertex : Query material vertex shader source.
+     * @param fragment : Query material fragment shader source.
+     * @param geometry : Query geometry fragment shader source.
+     **/
+    GlwMaterialSpecification(
+        const std::vector<char>& vertex,
+        const std::vector<char>& fragment,
+        const std::vector<char>& geometry
+    );
+
+    /**
      * GetIsValid const function
      * @note : Get specification validity.
      * @return : True when at least vertex and fragment are present.

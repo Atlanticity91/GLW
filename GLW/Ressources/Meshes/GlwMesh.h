@@ -181,4 +181,13 @@ public:
 	 **/
 	const GlwBuffer& GetIBO( ) const;
 
+public:
+	/**
+	 * Assign operator
+	 * @note : Destroy current mesh and assign other to replace it.
+	 * @param other : The other mesh.
+	 * @return : Return reference to current mesh instance.
+	 **/
+	GlwMesh& operator=( const GlwMesh& other );
+
 };

@@ -75,3 +75,19 @@ void GlwTexture2D::FillTexture( const GlwTextureFillSpecification& specification
 const GlwTexture2DSpecification& GlwTexture2D::GetSpecification( ) const {
     return m_specification;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	OPERATOR ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwTexture2D& GlwTexture2D::operator=( const GlwTexture2D& other ) {
+    if ( other.GetIsValid( ) ) {
+        Destroy( );
+
+        m_type          = other.GetType( );
+        m_format        = other.GetFormat( );
+        m_texture       = other.Get( );
+        m_specification = other.GetSpecification( );
+    }
+
+    return *this;
+}

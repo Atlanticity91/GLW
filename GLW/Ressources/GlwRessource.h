@@ -33,6 +33,8 @@
 
 #include "../Context/GlwGraphicSpecification.h"
 
+typedef uint32_t glw_ressource;
+
 template<typename SpecificationType>
 class GlwRessource { 
 

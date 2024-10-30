@@ -326,3 +326,16 @@ uint32_t GlwMaterial::GetTextureMode( const GlwTextureFormats format ) const {
 
     return result;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	OPERATOR ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwMaterial& GlwMaterial::operator=( const GlwMaterial& other ) {
+    if ( other.GetIsValid( ) ) {
+        Destroy( );
+
+        m_program_id = other.m_program_id;
+    }
+
+    return *this;
+}

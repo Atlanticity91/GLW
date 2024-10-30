@@ -80,4 +80,13 @@ public:
      **/
     const GlwTexture2DSpecification& GetSpecification( ) const;
 
+public:
+    /**
+     * Assign operator
+     * @note : Destroy current texture 2d and assign other to replace it.
+     * @param other : The other texture 2d.
+     * @return : Return reference to current texture 2d instance.
+     **/
+    GlwTexture2D& operator=( const GlwTexture2D& other );
+
 };

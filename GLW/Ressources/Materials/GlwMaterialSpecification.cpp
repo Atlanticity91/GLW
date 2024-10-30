@@ -35,9 +35,24 @@
 //      === PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwMaterialSpecification::GlwMaterialSpecification( )
-    : Vertex{ },
-    Fragment{ },
-    Geometry{ }
+    : GlwMaterialSpecification{ }
+{ }
+
+GlwMaterialSpecification::GlwMaterialSpecification(
+    const std::vector<char>& vertex,
+    const std::vector<char>& fragment
+)
+    : GlwMaterialSpecification{ vertex, fragment, { } }
+{ }
+
+GlwMaterialSpecification::GlwMaterialSpecification(
+    const std::vector<char>& vertex,
+    const std::vector<char>& fragment,
+    const std::vector<char>& geometry
+)
+    : Vertex{ vertex },
+    Fragment{ fragment },
+    Geometry{ geometry }
 { }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

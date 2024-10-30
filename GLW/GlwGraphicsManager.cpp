@@ -69,7 +69,9 @@ void GlwGraphicsManager::MarkResize( ) {
 	m_need_resize = true;
 }
 
-void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {
+void GlwGraphicsManager::SetDebugContext(
+	const GlwDebugContext& context 
+) {
 	if ( context.Callback == nullptr )
 		return;
 
@@ -81,7 +83,9 @@ void GlwGraphicsManager::SetDebugContext( const GlwDebugContext& context ) {
 #	endif
 }
 
-void GlwGraphicsManager::SetFaceCullingContext( const GlwFaceCulling& context ) {
+void GlwGraphicsManager::SetFaceCullingContext(
+	const GlwFaceCulling& context
+) {
 	if ( context.Enaled ) {
 		glEnable( GL_CULL_FACE );
 		glCullFace( context.Face );
@@ -90,7 +94,9 @@ void GlwGraphicsManager::SetFaceCullingContext( const GlwFaceCulling& context ) 
 		glDisable( GL_CULL_FACE );
 }
 
-bool GlwGraphicsManager::CreateRenderPass( const GlwRenderPassSpecification& specification ) {
+bool GlwGraphicsManager::CreateRenderPass(
+	const GlwRenderPassSpecification& specification
+) {
 	auto result = m_render_passes.Create( specification );
 
 	if ( result )
@@ -129,7 +135,9 @@ bool GlwGraphicsManager::CreateRenderPasses(
 	return result;
 }
 
-bool GlwGraphicsManager::CreateMesh( const GlwMeshSpecification& specification ) {
+bool GlwGraphicsManager::CreateMesh(
+	const GlwMeshSpecification& specification
+) {
 	auto result = m_ressources.CreateMesh( specification );
 
 	if ( result )
@@ -138,7 +146,9 @@ bool GlwGraphicsManager::CreateMesh( const GlwMeshSpecification& specification )
 	return result;
 }
 
-bool GlwGraphicsManager::CreateTexture2D( const GlwTexture2DSpecification& specification ) {
+bool GlwGraphicsManager::CreateTexture2D( 
+	const GlwTexture2DSpecification& specification
+) {
 	auto result = m_ressources.CreateTexture2D( specification );
 
 	if ( result )
@@ -159,7 +169,9 @@ bool GlwGraphicsManager::CreateTexture2D(
 	return result;
 }
 
-bool GlwGraphicsManager::CreateCubemap( const GlwTextureCubemapSpecification& specification ) {
+bool GlwGraphicsManager::CreateCubemap(
+	const GlwTextureCubemapSpecification& specification
+) {
 	auto result = m_ressources.CreateCubemap( specification );
 
 	if ( result )
@@ -180,13 +192,59 @@ bool GlwGraphicsManager::CreateCubemap(
 	return result;
 }
 
-bool GlwGraphicsManager::CreateMaterial( const GlwMaterialSpecification& specification ) {
+bool GlwGraphicsManager::CreateMaterial( 
+	const GlwMaterialSpecification& specification
+) {
 	auto result = m_ressources.CreateMaterial( specification );
 
 	if ( result )
 		GlwTrackMaterial( m_debug_tracker );
 
 	return result;
+}
+
+bool GlwGraphicsManager::ReplaceMesh(
+	const glw_ressource mesh,
+	const GlwMeshSpecification& specification
+) {
+	return m_ressources.ReplaceMesh( mesh, specification );
+}
+
+bool GlwGraphicsManager::ReplaceTexture2D(
+	const glw_ressource texture,
+	const GlwTexture2DSpecification& specification
+) {
+	return m_ressources.ReplaceTexture2D( texture, specification );
+}
+
+bool GlwGraphicsManager::ReplaceTexture2D(
+	const glw_ressource texture,
+	const GlwTexture2DSpecification& specification,
+	const std::vector<uint8_t>& pixels
+) {
+	return m_ressources.ReplaceTexture2D( texture, specification );
+}
+
+bool GlwGraphicsManager::ReplaceCubemap(
+	const glw_ressource cubemap,
+	const GlwTextureCubemapSpecification& specification
+) {
+	return m_ressources.ReplaceCubemap( cubemap, specification );
+}
+
+bool GlwGraphicsManager::ReplaceCubemap(
+	const glw_ressource cubemap,
+	const GlwTextureCubemapSpecification& specification,
+	const std::vector<uint8_t> face_pixels[ GlwTextureCubemap::FaceCount ]
+) {
+	return m_ressources.ReplaceCubemap( cubemap, specification );
+}
+
+bool GlwGraphicsManager::ReplaceMaterial(
+	const glw_ressource material,
+	const GlwMaterialSpecification& specification
+) {
+	return m_ressources.ReplaceMaterial( material, specification );
 }
 
 void GlwGraphicsManager::FillTexture2D(
@@ -527,6 +585,22 @@ GlwRessourceManager& GlwGraphicsManager::GetRessources( ) {
 	return m_ressources;
 }
 
+uint32_t GlwGraphicsManager::GetMeshCount( ) const {
+	return m_ressources.GetMeshCount( );
+}
+
+uint32_t GlwGraphicsManager::GetTexture2DCount( ) const {
+	return m_ressources.GetTexture2DCount( );
+}
+
+uint32_t GlwGraphicsManager::GetCubemapCount( ) const {
+	return m_ressources.GetCubemapCount( );
+}
+
+uint32_t GlwGraphicsManager::GetMaterialCount( ) const {
+	return m_ressources.GetMaterialCount( );
+}
+
 bool GlwGraphicsManager::GetMeshExist( const uint32_t mesh ) const {
 	return m_ressources.GetMeshExist( mesh );
 }
@@ -557,4 +631,8 @@ GlwTexture2D* GlwGraphicsManager::GetTexture2D( const uint32_t texture ) {
 
 GlwTextureCubemap* GlwGraphicsManager::GetCubemap( const uint32_t cubemap ) {
 	return m_ressources.GetCubemap( cubemap );
+}
+
+GlwMaterial* GlwGraphicsManager::GetMaterial( const glw_ressource material ) {
+	return m_ressources.GetMaterial( material );
 }

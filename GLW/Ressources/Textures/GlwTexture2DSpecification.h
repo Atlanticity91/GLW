@@ -33,7 +33,7 @@
 
 #include "GlwTexture.h"
 
-struct GlwTexture2DSpecification : GlwTextureSpecification { 
+struct GlwTexture2DSpecification : public GlwTextureSpecification { 
 
 	GlwTextureLayouts Layout;
 	GlwTextureFilterSpecification Filter;

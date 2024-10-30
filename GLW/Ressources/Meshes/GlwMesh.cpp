@@ -111,3 +111,18 @@ const GlwBuffer& GlwMesh::GetVBO( ) const {
 const GlwBuffer& GlwMesh::GetIBO( ) const {
 	return m_ibo;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	OPERATOR ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwMesh& GlwMesh::operator=( const GlwMesh& other ) {
+	if ( other.GetIsValid( ) ) {
+		Destroy( );
+
+		m_vao = other.GetVAO( );
+		m_vbo = other.GetVBO( );
+		m_ibo = other.GetIBO( );
+	}
+
+	return *this;
+}

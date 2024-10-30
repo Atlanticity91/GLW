@@ -329,4 +329,13 @@ private:
      **/
     uint32_t GetTextureMode( const GlwTextureFormats format ) const;
 
+public:
+    /**
+     * Assign operator
+     * @note : Destroy current material and assign other to replace it.
+     * @param other : The other material.
+     * @return : Return reference to current material instance.
+     **/
+    GlwMaterial& operator=( const GlwMaterial& other );
+
 };

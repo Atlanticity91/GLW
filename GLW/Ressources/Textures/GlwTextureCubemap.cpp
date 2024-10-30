@@ -71,3 +71,18 @@ void GlwTextureCubemap::FillTexture( const GlwTextureFillSpecification& specific
     glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + specification.Level, 0, specification.X, specification.Y, specification.Width, specification.Height, (uint32_t)m_format, specification.Type, specification.Pixels );
     glBindTexture( GL_TEXTURE_CUBE_MAP, GL_NULL );
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	OPERATOR ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwTextureCubemap& GlwTextureCubemap::operator=( const GlwTextureCubemap& other ) {
+    if ( other.GetIsValid( ) ) {
+        Destroy( );
+
+        m_type    = other.GetType( );
+        m_format  = other.GetFormat( );
+        m_texture = other.Get( );
+    }
+
+    return *this;
+}

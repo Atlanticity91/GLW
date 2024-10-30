@@ -109,12 +109,88 @@ public:
 	bool CreateMaterial( const GlwMaterialSpecification& specification );
 
 	/**
+	 * ReplaceMesh function
+	 * @note : Replace mesh according to query specification.
+	 * @param mesh : Query mesh to replace.
+	 * @param specification : Query mesh specification.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceMesh(
+		const glw_ressource mesh,
+		const GlwMeshSpecification& specification
+	);
+
+	/**
+	 * ReplaceTexture2D function
+	 * @note : Replace texture according to query specification.
+	 * @param texture : Query texture to replace.
+	 * @param specification : Query texture specification.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceTexture2D(
+		const glw_ressource texture,
+		const GlwTexture2DSpecification& specification
+	);
+
+	/**
+	 * ReplaceTexture2D function
+	 * @note : Replace texture according to query specification and fill-it width pixels data.
+	 * @param texture : Query texture to replace.
+	 * @param specification : Query texture specification.
+	 * @param pixels : Query texture pixels data as unsigned byte.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceTexture2D(
+		const glw_ressource texture,
+		const GlwTexture2DSpecification& specification,
+		const std::vector<uint8_t>& pixels
+	);
+
+	/**
+	 * ReplaceCubemap function
+	 * @note : Create cubemap texture according to query specification.
+	 * @param cubemap : Query cubemap to replace.
+	 * @param specification : Query cubemap texture specification.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceCubemap( 
+		const glw_ressource cubemap, 
+		const GlwTextureCubemapSpecification& specification 
+	);
+
+	/**
+	 * ReplaceCubemap function
+	 * @note : Create cubemap texture according to query specification.
+	 * @param cubemap : Query cubemap to replace.
+	 * @param specification : Query cubemap texture specification.
+	 * @param face_pixels : Array of the cubemap face texture pixels as unsigned byte.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceCubemap(
+		const glw_ressource cubemap,
+		const GlwTextureCubemapSpecification& specification,
+		const std::vector<uint8_t> face_pixels[ GlwTextureCubemap::FaceCount ]
+	);
+
+	/**
+	 * ReplaceMaterial function
+	 * @note : Replace material according to query specification.
+	 * @param material : Query material to replace.
+	 * @param specification : Query material specification.
+	 * @return : True when creation succeeded.
+	 **/
+	bool ReplaceMaterial( 
+		const glw_ressource material,
+		const GlwMaterialSpecification& specification 
+	);
+
+	/**
 	 * UseMesh function
 	 * @note : Bind mesh for usage.
 	 * @param mesh : Query mesh.
 	 * @return : Return query mesh instance.
 	 **/
-	GlwMesh* UseMesh( const uint32_t mesh );
+	GlwMesh* UseMesh( const glw_ressource mesh );
 
 	/**
 	 * UseMaterial function
@@ -122,7 +198,7 @@ public:
 	 * @param material : Query material.
 	 * @return : Return query material instance.
 	 **/
-	GlwMaterial* UseMaterial( const uint32_t material );
+	GlwMaterial* UseMaterial( const glw_ressource material );
 
 	/**
 	 * Destroy method
@@ -151,14 +227,67 @@ public:
 		return result;
 	};
 
+	/**
+	 * ReplaceMesh template function
+	 * @note : Replace mesh according to query specification.
+	 * @template VertexType : Type of data used for vertex representation.
+	 * @param mesh : Query mesh to replace.
+	 * @param specification : Query mesh specification.
+	 * @return : True when creation succeeded.
+	 **/
+	template<typename VertexType>
+	bool ReplaceMesh(
+		const glw_ressource mesh,
+		const GlwMeshStaticSpecification<VertexType>& specification
+	) {
+		auto result = false;
+
+		if ( GetMeshExist( mesh ) ) {
+			auto new_mesh = GlwMesh{ };
+
+			if ( result = new_mesh.Create<VertexType>( specification ) )
+				m_meshes[ mesh ] = new_mesh;
+		}
+
+		return result;
+	};
+
 public:
+	/**
+	 * GetMeshCount const function
+	 * @note : Get mesh count.
+	 * @return : Return mesh count value.
+	 **/
+	uint32_t GetMeshCount( ) const;
+
+	/**
+	 * GetTexture2DCount const function
+	 * @note : Get texture 2D count.
+	 * @return : Return texture 2D count value.
+	 **/
+	uint32_t GetTexture2DCount( ) const;
+
+	/**
+	 * GetCubemapCount const function
+	 * @note : Get cubemap count.
+	 * @return : Return cubemap count value.
+	 **/
+	uint32_t GetCubemapCount( ) const;
+
+	/**
+	 * GetMaterialCount const function
+	 * @note : Get material count.
+	 * @return : Return material count value.
+	 **/
+	uint32_t GetMaterialCount( ) const;
+
 	/**
 	 * GetMeshExist const function
 	 * @note : Get if a mesh exist.
 	 * @param mesh : Query mesh.
 	 * @return : Return true when mesh is valid.
 	 **/
-	bool GetMeshExist( const uint32_t mesh ) const;
+	bool GetMeshExist( const glw_ressource mesh ) const;
 
 	/**
 	 * GetTexture2DExist const function
@@ -166,7 +295,7 @@ public:
 	 * @param mesh : Query texture 2D.
 	 * @return : Return true when texture 2D is valid.
 	 **/
-	bool GetTexture2DExist( const uint32_t texture ) const;
+	bool GetTexture2DExist( const glw_ressource texture ) const;
 
 	/**
 	 * GetTexture2DExist const function
@@ -174,7 +303,7 @@ public:
 	 * @param mesh : Query cubemap.
 	 * @return : Return true when cubemap is valid.
 	 **/
-	bool GetCubemapExist( const uint32_t cubemap ) const;
+	bool GetCubemapExist( const glw_ressource cubemap ) const;
 
 	/**
 	 * GetMaterialExist const function
@@ -182,7 +311,7 @@ public:
 	 * @param mesh : Query material.
 	 * @return : Return true when material is valid.
 	 **/
-	bool GetMaterialExist( const uint32_t material ) const;
+	bool GetMaterialExist( const glw_ressource material ) const;
 
 	/**
 	 * GetMesh function
@@ -190,7 +319,7 @@ public:
 	 * @param mesh : Query mesh.
 	 * @return : Return pointer to query mesh instance.
 	 **/
-	GlwMesh* GetMesh( const uint32_t mesh );
+	GlwMesh* GetMesh( const glw_ressource mesh );
 
 	/**
 	 * GetTexture2D function
@@ -198,7 +327,7 @@ public:
 	 * @param texture : Query texture.
 	 * @return : Return pointer to query texture 2D instance.
 	 **/
-	GlwTexture2D* GetTexture2D( const uint32_t texture );
+	GlwTexture2D* GetTexture2D( const glw_ressource texture );
 
 	/**
 	 * GetCubemap function
@@ -206,6 +335,14 @@ public:
 	 * @param cubemap : Query cubemap.
 	 * @return : Return pointer to query cubemap texture instance.
 	 **/
-	GlwTextureCubemap* GetCubemap( const uint32_t cubemap );
+	GlwTextureCubemap* GetCubemap( const glw_ressource cubemap );
+
+	/**
+	 * GetMaterial function
+	 * @note : Get material instance.
+	 * @param material : Query material.
+	 * @return : Return pointer to query material instance.
+	 **/
+	GlwMaterial* GetMaterial( const glw_ressource material );
 
 };
