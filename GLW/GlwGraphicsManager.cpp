@@ -412,8 +412,6 @@ void GlwGraphicsManager::CmdToggleColorWrites(
 	const GlwStates state
 ) {
 	CmdToggleColorWrites( render_context, 0, state );
-
-	GlwTrackCommand( m_debug_tracker, render_context.RenderPass, "CmdToggleColorWrites", ( (uint64_t)0 << 32 ) & (uint32_t)state );
 }
 
 void GlwGraphicsManager::CmdToggleColorWrites(
