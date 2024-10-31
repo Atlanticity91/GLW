@@ -31,13 +31,14 @@
 
 #pragma once
 
-#include "GlwFaceCulling.h"
+#include "GlwExtras.h"
 
 struct GlwGraphicSpecification {
 
     GlwDebugContext Debug;
     GlwBackend Backend;
-    GlwFaceCulling Culling;
+    GlwFaceCulling Culling; 
+    GlwExtras Extras;
 
     /**
      * Constructor

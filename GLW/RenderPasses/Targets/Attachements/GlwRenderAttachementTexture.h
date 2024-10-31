@@ -31,13 +31,50 @@
 
 #pragma once
 
-#include "../../GlwRessource.h"
+#include "Specification/GlwAttachementSpecification.h"
 
-enum class GlwTextureTypes : uint32_t {
+class GlwRenderAttachementTexture final : public GlwTexture<GlwAttachementSpecification> {
 
-    Undefined              = 0,
-    Texture2D              = GL_TEXTURE_2D,
-    Texture2D_MultiSamples = GL_TEXTURE_2D_MULTISAMPLE,
-    Cubemap                = GL_TEXTURE_CUBE_MAP
+public:
+	/**
+	 * Constructor
+	 **/
+	GlwRenderAttachementTexture( );
+
+	/**
+	 * Destructor
+	 **/
+	~GlwRenderAttachementTexture( ) = default;
+
+protected:
+	/**
+	 * CreateTexture function
+	 * @note : Create texture according to specification.
+	 * @param specification : Query texture specification.
+	 * @return : True when creation succeeded.
+	 **/
+	virtual bool CreateTexture( const GlwAttachementSpecification& specification ) override;
+
+	/**
+	 * SetTextureParameters method
+	 * @note : Set texture parameters according to specification.
+	 * @param specification : Query texture specification.
+	 **/
+	virtual void SetTextureParameters( const GlwAttachementSpecification& specification ) override;
+
+	/**
+	 * FillTexture method
+	 * @note : Fill texture pixels according to specification.
+	 * @param specification : Query filling specification.
+	 **/
+	virtual void FillTexture( const GlwTextureFillSpecification& specification ) override;
+
+private:
+	/**
+	 * GetTarget const function
+	 * @note : Get OpenGL texture target type.
+	 * @return : Return OpenGL texture target value.
+	 **/
+	const uint32_t GetTarget( ) const;
 
 };

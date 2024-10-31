@@ -31,12 +31,12 @@
 
 #pragma once
 
-#include "Specification/GlwRenderTargetSpecification.h"
+#include "GlwRenderAttachementTexture.h"
 
 class GlwRenderAttachement final {
 
 private:
-	GlwTexture2D m_texture;
+	GlwRenderAttachementTexture m_texture;
 	GlwRenderbuffer m_render_buffer;
 
 public:

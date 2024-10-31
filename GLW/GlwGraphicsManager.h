@@ -87,6 +87,20 @@ public:
     void SetFaceCullingContext( const GlwFaceCulling& context );
 
     /**
+     * ToggleMultiSampling method
+     * @note : Toggle OpenGL multi sampling support.
+     * @param state : Query multi sampling state.
+     **/
+    void ToggleMultiSampling( const GlwStates state );
+
+    /**
+     * ToggleSRGB method
+     * @note : Toggle OpenGL framebuffer SRGB support.
+     * @param state : Query framebuffer SRGB state.
+     **/
+    void ToggleSRGB( const GlwStates state );
+
+    /**
      * CreateRenderPass function
      * @note : Create render pass according to specification.
      * @param specification : Query render pass specification.

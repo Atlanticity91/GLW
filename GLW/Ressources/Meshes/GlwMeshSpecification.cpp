@@ -42,6 +42,12 @@ GlwMeshSpecification::GlwMeshSpecification( )
 { }
 
 GlwMeshSpecification::GlwMeshSpecification(
+	const std::vector<GlwVertexAttribute>& attributes
+)
+	: GlwMeshSpecification{ { }, attributes }
+{ }
+
+GlwMeshSpecification::GlwMeshSpecification(
 	const GlwBufferSpecification& vertex,
 	const std::vector<GlwVertexAttribute>& attributes
 )

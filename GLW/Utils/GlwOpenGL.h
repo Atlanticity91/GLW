@@ -50,6 +50,7 @@ extern "C" {
 #define GL_TEXTURE_NULL ((glTexture)GL_NULL)
 
 #define glIsValid( GL_HANDLE ) (bool)( GL_HANDLE > GL_NULL )
+#define glwBoolToState( BOOL ) ( ( BOOL == true ) ? GlwStates::Enable : GlwStates::Disable )
 
 typedef GLuint glFormat;
 typedef GLuint glTexture;
@@ -61,7 +62,7 @@ typedef GLuint glFramebuffer;
 
 enum class GlwStates : uint32_t {
 
-    Enable = 0,
-    Disable
+	Disable = 0,
+    Enable,
 
 };

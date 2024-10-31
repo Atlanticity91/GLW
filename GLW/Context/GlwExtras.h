@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,19 +29,25 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwFaceCulling::GlwFaceCulling( )
-	: GlwFaceCulling{ GL_CW, GL_BACK }
-{
-	State = GlwStates::Disable;
-}
+#include "GlwFaceCulling.h"
 
-GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
-	: State{ GlwStates::Enable },
-	Mode{ mode },
-	Face{ face }
-{ }
+struct GlwExtras {
+
+    GlwStates MultiSampling;
+    GlwStates SRGB;
+
+    /**
+     * Constructor
+     **/
+    GlwExtras( );
+
+    /**
+     * Constructor
+     * @param multi_sampling : Query multi sampling state.
+     * @param srgb : Query framebuffer srgb state.
+     **/
+    GlwExtras( const GlwStates multi_sampling, const GlwStates srgb );
+
+};

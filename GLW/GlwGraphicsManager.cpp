@@ -58,6 +58,9 @@ bool GlwGraphicsManager::Create(
 			SetDebugContext( specification.Debug );
 			SetFaceCullingContext( specification.Culling );
 
+			ToggleMultiSampling( specification.Extras.MultiSampling );
+			ToggleSRGB( specification.Extras.SRGB );
+
 			m_swapchain.Create( window );
 		}
 	}
@@ -86,12 +89,27 @@ void GlwGraphicsManager::SetDebugContext(
 void GlwGraphicsManager::SetFaceCullingContext(
 	const GlwFaceCulling& context
 ) {
-	if ( context.Enaled ) {
+	if ( context.State == GlwStates::Enable ) {
 		glEnable( GL_CULL_FACE );
 		glCullFace( context.Face );
 		glFrontFace( context.Mode );
 	} else
 		glDisable( GL_CULL_FACE );
+}
+
+void GlwGraphicsManager::ToggleMultiSampling( const GlwStates state ) {
+	if ( state == GlwStates::Enable )
+		glEnable( GL_MULTISAMPLE );
+	else
+		glDisable( GL_MULTISAMPLE );
+
+}
+
+void GlwGraphicsManager::ToggleSRGB( const GlwStates state ) {
+	if ( state == GlwStates::Enable )
+		glEnable( GL_FRAMEBUFFER_SRGB );
+	else
+		glDisable( GL_FRAMEBUFFER_SRGB );
 }
 
 bool GlwGraphicsManager::CreateRenderPass(

@@ -48,6 +48,8 @@ enum class GlwTextureLayouts : uint32_t {
 	RGBA_08I = Default,
 	RGBA_16F = GL_RGBA16F,
 	RGBA_32F = GL_RGBA32F,
+	S_RGB	 = GL_RG16F,
+	S_RGBA   = GL_RGBA16F,
 
 	// Depth
 	D_16 = GL_DEPTH_COMPONENT16,

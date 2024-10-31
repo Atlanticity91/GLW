@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,14 +34,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwFaceCulling::GlwFaceCulling( )
-	: GlwFaceCulling{ GL_CW, GL_BACK }
-{
-	State = GlwStates::Disable;
-}
-
-GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
-	: State{ GlwStates::Enable },
-	Mode{ mode },
-	Face{ face }
+GlwAttachementSpecification::GlwAttachementSpecification(
+	const GlwRenderTargetSpecification& specification,
+	const glm::uvec2& dimensions
+)
+	: GlwTextureSpecification{ specification.Format, 0, dimensions.x, dimensions.y },
+	Layout{ specification.Layout },
+	Samples{ specification.Samples } 
 { }

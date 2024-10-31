@@ -35,7 +35,7 @@
 
 struct GlwFaceCulling {
 
-    bool Enaled;
+    GlwStates State;
     uint32_t Mode;
     uint32_t Face;
 

@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,14 +34,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwFaceCulling::GlwFaceCulling( )
-	: GlwFaceCulling{ GL_CW, GL_BACK }
-{
-	State = GlwStates::Disable;
-}
+GlwExtras::GlwExtras( )
+    : GlwExtras{ GlwStates::Disable, GlwStates::Disable }
+{ }
 
-GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
-	: State{ GlwStates::Enable },
-	Mode{ mode },
-	Face{ face }
+GlwExtras::GlwExtras( const GlwStates multi_sampling, const GlwStates srgb )
+    : MultiSampling{ multi_sampling },
+    SRGB{ srgb }
 { }

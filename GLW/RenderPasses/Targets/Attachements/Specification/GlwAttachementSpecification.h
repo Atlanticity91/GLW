@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,19 +29,23 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwFaceCulling::GlwFaceCulling( )
-	: GlwFaceCulling{ GL_CW, GL_BACK }
-{
-	State = GlwStates::Disable;
-}
+#include "GlwRenderTargetSpecification.h"
 
-GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
-	: State{ GlwStates::Enable },
-	Mode{ mode },
-	Face{ face }
-{ }
+struct GlwAttachementSpecification : public GlwTextureSpecification {
+
+	GlwTextureLayouts Layout;
+	GlwTextureSamples Samples;
+
+	/**
+	 * Constructor
+	 * @param specification : Query render target specification.
+	 * @param dimensions : Query attachement dimensions.
+	 **/
+	GlwAttachementSpecification(
+		const GlwRenderTargetSpecification& specification,
+		const glm::uvec2& dimensions
+	);
+
+};

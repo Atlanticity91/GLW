@@ -38,6 +38,7 @@ struct GlwRenderTargetSpecification {
 	GlwRenderTargetAccessibility Accessibility;
 	GlwTextureFormats Format;
 	GlwTextureLayouts Layout;
+	GlwTextureSamples Samples;
 
 	/**
 	 * Constructor
@@ -56,6 +57,18 @@ struct GlwRenderTargetSpecification {
 
 	/**
 	 * Constructor
+	 * @param format : Query render target format.
+	 * @param layout : Query render target layout.
+	 * @param samples : Query render target samples count.
+	 **/
+	GlwRenderTargetSpecification(
+		const GlwTextureFormats format,
+		const GlwTextureLayouts layout,
+		const GlwTextureSamples samples
+	);
+
+	/**
+	 * Constructor
 	 * @param accessibility : Query render target accessibility value.
 	 * @param format : Query render target format.
 	 * @param layout : Query render target layout.
@@ -64,6 +77,20 @@ struct GlwRenderTargetSpecification {
 		const GlwRenderTargetAccessibility accessibility,
 		const GlwTextureFormats format,
 		const GlwTextureLayouts layout
+	);
+
+	/**
+	 * Constructor
+	 * @param accessibility : Query render target accessibility value.
+	 * @param format : Query render target format.
+	 * @param layout : Query render target layout.
+	 * @param samples : Query render target samples count.
+	 **/
+	GlwRenderTargetSpecification(
+		const GlwRenderTargetAccessibility accessibility,
+		const GlwTextureFormats format,
+		const GlwTextureLayouts layout,
+		const GlwTextureSamples samples
 	);
 
 };

@@ -49,6 +49,16 @@ struct GlwMeshStaticSpecification {
 
 	/**
 	 * Constructor
+	 * @param attributes : Vertex attribute list.
+	 **/
+	GlwMeshStaticSpecification(
+		const std::vector<GlwVertexAttribute>& attributes
+	)
+		: GlwMeshStaticSpecification{ { }, { }, attributes }
+	{ };
+	
+	/**
+	 * Constructor
 	 * @param vertices : Vertex list.
 	 * @param attributes : Vertex attribute list.
 	 **/

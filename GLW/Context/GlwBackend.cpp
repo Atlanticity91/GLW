@@ -51,5 +51,5 @@ GlwBackend::GlwBackend(
 	Minor{ minor },
 	Profile{ profile },
 	SwapInterval{ GL_TRUE },
-	EnableDoubleBuffer{ true }
+	DoubleBuffer{ GlwStates::Enable }
 { }

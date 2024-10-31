@@ -35,20 +35,15 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwGraphicSpecification::GlwGraphicSpecification( )
-	: Debug{ },
-	Backend{ },
-	Culling{ }
+	: GlwGraphicSpecification{ 0, 0, 0 }
 { }
 
 GlwGraphicSpecification::GlwGraphicSpecification(
 	const uint32_t major,
 	const uint32_t minor
 )
-	: Debug{ },
-	Backend{ major, minor },
-	Culling{ }
+	: GlwGraphicSpecification{ major, minor, 0 }
 { }
-
 
 GlwGraphicSpecification::GlwGraphicSpecification(
 	const uint32_t major,
@@ -57,5 +52,5 @@ GlwGraphicSpecification::GlwGraphicSpecification(
 )
 	: Debug{ },
 	Backend{ major, minor, profile },
-	Culling{ }
+	Extras{ }
 { }

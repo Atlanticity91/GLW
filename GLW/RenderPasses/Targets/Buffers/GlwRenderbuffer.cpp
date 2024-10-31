@@ -39,8 +39,9 @@ GlwRenderbuffer::GlwRenderbuffer( )
 { }
 
 bool GlwRenderbuffer::Create(
-	const glm::uvec2& dimensions,
-	const uint32_t type
+	const GlwTextureSamples samples,
+	const uint32_t type,
+	const glm::uvec2& dimensions
 ) {
 	glGenRenderbuffers( 1, &m_render_buffer );
 
@@ -48,7 +49,11 @@ bool GlwRenderbuffer::Create(
 
 	if ( result ) {
 		glBindRenderbuffer( GL_RENDERBUFFER, m_render_buffer );
-		glRenderbufferStorage( GL_RENDERBUFFER, type, dimensions.x, dimensions.y );
+
+		if ( samples == GlwTextureSamples::None )
+			glRenderbufferStorage( GL_RENDERBUFFER, type, dimensions.x, dimensions.y );
+		else
+			glRenderbufferStorageMultisample( GL_RENDERBUFFER, (uint32_t)samples, type, dimensions.x, dimensions.y );
 	}
 
 	return result;

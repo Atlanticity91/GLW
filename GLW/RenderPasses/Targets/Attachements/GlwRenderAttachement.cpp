@@ -49,10 +49,10 @@ bool GlwRenderAttachement::Create(
 	auto result			  = false;
 
 	if ( specification.Accessibility == GlwRenderTargetAccessibility::None ) {
-		if ( result = m_render_buffer.Create( dimensions, attachement_type ) )
+		if ( result = m_render_buffer.Create( specification.Samples, attachement_type, dimensions ) )
 			framebuffer.AttachRenderbuffer( attachement_type, m_render_buffer );
 	} else {
-		if ( result = m_texture.Create( { specification.Format, specification.Layout, dimensions.x, dimensions.y } ) )
+		if ( result = m_texture.Create( { specification, dimensions } ) )
 			framebuffer.AttachTexture( attachement_type, m_texture );
 	}
 

@@ -52,13 +52,15 @@ public:
 	/**
 	 * Create function
 	 * @note : Create render buffer according to specification.
-	 * @param dimensions : Query render buffer dimensions.
+	 * @param samples : Query render buffer samples value.
 	 * @param type : Query render buffer OpenGL type.
+	 * @param dimensions : Query render buffer dimensions.
 	 * @return : Return true when operation succeeded.
 	 **/
 	bool Create(
-		const glm::uvec2& dimensions,
-		const uint32_t type
+		const GlwTextureSamples samples,
+		const uint32_t type,
+		const glm::uvec2& dimensions
 	);
 
 	/**

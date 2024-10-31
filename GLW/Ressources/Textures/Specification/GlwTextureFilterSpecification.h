@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "GlwTextureLayouts.h"
+#include "GlwTextureSamples.h"
 
 struct GlwTextureFilterSpecification {
 

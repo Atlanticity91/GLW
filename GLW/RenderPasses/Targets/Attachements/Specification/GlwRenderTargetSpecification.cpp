@@ -35,7 +35,37 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwRenderTargetSpecification::GlwRenderTargetSpecification( )
-	: GlwRenderTargetSpecification{ GlwRenderTargetAccessibility::None, GlwTextureFormats::None, GlwTextureLayouts::Default }
+	: GlwRenderTargetSpecification{ 
+		GlwRenderTargetAccessibility::None,
+		GlwTextureFormats::None,
+		GlwTextureLayouts::Default,
+		GlwTextureSamples::None
+	}
+{ }
+
+GlwRenderTargetSpecification::GlwRenderTargetSpecification(
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout
+)
+	: GlwRenderTargetSpecification{
+		GlwRenderTargetAccessibility::None,
+		format, 
+		layout,
+		GlwTextureSamples::None
+	}
+{ }
+
+GlwRenderTargetSpecification::GlwRenderTargetSpecification(
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout,
+	const GlwTextureSamples samples
+)
+	: GlwRenderTargetSpecification{ 
+		GlwRenderTargetAccessibility::None, 
+		format, 
+		layout, 
+		samples
+	}
 { }
 
 GlwRenderTargetSpecification::GlwRenderTargetSpecification(
@@ -43,7 +73,22 @@ GlwRenderTargetSpecification::GlwRenderTargetSpecification(
 	const GlwTextureFormats format,
 	const GlwTextureLayouts layout
 ) 
+	: GlwRenderTargetSpecification{
+		accessibility,
+		format,
+		layout,
+		GlwTextureSamples::None
+	}
+{ }
+
+GlwRenderTargetSpecification::GlwRenderTargetSpecification(
+	const GlwRenderTargetAccessibility accessibility,
+	const GlwTextureFormats format,
+	const GlwTextureLayouts layout,
+	const GlwTextureSamples samples
+)
 	: Accessibility{ accessibility },
 	Format{ format },
-	Layout{ layout }
+	Layout{ layout },
+	Samples{ samples }
 { }

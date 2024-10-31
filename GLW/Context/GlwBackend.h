@@ -39,7 +39,7 @@ struct GlwBackend {
     uint32_t Minor;
     uint32_t Profile;
     int32_t SwapInterval;
-    bool EnableDoubleBuffer;
+    GlwStates DoubleBuffer;
 
     /**
      * Constructor

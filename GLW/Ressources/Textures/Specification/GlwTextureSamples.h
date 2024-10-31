@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,19 +29,15 @@
  *
  **/
 
-#include "__glw_pch.h"
+#pragma once
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//		===	PUBLIC ===
-////////////////////////////////////////////////////////////////////////////////////////////
-GlwFaceCulling::GlwFaceCulling( )
-	: GlwFaceCulling{ GL_CW, GL_BACK }
-{
-	State = GlwStates::Disable;
-}
+#include "GlwTextureLayouts.h"
 
-GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
-	: State{ GlwStates::Enable },
-	Mode{ mode },
-	Face{ face }
-{ }
+enum class GlwTextureSamples : uint32_t {
+
+	None = 1,
+	Samples_2 = 2,
+	Samples_4 = 4,
+	Samples_8 = 8,
+
+};
