@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,44 +31,36 @@
 
 #pragma once
 
-#include "../Buffers/GlwBuffer.h"
+#include "GlwTextureWrapSpecification.h"
 
-struct GlwVertexAttribute {
+struct GlwTextureLodSpecification {
 
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
+    int32_t Min;
+    int32_t Max;
+    float Bias;
 
-	/**
-	 * Constructor
-	 **/
-	GlwVertexAttribute( );
+    /**
+     * Constructor
+     **/
+    GlwTextureLodSpecification( );
 
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
+    /**
+     * Constructor
+     * @param min : Minimum lod for mipmap resolution.
+     * @param max : Maximum lod for mipmap resolution.
+     **/
+    GlwTextureLodSpecification( const int32_t min, const int32_t max );
 
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
+    /**
+     * Constructor
+     * @param min : Minimum lod for mipmap resolution.
+     * @param max : Maximum lod for mipmap resolution.
+     * @param bias : Fixed bias value for lod before sampling.
+     **/
+    GlwTextureLodSpecification(
+        const int32_t min, 
+        const int32_t max,
+        const float bias
+    );
 
 };

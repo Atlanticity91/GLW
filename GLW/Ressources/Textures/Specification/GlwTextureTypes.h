@@ -37,6 +37,7 @@ enum class GlwTextureTypes : uint32_t {
 
     Undefined              = 0,
     Texture2D              = GL_TEXTURE_2D,
+    Texture2D_Array        = GL_TEXTURE_2D_ARRAY,
     Texture2D_MultiSamples = GL_TEXTURE_2D_MULTISAMPLE,
     Cubemap                = GL_TEXTURE_CUBE_MAP
 

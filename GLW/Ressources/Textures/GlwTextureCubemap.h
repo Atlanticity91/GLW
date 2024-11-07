@@ -54,9 +54,8 @@ protected:
      * CreateTexture function
      * @note : Create texture according to specification.
      * @param specification : Query texture specification.
-     * @return : True when creation succeeded.
      **/
-    virtual bool CreateTexture( const GlwTextureCubemapSpecification& specification ) override;
+    virtual void CreateTexture( const GlwTextureCubemapSpecification& specification ) override;
 
     /**
      * SetTextureParameters method

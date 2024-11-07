@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,44 +31,18 @@
 
 #pragma once
 
-#include "../Buffers/GlwBuffer.h"
+#include "GlwBufferTypes.h"
 
-struct GlwVertexAttribute {
+enum class GlwBufferModes : uint32_t {
 
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
-
-	/**
-	 * Constructor
-	 **/
-	GlwVertexAttribute( );
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
+	Static_Draw  = GL_STATIC_DRAW,
+	Static_Copy  = GL_STATIC_COPY,
+	Static_Read  = GL_STATIC_READ,
+	Dynamic_Draw = GL_DYNAMIC_DRAW,
+	Dynamic_Copy = GL_DYNAMIC_COPY,
+	Dynamic_Read = GL_DYNAMIC_READ,
+	Stream_Draw  = GL_STREAM_DRAW,
+	Stream_Copy  = GL_STREAM_COPY,
+	Stream_Read  = GL_STREAM_READ
 
 };

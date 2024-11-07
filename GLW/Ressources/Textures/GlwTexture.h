@@ -64,10 +64,36 @@ public:
     virtual bool Create( const SpecificationType& specification ) override {
         m_format = specification.Format;
 
-        if ( specification.Format > GlwTextureFormats::None && CreateTexture( specification ) )
-            SetTextureParameters( specification );
+        if ( specification.Format > GlwTextureFormats::None ) {
+            CreateTexture( specification );
+
+            if ( GetIsValid( ) ) {
+                SetTextureParameters( specification );
+
+                glBindTexture( (uint32_t)m_type, GL_NULL );
+            }
+        }
 
         return GetIsValid( );
+    };
+
+    /**
+     * GenerateMipmaps method
+     * @note : Generate mipmaps for the texture based on lod specification.
+     * @param specification : Query level of defailts specification.
+     **/
+    virtual void GenerateMipmaps( const GlwTextureLodSpecification& specification ) {
+        if ( !GetIsValid( ) )
+            return;
+
+        auto gl_type = (uint32_t)m_type;
+
+        glBindTexture( gl_type, m_texture );
+        glTextureParameteri( gl_type, GL_TEXTURE_MIN_LOD, specification.Min );
+        glTextureParameteri( gl_type, GL_TEXTURE_MAX_LOD, specification.Max );
+        glTextureParameterf( gl_type, GL_TEXTURE_LOD_BIAS, specification.Bias );
+        glGenerateMipmap( gl_type );
+        glBindTexture( gl_type, GL_NULL );
     };
 
     /**
@@ -79,7 +105,13 @@ public:
         if ( !GetIsValid( ) || specification.Width == 0 || specification.Height == 0 )
             return;
 
+        auto gl_type = (uint32_t)m_type;
+
+        glBindTexture( gl_type, m_texture );
+        
         FillTexture( specification );
+
+        glBindTexture( gl_type, GL_NULL );
     };
 
     /**
@@ -94,6 +126,32 @@ public:
         }
     };
 
+public:
+    /** 
+     * SetParameter template method
+     * @note : Set texture parameter.
+     * @template Type : Type of the parameter float or integer.
+     * @param parameter : Query texture parameter.
+     * @param value : Query texture parameter value.
+     **/
+    template<typename Type>
+        requires( std::is_arithmetic<Type>::value )
+    void SetParameter( const uint32_t parameter, const Type value ) {
+        if ( !GetIsValid( ) )
+            return;
+
+        auto gl_type = (uint32_t)m_type;
+
+        glBindTexture( gl_type, m_texture );
+
+        if constexpr ( std::is_floating_point<Type>::value )
+            glTextureParameterf( gl_type, parameter, value );
+        else
+            glTextureParameteri( gl_type, parameter, value );
+
+        glBindTexture( gl_type, GL_NULL );
+    };
+
 protected:
     /**
      * Constructor
@@ -106,12 +164,11 @@ protected:
     { };
 
     /**
-     * CreateTexture function
+     * CreateTexture method
      * @note : Create texture according to specification.
      * @param specification : Query texture specification.
-     * @return : True when creation succeeded.
      **/
-    virtual bool CreateTexture( const SpecificationType& specification ) = 0;
+    virtual void CreateTexture( const SpecificationType& specification ) = 0;
 
     /**
      * SetTextureParameters method

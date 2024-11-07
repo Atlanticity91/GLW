@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "GlwTextureWrapSpecification.h"
+#include "GlwTextureLodSpecification.h"
 
 struct GlwTextureSpecification {
 

@@ -79,6 +79,20 @@ public:
 	 * Fill template function
 	 * @note : Fill buffer.
 	 * @template Type : Type of data used by the buffer.
+	 * @param buffer_data : Buffer data.
+	 * @return : True when operation succeeded.
+	 **/
+	template<typename Type>
+	bool Fill( const Type& buffer_data ) {
+		auto length = (uint32_t)sizeof( Type );
+
+		return Fill( length, &buffer_data );
+	};
+
+	/**
+	 * Fill template function
+	 * @note : Fill buffer.
+	 * @template Type : Type of data used by the buffer.
 	 * @param buffer_data : Buffer data list.
 	 * @return : True when operation succeeded.
 	 **/

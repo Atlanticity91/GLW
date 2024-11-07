@@ -51,9 +51,8 @@ protected:
 	 * CreateTexture function
 	 * @note : Create texture according to specification.
 	 * @param specification : Query texture specification.
-	 * @return : True when creation succeeded.
 	 **/
-	virtual bool CreateTexture( const GlwAttachementSpecification& specification ) override;
+	virtual void CreateTexture( const GlwAttachementSpecification& specification ) override;
 
 	/**
 	 * SetTextureParameters method

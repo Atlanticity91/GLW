@@ -41,12 +41,10 @@ GlwTextureCubemap::GlwTextureCubemap( )
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PROTECTED ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwTextureCubemap::CreateTexture( const GlwTextureCubemapSpecification& specification ) {
+void GlwTextureCubemap::CreateTexture( const GlwTextureCubemapSpecification& specification ) {
     glCreateTextures( GL_TEXTURE_CUBE_MAP, 1, &m_texture );
 
-    auto result = glIsValid( m_texture );
-
-    if ( result ) {
+    if ( glIsValid( m_texture ) ) {
         glBindTexture( GL_TEXTURE_CUBE_MAP, m_texture );
 
         auto face_id = 6;
@@ -54,8 +52,6 @@ bool GlwTextureCubemap::CreateTexture( const GlwTextureCubemapSpecification& spe
         while ( face_id-- > 0 )
             glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + face_id, 0, (uint32_t)specification.Layout, specification.Width, specification.Height, 0, (uint32_t)specification.Format, GL_UNSIGNED_BYTE, NULL );
     }
-
-    return result;
 }
 
 void GlwTextureCubemap::SetTextureParameters( const GlwTextureCubemapSpecification& specification ) {
@@ -67,9 +63,7 @@ void GlwTextureCubemap::SetTextureParameters( const GlwTextureCubemapSpecificati
 }
 
 void GlwTextureCubemap::FillTexture( const GlwTextureFillSpecification& specification ) {
-    glBindTexture( GL_TEXTURE_CUBE_MAP, m_texture );
     glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + specification.Level, 0, specification.X, specification.Y, specification.Width, specification.Height, (uint32_t)m_format, specification.Type, specification.Pixels );
-    glBindTexture( GL_TEXTURE_CUBE_MAP, GL_NULL );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

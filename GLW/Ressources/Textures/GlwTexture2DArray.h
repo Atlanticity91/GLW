@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,44 +31,47 @@
 
 #pragma once
 
-#include "../Buffers/GlwBuffer.h"
+#include "GlwTexture2DArraySpecification.h"
 
-struct GlwVertexAttribute {
+class GlwTexture2DArray : public GlwTexture<GlwTexture2DArraySpecification> {
 
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
-
+public:
 	/**
 	 * Constructor
 	 **/
-	GlwVertexAttribute( );
+	GlwTexture2DArray( );
 
 	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
+	 * Destructor
 	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
+	~GlwTexture2DArray( ) = default;
 
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
+protected:
+    /**
+     * CreateTexture function
+     * @note : Create texture according to specification.
+     * @param specification : Query texture specification.
+     **/
+    virtual void CreateTexture( 
+        const GlwTexture2DArraySpecification& specification 
+    ) override;
+
+    /**
+     * SetTextureParameters method
+     * @note : Set texture parameters according to specification.
+     * @param specification : Query texture specification.
+     **/
+    virtual void SetTextureParameters( 
+        const GlwTexture2DArraySpecification& specification 
+    ) override;
+
+    /**
+     * FillTexture method
+     * @note : Fill texture pixels according to specification.
+     * @param specification : Query filling specification.
+     **/
+    virtual void FillTexture(
+        const GlwTextureFillSpecification& specification 
+    ) override;
 
 };

@@ -41,7 +41,7 @@ GlwRenderAttachementTexture::GlwRenderAttachementTexture( )
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PROTECTED ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwRenderAttachementTexture::CreateTexture( 
+void GlwRenderAttachementTexture::CreateTexture( 
     const GlwAttachementSpecification& specification 
 ) {
     if ( specification.Samples > GlwTextureSamples::None )
@@ -51,9 +51,7 @@ bool GlwRenderAttachementTexture::CreateTexture(
 
     glCreateTextures( target, 1, &m_texture );
 
-    auto result = glIsValid( m_texture );
-
-    if ( result ) {
+    if ( glIsValid( m_texture ) ) {
         glBindTexture( target, m_texture );
 
         if ( specification.Samples == GlwTextureSamples::None )
@@ -61,8 +59,6 @@ bool GlwRenderAttachementTexture::CreateTexture(
         else
             glTexImage2DMultisample( GL_TEXTURE_2D_MULTISAMPLE, (uint32_t)specification.Samples, (uint32_t)specification.Layout, specification.Width, specification.Height, GL_TRUE );
     }
-
-    return result;
 }
 
 void GlwRenderAttachementTexture::SetTextureParameters(

@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -31,44 +31,18 @@
 
 #pragma once
 
-#include "../Buffers/GlwBuffer.h"
+#include "GlwTexture2D.h"
 
-struct GlwVertexAttribute {
+struct GlwTexture2DArraySpecification : public GlwTextureSpecification {
 
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
+	GlwTextureLayouts Layout;
+	GlwTextureFilterSpecification Filter;
+	GlwTextureWrapSpecification Wrap;
+	uint8_t Depth;
 
 	/**
 	 * Constructor
 	 **/
-	GlwVertexAttribute( );
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
+	GlwTexture2DArraySpecification( );
 
 };

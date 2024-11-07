@@ -29,46 +29,19 @@
  *
  **/
 
-#pragma once
+#include "__glw_pch.h"
 
-#include "../Buffers/GlwBuffer.h"
+////////////////////////////////////////////////////////////////////////////////////////////
+//		===	PUBLIC ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwBufferSpecification::GlwBufferSpecification( )
+	: GlwBufferSpecification{ GlwBufferTypes::Vertex, GlwBufferModes::Dynamic_Draw }
+{ }
 
-struct GlwVertexAttribute {
-
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
-
-	/**
-	 * Constructor
-	 **/
-	GlwVertexAttribute( );
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
-
-};
+GlwBufferSpecification::GlwBufferSpecification( 
+	const GlwBufferTypes type, 
+	const GlwBufferModes mode
+)
+	: Type{ type },
+	Mode{ mode }
+{ }

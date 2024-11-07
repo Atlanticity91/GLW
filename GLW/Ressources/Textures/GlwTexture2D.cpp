@@ -42,17 +42,13 @@ GlwTexture2D::GlwTexture2D( )
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PROTECTED ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-bool GlwTexture2D::CreateTexture( const GlwTexture2DSpecification& specification ) {
+void GlwTexture2D::CreateTexture( const GlwTexture2DSpecification& specification ) {
     glCreateTextures( GL_TEXTURE_2D, 1, &m_texture );
 
-    auto result = glIsValid( m_texture );
-
-    if ( result ) {
+    if ( glIsValid( m_texture ) ) {
         glBindTexture( GL_TEXTURE_2D, m_texture );
         glTexImage2D( GL_TEXTURE_2D, specification.Levels, (uint32_t)specification.Layout, specification.Width, specification.Height, 0, (uint32_t)specification.Format, GL_UNSIGNED_BYTE, NULL );
     }
-
-    return result;
 }
 
 void GlwTexture2D::SetTextureParameters( const GlwTexture2DSpecification& specification ) {
@@ -64,9 +60,7 @@ void GlwTexture2D::SetTextureParameters( const GlwTexture2DSpecification& specif
 }
 
 void GlwTexture2D::FillTexture( const GlwTextureFillSpecification& specification ) {
-    glBindTexture( GL_TEXTURE_2D, m_texture );
     glTexSubImage2D( GL_TEXTURE_2D, specification.Level, specification.X, specification.Y, specification.Width, specification.Height, (uint32_t)m_format, specification.Type, specification.Pixels );
-    glBindTexture( GL_TEXTURE_2D, GL_NULL );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

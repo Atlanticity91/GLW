@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -29,46 +29,28 @@
  *
  **/
 
-#pragma once
+#include "__glw_pch.h"
 
-#include "../Buffers/GlwBuffer.h"
+////////////////////////////////////////////////////////////////////////////////////////////
+//      === PUBLIC ===
+////////////////////////////////////////////////////////////////////////////////////////////
+GlwTextureLodSpecification::GlwTextureLodSpecification( )
+    : GlwTextureLodSpecification{ -1000, 1000, 0.f } 
+{ }
 
-struct GlwVertexAttribute {
+GlwTextureLodSpecification::GlwTextureLodSpecification(
+    const int32_t min,
+    const int32_t max 
+)
+    : GlwTextureLodSpecification{ min, max, 0.f } 
+{ }
 
-	uint32_t Location;
-	uint32_t Size;
-	uint32_t Type;
-	uint32_t Stride;
-
-	/**
-	 * Constructor
-	 **/
-	GlwVertexAttribute( );
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type
-	);
-
-	/**
-	 * Constructor
-	 * @param location : Vertrex attribute input location.
-	 * @param size : Components count of the attribute from 1 to 4.
-	 * @param type : Type of element store by the attribute.
-	 * @param stride : Stride from vertex data start.
-	 **/
-	GlwVertexAttribute(
-		const uint32_t location,
-		const uint32_t size,
-		const uint32_t type,
-		const uint32_t stride
-	);
-
-};
+GlwTextureLodSpecification::GlwTextureLodSpecification(
+    const int32_t min,
+    const int32_t max,
+    const float bias
+)
+    : Min{ min },
+    Max{ max },
+    Bias{ bias }
+{ }

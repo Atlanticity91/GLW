@@ -31,20 +31,12 @@
 
 #pragma once
 
-#include "../Textures/GlwTextureCubemap.h"
-
-enum class GlwBufferTypes : GLuint {
-
-	Vertex  = GL_ARRAY_BUFFER,
-	Index   = GL_ELEMENT_ARRAY_BUFFER,
-	Uniform = GL_UNIFORM_BUFFER
-
-};
+#include "GlwBufferModes.h"
 
 struct GlwBufferSpecification { 
 
 	GlwBufferTypes Type;
-	uint32_t Mode;
+	GlwBufferModes Mode;
 
 	/**
 	 * Constructor
@@ -56,6 +48,9 @@ struct GlwBufferSpecification {
 	 * @param type : Type of the buffer.
 	 * @param mode : Buffer access mode.
 	 **/
-	GlwBufferSpecification( const GlwBufferTypes type, const uint32_t mode );
+	GlwBufferSpecification( 
+		const GlwBufferTypes type, 
+		const GlwBufferModes mode 
+	);
 
 };

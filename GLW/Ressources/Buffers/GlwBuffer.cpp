@@ -47,7 +47,7 @@ bool GlwBuffer::Create( const GlwBufferSpecification& specification ) {
 
 	if ( result ) {
 		m_type = (GLuint)specification.Type;
-		m_mode = specification.Mode;
+		m_mode = (GLuint)specification.Mode;
 
 		glBindBuffer( m_type, m_handle );
 	}

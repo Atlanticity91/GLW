@@ -31,6 +31,6 @@
 
 #pragma once
 
-#include "GlwTexture2D.h"
+#include "GlwTexture2DArray.h"
 
 typedef GlwTexture2DSpecification GlwTextureCubemapSpecification;

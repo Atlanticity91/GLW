@@ -1,9 +1,9 @@
 /**
  *
- *  _____ __    _ _ _   
- * |   __|  |  | | | |  
- * |  |  |  |__| | | |  
- * |_____|_____|_____| 
+ *  _____ __    _ _ _
+ * |   __|  |  | | | |
+ * |  |  |  |__| | | |
+ * |_____|_____|_____|
  *
  * MIT License
  *
@@ -34,14 +34,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
-GlwBufferSpecification::GlwBufferSpecification( )
-	: GlwBufferSpecification{ GlwBufferTypes::Vertex, 0 }
-{ }
-
-GlwBufferSpecification::GlwBufferSpecification( 
-	const GlwBufferTypes type, 
-	const uint32_t mode
-)
-	: Type{ type },
-	Mode{ mode }
+GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( ) 
+	: GlwTextureSpecification{ GlwTextureFormats::RGBA, 0, 0, 0 }
 { }
