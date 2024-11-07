@@ -94,8 +94,8 @@ struct GlwMeshStaticSpecification {
 		auto specification = GlwMeshSpecification{ };
 
 		specification.UseIndex   = Indexes.size( ) > 0;
-		specification.Vertex	 = { GlwBufferTypes::Vertex, GL_STATIC_DRAW };
-		specification.Index		 = { GlwBufferTypes::Index, GL_STATIC_DRAW };
+		specification.Vertex	 = { GlwBufferTypes::Vertex, GlwBufferModes::Static_Draw };
+		specification.Index		 = { GlwBufferTypes::Index, GlwBufferModes::Static_Draw };
 		specification.Attributes = Attributes;
 
 		return specification;
