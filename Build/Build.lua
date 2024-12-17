@@ -1,3 +1,7 @@
+include "Premake/CSExtensions.lua"
+include "Premake/VSExtensions.lua"
+include "Build-Dependencies.lua"
+
 workspace "OpenGL Wrapper"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
@@ -9,8 +13,9 @@ workspace "OpenGL Wrapper"
       buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
 
    group "Thirdparty"
-      include "Build-GLEW.lua"
-      include "Build-GLM.lua"
+      include "Thirdparty/Build-GLEW.lua"
+      include "Thirdparty/Build-GLM.lua"
    group ""
+   
    include "Build-GLW.lua"
    

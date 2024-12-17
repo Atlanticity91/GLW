@@ -3,9 +3,9 @@ project "GLM"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "off"
-	location "../Thirdparty/"
+	location "../../Solution/"
 
 	files { 
-		"../Thirdparty/GLM/glm/**.h", 
-		"../Thirdparty/GLM/glm/**.hpp" 
+		"%{IncludeDirs.Glm}/glm/**.h", 
+		"%{IncludeDirs.Glm}/glm/**.hpp" 
 	}

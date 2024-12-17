@@ -3,35 +3,45 @@ project "GLW"
 	language "C++"
 	cppdialect "C++20"
     staticruntime "off"
+    location "../Solution/"
 
-    defines { "_CRT_SECURE_NO_WARNINGS" }
+    --- OUTPUT
+    targetdir "%{wks.location}/bin/%{cfg.buildcfg}/"
+	debugdir "%{wks.location}/bin/%{cfg.buildcfg}/"
+	objdir "%{wks.location}/bin-int/%{prj.name}-%{cfg.buildcfg}"
 
-	files { "../GLW/**.h", "../GLW/**.cpp" }
-
-	pchheader "__glw_pch.h"
-    pchsource "../GLW/__glw_pch.cpp"
-
-	targetdir "%{wks.location}/bin/"
-	objdir "%{wks.location}/bin-int/%{prj.name}"
+    defines "_CRT_SECURE_NO_WARNINGS"
 
     links { "GLEW" }
 
-	includedirs {
-		"%{wks.location}/GLW/",
-		"%{wks.location}/Thirdparty/GLM/",
-		"%{wks.location}/Thirdparty/GLEW/include/"
+    includedirs {
+		"%{IncludeDirs.Glw}/",
+		"%{IncludeDirs.Glm}/",
+		"%{IncludeDirs.Glew}/include/"
 	}
+	
 	externalincludedirs { 
-		"%{wks.location}/GLW/",
-		"%{wks.location}/Thirdparty/GLM/",
-		"%{wks.location}/Thirdparty/GLEW/include/"
+		"%{IncludeDirs.Glw}/",
+		"%{IncludeDirs.Glm}/",
+		"%{IncludeDirs.Glew}/include/"
 	}
 
+	pchheader "__glw_pch.h"
+
+	files { 
+		"%{IncludeDirs.Glw}/**.h", 
+		"%{IncludeDirs.Glw}/**.cpp" 
+	}
+
+	--- WINDOWS
     filter "system:windows"
 		systemversion "latest"
-		defines { "WINDOWS" }
-		flags { "MultiProcessorCompile" }
+		defines "WINDOWS"
+		flags "MultiProcessorCompile"
 
+	    pchsource "../GLW/__glw_pch.cpp"
+
+	--- CONFIGURATIONS
 	filter "configurations:Debug"
 		defines { "DEBUG" }
 		runtime "Debug"
