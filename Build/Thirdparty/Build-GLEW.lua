@@ -3,7 +3,7 @@ project "GLEW"
 	language "C"
 	cdialect "C17"
 	staticruntime "off"
-	location "../../Solution/"
+	location "%{wks.location}/Solution/"
 
 	defines "GLEW_STATIC"
 

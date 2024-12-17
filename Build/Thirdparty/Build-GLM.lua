@@ -3,7 +3,7 @@ project "GLM"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "off"
-	location "../../Solution/"
+	location "%{wks.location}/Solution/"
 
 	files { 
 		"%{IncludeDirs.Glm}/glm/**.h", 

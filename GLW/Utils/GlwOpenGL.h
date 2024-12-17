@@ -39,7 +39,7 @@ extern "C" {
 
 // === GLEW Header ===
 #define GLEW_STATIC
-#include "../Thirdparty/GLEW/include/GL/glew.h"
+#include <GL/glew.h>
 
 #if defined( _DEBUG ) || defined( DEBUG )
 #   define GLW_DEBUG

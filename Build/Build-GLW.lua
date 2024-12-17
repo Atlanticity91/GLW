@@ -3,7 +3,7 @@ project "GLW"
 	language "C++"
 	cppdialect "C++20"
     staticruntime "off"
-    location "../Solution/"
+    location "%{wks.location}/Solution/"
 
     --- OUTPUT
     targetdir "%{wks.location}/bin/%{cfg.buildcfg}/"
