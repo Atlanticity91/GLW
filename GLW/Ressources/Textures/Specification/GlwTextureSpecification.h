@@ -77,4 +77,16 @@ struct GlwTextureSpecification {
         const uint32_t height
     );
 
+    /**
+     * Copy-Constructor
+     * @param other : Query other texture specification to copy.
+     **/
+    GlwTextureSpecification( const GlwTextureSpecification& other );
+
+    /**
+     * Move-Constructor
+     * @param other : Query other texture specification to move.
+     **/
+    GlwTextureSpecification( GlwTextureSpecification&& other );
+
 };

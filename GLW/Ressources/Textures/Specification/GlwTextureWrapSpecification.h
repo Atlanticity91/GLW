@@ -58,4 +58,26 @@ struct GlwTextureWrapSpecification {
 	 **/
 	GlwTextureWrapSpecification( const uint32_t r, const uint32_t s, const uint32_t t );
 
+	/**
+	 * Copy-Constructor
+	 * @param other : Query other wrap specification to copy.
+	 **/
+	GlwTextureWrapSpecification( const GlwTextureWrapSpecification& other );
+
+	/**
+	 * Move-Constructor
+	 * @param other : Query other wrap specification to move.
+	 **/
+	GlwTextureWrapSpecification( GlwTextureWrapSpecification&& other );
+
+	/**
+	 * Asign operator
+	 * @note : Asign current instance.
+	 * @param other : Query wrap to copy.
+	 * @return : Return wrap specification current instance.
+	 **/
+	GlwTextureWrapSpecification& operator=(
+		const GlwTextureWrapSpecification& other
+	);
+
 };

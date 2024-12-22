@@ -50,3 +50,27 @@ GlwTextureWrapSpecification::GlwTextureWrapSpecification(
 	S{ s },
 	T{ t }
 { }
+
+GlwTextureWrapSpecification::GlwTextureWrapSpecification( 
+	const GlwTextureWrapSpecification& other 
+)
+	: R{ other.R },
+	S{ other.S },
+	T{ other.T } 
+{ }
+
+GlwTextureWrapSpecification::GlwTextureWrapSpecification( GlwTextureWrapSpecification&& other )
+	: R{ other.R },
+	S{ other.S },
+	T{ other.T }
+{ }
+
+GlwTextureWrapSpecification& GlwTextureWrapSpecification::operator=(
+	const GlwTextureWrapSpecification& other
+){
+	R = other.R;
+	S = other.S;
+	T = other.T;
+
+	return ( *this );
+}

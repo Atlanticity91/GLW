@@ -54,3 +54,9 @@ GlwTextureLodSpecification::GlwTextureLodSpecification(
     Max{ max },
     Bias{ bias }
 { }
+
+GlwTextureLodSpecification::GlwTextureLodSpecification( GlwTextureLodSpecification&& other )
+    : Min{ other.Min },
+    Max{ other.Max },
+    Bias{ other.Bias }
+{ }

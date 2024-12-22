@@ -82,4 +82,10 @@ struct GlwTextureFillSpecification {
         const uint8_t* pixels
     );
 
+    /**
+     * Move-Constructor
+     * @param other : Query fill specification to move.
+     **/
+    GlwTextureFillSpecification( GlwTextureFillSpecification&& other );
+
 };

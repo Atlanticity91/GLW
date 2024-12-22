@@ -45,4 +45,10 @@ struct GlwTexture2DArraySpecification : public GlwTextureSpecification {
 	 **/
 	GlwTexture2DArraySpecification( );
 
+	/**
+	 * Move-Constructor
+	 * @param other : Query other 2d array specification to move.
+	 **/
+	GlwTexture2DArraySpecification( GlwTexture2DArraySpecification&& other );
+
 };

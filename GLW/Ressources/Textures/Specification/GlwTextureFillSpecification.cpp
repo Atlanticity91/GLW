@@ -68,3 +68,12 @@ GlwTextureFillSpecification::GlwTextureFillSpecification(
 { 
     Pixels = (void*)pixels;
 }
+
+GlwTextureFillSpecification::GlwTextureFillSpecification( 
+    GlwTextureFillSpecification&& other 
+) 
+{
+    glw_copy( &other, this, sizeof( GlwTextureFillSpecification ) );
+
+    other.Pixels = nullptr;
+}

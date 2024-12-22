@@ -601,6 +601,10 @@ GlwRessourceManager& GlwGraphicsManager::GetRessources( ) {
 	return m_ressources;
 }
 
+uint32_t GlwGraphicsManager::GetRenderPassCount( ) const {
+	return m_render_passes.GetRenderPassCount( );
+}
+
 uint32_t GlwGraphicsManager::GetMeshCount( ) const {
 	return m_ressources.GetMeshCount( );
 }

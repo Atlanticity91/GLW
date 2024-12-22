@@ -624,6 +624,13 @@ public:
     GlwRessourceManager& GetRessources( );
 
     /**
+     * GetRenderPassCount const function
+     * @note : Get render pass count.
+     * @return : Return render pass count value.
+     **/
+    uint32_t GetRenderPassCount( ) const;
+
+    /**
      * GetMeshCount const function
      * @note : Get mesh count.
      * @return : Return mesh count value.

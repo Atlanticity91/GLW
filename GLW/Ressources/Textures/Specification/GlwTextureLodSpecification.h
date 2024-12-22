@@ -63,4 +63,10 @@ struct GlwTextureLodSpecification {
         const float bias
     );
 
+    /**
+     * Move-Constructor
+     * @param other : Query LOD specification to move.
+     **/
+    GlwTextureLodSpecification( GlwTextureLodSpecification&& other );
+
 };

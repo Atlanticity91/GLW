@@ -35,5 +35,16 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( ) 
-	: GlwTextureSpecification{ GlwTextureFormats::RGBA, 0, 0, 0 }
+	: GlwTextureSpecification{ GlwTextureFormats::RGBA, 0, 0, 0 },
+	Layout{ },
+	Filter{ },
+	Wrap{ },
+	Depth{ }
 { }
+
+GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( 
+	GlwTexture2DArraySpecification&& other 
+)
+{
+	glw_copy( &other, this, sizeof( GlwTexture2DArraySpecification ) );
+}

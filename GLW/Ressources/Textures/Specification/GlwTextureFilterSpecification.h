@@ -50,4 +50,26 @@ struct GlwTextureFilterSpecification {
 	 **/
 	GlwTextureFilterSpecification( const uint32_t min, const uint32_t mag );
 
+	/**
+	 * Copy-Constructor
+	 * @param other : Query other filter specification to copy.
+	 **/
+	GlwTextureFilterSpecification( const GlwTextureFilterSpecification& other );
+
+	/**
+	 * Move-Constructor
+	 * @param other : Query filter specification to move.
+	 **/
+	GlwTextureFilterSpecification( GlwTextureFilterSpecification&& other  );
+
+	/**
+	 * Asign operator
+	 * @note : Asign current instance.
+	 * @param other : Query filter to copy.
+	 * @return : Return filter specification current instance.
+	 **/
+	GlwTextureFilterSpecification& operator=(
+		const GlwTextureFilterSpecification& other
+	);
+
 };
