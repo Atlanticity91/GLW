@@ -128,24 +128,4 @@ struct GlwTexture2DSpecification : public GlwTextureSpecification {
 		const GlwTextureWrapSpecification& wrap
 	);
 
-	/**
-	 * Copy-Constructor
-	 * @param other : Query other 2d specification to copy.
-	 **/
-	GlwTexture2DSpecification( const GlwTexture2DSpecification& other );
-
-	/**
-	 * Move-Constructor
-	 * @param other : Query other 2d specification to move.
-	 **/
-	GlwTexture2DSpecification( GlwTexture2DSpecification&& other );
-
-	/**
-	 * Asign operator
-	 * @note : 
-	 * @param other : Query other 2d specification to copy.
-	 * @return : Return current texture 2d specification instance.
-	 **/
-	GlwTexture2DSpecification& operator=( const GlwTexture2DSpecification& other );
-
 };

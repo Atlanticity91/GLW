@@ -641,6 +641,14 @@ GlwRenderPass* GlwGraphicsManager::GetRenderPass( const uint32_t render_pass ) c
 	return m_render_passes.GetRenderPass( render_pass );
 }
 
+const glTexture GlwGraphicsManager::GetRenderPassAttachement(
+	const GlwRenderAttachementTypes type,
+	const uint32_t render_pass,
+	const uint32_t target
+) const {
+	return m_render_passes.GetAttachement( type, render_pass, target );
+}
+
 GlwMesh* GlwGraphicsManager::GetMesh( const uint32_t mesh ) {
 	return m_ressources.GetMesh( mesh );
 }

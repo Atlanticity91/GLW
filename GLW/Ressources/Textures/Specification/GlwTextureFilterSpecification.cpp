@@ -44,26 +44,3 @@ GlwTextureFilterSpecification::GlwTextureFilterSpecification(
 	: Min{ min },
 	Mag{ mag }
 { }
-
-GlwTextureFilterSpecification::GlwTextureFilterSpecification( 
-	const GlwTextureFilterSpecification& other 
-)
-	: Min{ other.Min },
-	Mag{ other.Mag } 
-{ }
-
-GlwTextureFilterSpecification::GlwTextureFilterSpecification(
-	GlwTextureFilterSpecification&& other
-)
-	: Min{ other.Min },
-	Mag{ other.Mag }
-{ }
-
-GlwTextureFilterSpecification& GlwTextureFilterSpecification::operator=(
-	const GlwTextureFilterSpecification& other
-) {
-	Min = other.Min;
-	Mag = other.Mag;
-
-	return ( *this );
-}

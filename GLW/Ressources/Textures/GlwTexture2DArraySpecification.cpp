@@ -41,10 +41,3 @@ GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( )
 	Wrap{ },
 	Depth{ }
 { }
-
-GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( 
-	GlwTexture2DArraySpecification&& other 
-)
-{
-	glw_copy( &other, this, sizeof( GlwTexture2DArraySpecification ) );
-}

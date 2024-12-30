@@ -61,17 +61,3 @@ GlwTextureSpecification::GlwTextureSpecification(
 	Width{ width },
 	Height{ height } 
 { }
-
-GlwTextureSpecification::GlwTextureSpecification( const GlwTextureSpecification& other )
-	: Format{ other.Format },
-	Levels{ other.Levels },
-	Width{ other.Width },
-	Height{ other.Height } 
-{ }
-
-GlwTextureSpecification::GlwTextureSpecification( GlwTextureSpecification&& other )
-	: Format{ other.Format },
-	Levels{ other.Levels },
-	Width{ other.Width },
-	Height{ other.Height }
-{ }

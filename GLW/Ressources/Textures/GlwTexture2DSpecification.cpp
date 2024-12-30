@@ -93,25 +93,3 @@ GlwTexture2DSpecification::GlwTexture2DSpecification(
 	Filter{ filter },
 	Wrap{ wrap }
 { }
-
-GlwTexture2DSpecification::GlwTexture2DSpecification(
-	const GlwTexture2DSpecification& other 
-)
-{ 
-	glw_copy( &other, this, sizeof( GlwTexture2DSpecification ) );
-}
-
-GlwTexture2DSpecification::GlwTexture2DSpecification( 
-	GlwTexture2DSpecification&& other 
-) 
-{
-	glw_copy( &other, this, sizeof( GlwTexture2DSpecification ) );
-}
-
-GlwTexture2DSpecification& GlwTexture2DSpecification::operator=(
-	const GlwTexture2DSpecification& other
-) {
-	glw_copy( &other, this, sizeof( GlwTexture2DSpecification ) );
-
-	return ( *this );
-}
