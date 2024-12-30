@@ -1,60 +1,81 @@
 project "GLW"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++20"
-    staticruntime "off"
-    location "%{wks.location}/Solution/"
+	staticruntime "off"
+	location "%{OutputDirs.Solution}"
 
-    --- OUTPUT
-    targetdir "%{wks.location}/bin/%{cfg.buildcfg}/"
-	debugdir "%{wks.location}/bin/%{cfg.buildcfg}/"
-	objdir "%{wks.location}/bin-int/%{prj.name}-%{cfg.buildcfg}"
+	--- OUTPUT
+	targetdir "%{OutputDirs.Bin}/%{cfg.buildcfg}/"
+	debugdir "%{OutputDirs.Bin}/%{cfg.buildcfg}/"
+	objdir "%{OutputDirs.BinInt}/%{prj.name}-%{cfg.buildcfg}"
 
-    defines "_CRT_SECURE_NO_WARNINGS"
-
-    links { "GLEW" }
-
-    includedirs {
-		"%{IncludeDirs.Glw}/",
-		"%{IncludeDirs.Glm}/",
-		"%{IncludeDirs.Glew}/include/"
+	--- GLOBAL INCLUDES
+	includedirs {
+		"%{IncludeDirs.Glw}",
+		"%{IncludeDirs.Glm}",
+		"%{IncludeDirs.Glew}include/"
 	}
-	
+
 	externalincludedirs { 
-		"%{IncludeDirs.Glw}/",
-		"%{IncludeDirs.Glm}/",
-		"%{IncludeDirs.Glew}/include/"
+		"%{IncludeDirs.Glw}",
+		"%{IncludeDirs.Glm}",
+		"%{IncludeDirs.Glew}include/"
 	}
 
+	--- PRECOMPILED HEADER
 	pchheader "__glw_pch.h"
 
+	--- GLOBAL SOURCE FILES
 	files { 
-		"%{IncludeDirs.Glw}/**.h", 
-		"%{IncludeDirs.Glw}/**.cpp" 
+		"%{IncludeDirs.Glw}**.h", 
+		"%{IncludeDirs.Glw}**.cpp" 
 	}
 
-	--- WINDOWS
-    filter "system:windows"
+	--- GLOBAL LINK
+	links { "GLEW" }
+
+	--- LINUX
+	filter "system:linux"
 		systemversion "latest"
-		defines "WINDOWS"
-		flags "MultiProcessorCompile"
 
-	    pchsource "../GLW/__glw_pch.cpp"
+		--- WINDOWS SPECIFIC DEFINES
+		defines { "LINUX" }
 
-	--- CONFIGURATIONS
+	--- WINDOWS
+	filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++20"
+		flags { "MultiProcessorCompile" }
+
+		--- WINDOWS SPECIFIC DEFINES
+		defines { 
+			"WINDOWS",
+			"_CRT_SECURE_NO_WARNINGS"
+		}
+
+		--- PRECOMPILED SOURCE
+		pchsource "../GLW/__glw_pch.cpp"
+
+	--- CONFIGURATION
 	filter "configurations:Debug"
-		defines { "DEBUG" }
 		runtime "Debug"
 		symbols "On"
 
+		--- DEFINES
+		defines { "DEBUG" }
+
 	filter "configurations:Release"
-		defines { "RELEASE" }
 		runtime "Release"
 		optimize "On"
 		symbols "On"
 
+		--- DEFINES
+		defines { "RELEASE" }
+
 	filter "configurations:Dist"
-		defines { "DIST" }
 		runtime "Release"
 		optimize "On"
 		symbols "Off"
+
+		--- DEFINES
+		defines { "DIST" }

@@ -1,11 +1,15 @@
 project "GLM"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++20"
 	staticruntime "off"
-	location "%{wks.location}/Solution/"
+	location "%{OutputDirs.Solution}"
 
+	--- GLOBAL SOURCE FILES
 	files { 
-		"%{IncludeDirs.Glm}/glm/**.h", 
-		"%{IncludeDirs.Glm}/glm/**.hpp" 
+		"%{IncludeDirs.Glm}glm/**.h", 
+		"%{IncludeDirs.Glm}glm/**.hpp" 
 	}
+
+	--- WINDOWS
+	filter "system:windows"
+		cppdialect "C++20"

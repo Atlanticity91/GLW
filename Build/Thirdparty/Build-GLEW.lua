@@ -1,49 +1,64 @@
 project "GLEW"
 	kind "StaticLib"
 	language "C"
-	cdialect "C17"
 	staticruntime "off"
-	location "%{wks.location}/Solution/"
+	location "%{OutputDirs.Solution}"
 
-	defines "GLEW_STATIC"
+	--- OUTPUT
+	targetdir "%{OutputDirs.Bin}/%{cfg.buildcfg}/"
+	debugdir "%{OutputDirs.Bin}/%{cfg.buildcfg}/"
+	objdir "%{OutputDirs.BinInt}/%{prj.name}-%{cfg.buildcfg}"
 
-	targetdir "%{wks.location}/bin/%{cfg.buildcfg}/"
-	debugdir "%{wks.location}/bin/%{cfg.buildcfg}/"
-	objdir "%{wks.location}/bin-int/%{prj.name}-%{cfg.buildcfg}"
+	--- GLOBAL INCLUDES
+	includedirs "%{IncludeDirs.Glew}include/"
 
+	externalincludedirs "%{IncludeDirs.Glew}include/"
+
+	--- GLOBAL DEFINES
+	defines { "GLEW_STATIC" }
+
+	--- GLOBAL SOURCE FILES
 	files { 
-		"%{IncludeDirs.Glew}/include/GL/**.h", 
-		"%{IncludeDirs.Glew}/src/glew.c" 
+		"%{IncludeDirs.Glew}include/GL/**.h", 
+		"%{IncludeDirs.Glew}src/glew.c" 
 	}
 
-	includedirs "%{IncludeDirs.Glew}/include/"
-	externalincludedirs "%{IncludeDirs.Glew}/include/"
-
+	--- WINDOWS
 	filter "system:windows"
 		systemversion "latest"
-		flags "MultiProcessorCompile" 
+		cdialect "C17"
+		flags { "MultiProcessorCompile" }
 
+		--- WINDOWS SPECIFIC DEFINES
 		defines { 
 			"WINDOWS", 
 			"WIN32_LEAN_AND_MEAN", 
 			"_LIB" 
 		}
-		
+
+		--- WINDOWS SPECIFIC SOURCE FILES
 		files "%{IncludeDirs.Glew}/build/glew.rc" 
 
+	--- CONFIGURATION
 	filter "configurations:Debug"
-		defines { "DEBUG" }
 		runtime "Debug"
 		symbols "On"
 
+		--- DEFINES
+		defines { "DEBUG" }
+
 	filter "configurations:Release"
-		defines { "RELEASE" }
 		runtime "Release"
 		optimize "On"
 		symbols "On"
 
+		--- DEFINES 
+		defines { "RELEASE" }
+
 	filter "configurations:Dist"
-		defines { "DIST" }
 		runtime "Release"
 		optimize "On"
 		symbols "Off"
+
+		--- DEFINES 
+		defines { "DIST" }
