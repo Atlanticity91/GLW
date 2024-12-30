@@ -601,6 +601,10 @@ GlwRessourceManager& GlwGraphicsManager::GetRessources( ) {
 	return m_ressources;
 }
 
+uint32_t GlwGraphicsManager::GetRenderPassCount( ) const {
+	return m_render_passes.GetRenderPassCount( );
+}
+
 uint32_t GlwGraphicsManager::GetMeshCount( ) const {
 	return m_ressources.GetMeshCount( );
 }
@@ -635,6 +639,14 @@ bool GlwGraphicsManager::GetMaterialExist( const uint32_t material ) const {
 
 GlwRenderPass* GlwGraphicsManager::GetRenderPass( const uint32_t render_pass ) const {
 	return m_render_passes.GetRenderPass( render_pass );
+}
+
+const glTexture GlwGraphicsManager::GetRenderPassAttachement(
+	const GlwRenderAttachementTypes type,
+	const uint32_t render_pass,
+	const uint32_t target
+) const {
+	return m_render_passes.GetAttachement( type, render_pass, target );
 }
 
 GlwMesh* GlwGraphicsManager::GetMesh( const uint32_t mesh ) {

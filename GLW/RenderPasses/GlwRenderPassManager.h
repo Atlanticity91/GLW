@@ -72,6 +72,13 @@ public:
 
 public:
 	/**
+	 * GetRenderPassCount const function
+	 * @note : Get render pass count.
+	 * @return : Return render pass count value.
+	 **/
+	uint32_t GetRenderPassCount( ) const;
+
+	/**
 	 * GetExist const function
 	 * @note : Get if a render pass exist.
 	 * @param render_pass : Query render pass.

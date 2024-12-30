@@ -35,5 +35,9 @@
 //		===	PUBLIC ===
 ////////////////////////////////////////////////////////////////////////////////////////////
 GlwTexture2DArraySpecification::GlwTexture2DArraySpecification( ) 
-	: GlwTextureSpecification{ GlwTextureFormats::RGBA, 0, 0, 0 }
+	: GlwTextureSpecification{ GlwTextureFormats::RGBA, 0, 0, 0 },
+	Layout{ },
+	Filter{ },
+	Wrap{ },
+	Depth{ }
 { }

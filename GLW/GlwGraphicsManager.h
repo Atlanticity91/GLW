@@ -624,6 +624,13 @@ public:
     GlwRessourceManager& GetRessources( );
 
     /**
+     * GetRenderPassCount const function
+     * @note : Get render pass count.
+     * @return : Return render pass count value.
+     **/
+    uint32_t GetRenderPassCount( ) const;
+
+    /**
      * GetMeshCount const function
      * @note : Get mesh count.
      * @return : Return mesh count value.
@@ -689,6 +696,20 @@ public:
      * @return : Return pointer to query render pass instance.
      **/
     GlwRenderPass* GetRenderPass( const glw_ressource render_pass ) const;
+
+    /**
+     * GetRenderPassAttachement const function
+     * @note : Get render pass attachement OpenGL handle.
+     * @param type : Query attachement type.
+     * @param render_pass : Query render pass value.
+     * @param target : Query render pass target value.
+     * @return : Return attachement OpenGL texture handle value.
+     **/
+    const glTexture GetRenderPassAttachement(
+        const GlwRenderAttachementTypes type,
+        const uint32_t render_pass,
+        const uint32_t target
+    ) const;
 
     /**
      * GetMesh function

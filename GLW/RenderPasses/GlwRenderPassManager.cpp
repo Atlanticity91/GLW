@@ -87,6 +87,10 @@ void GlwRenderPassManager::Destroy( ) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //		===	PUBLIC GET ===
 ////////////////////////////////////////////////////////////////////////////////////////////
+uint32_t GlwRenderPassManager::GetRenderPassCount( ) const {
+	return (uint32_t)m_render_pass.size( );
+}
+
 bool GlwRenderPassManager::GetExist( const uint32_t render_pass ) const {
 	return render_pass < (uint32_t)m_render_pass.size( );
 }

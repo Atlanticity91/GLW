@@ -58,7 +58,7 @@ struct GlwTextureLodSpecification {
      * @param bias : Fixed bias value for lod before sampling.
      **/
     GlwTextureLodSpecification(
-        const int32_t min, 
+        const int32_t min,
         const int32_t max,
         const float bias
     );

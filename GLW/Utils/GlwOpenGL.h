@@ -66,3 +66,18 @@ enum class GlwStates : uint32_t {
     Enable,
 
 };
+
+/**
+ * glw_copy method
+ * @note : Wrapper for platform specific memcopy.
+ * @param src : Query source data. 
+ * @param dst : Query destination data.
+ * @param size : Query data size.
+ **/
+inline void glw_copy( const void* src, void* dst, const size_t size ) {
+	#	ifdef _WIN32
+	memmove_s( dst, size, src, size );
+	#	else
+	memmove( dst, src, size );
+	#	endif
+};
