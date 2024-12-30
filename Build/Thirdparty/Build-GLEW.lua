@@ -1,6 +1,6 @@
-project "GLW"
+project "GLEW"
 	kind "StaticLib"
-	language "C++"
+	language "C"
 	staticruntime "off"
 	location "%{OutputDirs.Solution}"
 
@@ -10,51 +10,34 @@ project "GLW"
 	objdir "%{OutputDirs.BinInt}/%{prj.name}-%{cfg.buildcfg}"
 
 	--- GLOBAL INCLUDES
-	includedirs {
-		"%{IncludeDirs.Glw}",
-		"%{IncludeDirs.Glm}",
-		"%{IncludeDirs.Glew}include/"
-	}
+	includedirs "%{IncludeDirs.Glew}include/"
 
-	externalincludedirs { 
-		"%{IncludeDirs.Glw}",
-		"%{IncludeDirs.Glm}",
-		"%{IncludeDirs.Glew}include/"
-	}
+	externalincludedirs "%{IncludeDirs.Glew}include/"
 
-	--- PRECOMPILED HEADER
-	pchheader "__glw_pch.h"
+	--- GLOBAL DEFINES
+	defines { "GLEW_STATIC" }
 
 	--- GLOBAL SOURCE FILES
 	files { 
-		"%{IncludeDirs.Glw}**.h", 
-		"%{IncludeDirs.Glw}**.cpp" 
+		"%{IncludeDirs.Glew}include/GL/**.h", 
+		"%{IncludeDirs.Glew}src/glew.c" 
 	}
-
-	--- GLOBAL LINK
-	links { "GLEW" }
-
-	--- LINUX
-	filter "system:linux"
-		systemversion "latest"
-
-		--- WINDOWS SPECIFIC DEFINES
-		defines { "LINUX" }
 
 	--- WINDOWS
 	filter "system:windows"
 		systemversion "latest"
-		cppdialect "C++20"
+		cdialect "C17"
 		flags { "MultiProcessorCompile" }
 
 		--- WINDOWS SPECIFIC DEFINES
 		defines { 
-			"WINDOWS",
-			"_CRT_SECURE_NO_WARNINGS"
+			"WINDOWS", 
+			"WIN32_LEAN_AND_MEAN", 
+			"_LIB" 
 		}
 
-		--- PRECOMPILED SOURCE
-		pchsource "../GLW/__glw_pch.cpp"
+		--- WINDOWS SPECIFIC SOURCE FILES
+		files "%{IncludeDirs.Glew}/build/glew.rc" 
 
 	--- CONFIGURATION
 	filter "configurations:Debug"
@@ -69,7 +52,7 @@ project "GLW"
 		optimize "On"
 		symbols "On"
 
-		--- DEFINES
+		--- DEFINES 
 		defines { "RELEASE" }
 
 	filter "configurations:Dist"
@@ -77,5 +60,5 @@ project "GLW"
 		optimize "On"
 		symbols "Off"
 
-		--- DEFINES
+		--- DEFINES 
 		defines { "DIST" }

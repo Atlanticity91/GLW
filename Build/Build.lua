@@ -1,16 +1,34 @@
-workspace "OpenGL Wrapper"
+--- TOOL INCLUDES
+include "Premake/CSExtensions.lua"
+include "Premake/VSExtensions.lua"
+include "Build-Dependencies.lua"
+
+--- PROJECT CONFIGURATION
+workspace "Micro Solution"
    architecture "x64"
-   configurations { "Debug", "Release", "Dist" }
    startproject "GLW"
    location "../"
+   configurations { 
+      "Debug", 
+      "Release",
+      "Dist" 
+   }
 
-   -- Workspace-wide build options for MSVC
+   --- WINDOWS
    filter "system:windows"
-      buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
+      --- WORKSPACE-WIDE BUILD OPTIONS FOR MSVC
+      buildoptions { 
+         "/EHsc", 
+         "/Zc:preprocessor", 
+         "/Zc:__cplusplus" 
+      }
 
+   --- THIRDPARTY PROJECTS
    group "Thirdparty"
-      include "Build-GLEW.lua"
-      include "Build-GLM.lua"
+      include "Thirdparty/Build-GLEW.lua"
+      include "Thirdparty/Build-GLM.lua"
    group ""
+
+   --- MAIN PROJECT
    include "Build-GLW.lua"
    

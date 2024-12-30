@@ -1,9 +1,5 @@
 #!/bin/bash
 
 pushd ..
-
-echo === GLW Setup ===
-
-GLW/Build/Premake/Linux/premake5 --cc=clang --file=GLW/Build/Build.lua gmake2
-
+python Build/Scripts/Setup_Project.py gmake2
 popd
