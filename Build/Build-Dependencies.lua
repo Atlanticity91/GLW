@@ -10,4 +10,4 @@ IncludeDirs = { }
 
 IncludeDirs[ "Glm"] = "%{wks.location}/Thirdparty/GLM/"
 IncludeDirs[ "Glew"] = "%{wks.location}/Thirdparty/GLEW/"
-IncludeDirs[ "Glw"] = "%{wks.location}/GLW/"
+IncludeDirs[ "Glw"] = "%{wks.location}/"

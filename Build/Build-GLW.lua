@@ -11,13 +11,13 @@ project "GLW"
 
 	--- GLOBAL INCLUDES
 	includedirs {
-		"%{IncludeDirs.Glw}",
+		"%{IncludeDirs.Glw}GLW/",
 		"%{IncludeDirs.Glm}",
 		"%{IncludeDirs.Glew}include/"
 	}
 
 	externalincludedirs { 
-		"%{IncludeDirs.Glw}",
+		"%{IncludeDirs.Glw}GLW/",
 		"%{IncludeDirs.Glm}",
 		"%{IncludeDirs.Glew}include/"
 	}
@@ -27,8 +27,8 @@ project "GLW"
 
 	--- GLOBAL SOURCE FILES
 	files { 
-		"%{IncludeDirs.Glw}**.h", 
-		"%{IncludeDirs.Glw}**.cpp" 
+		"%{IncludeDirs.Glw}GLW/**.h", 
+		"%{IncludeDirs.Glw}GLW/**.cpp" 
 	}
 
 	--- GLOBAL LINK
