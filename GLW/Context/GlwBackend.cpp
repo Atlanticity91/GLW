@@ -38,6 +38,14 @@ GlwBackend::GlwBackend( )
 	: GlwBackend{ 4, 5, 1 }
 { }
 
+GlwBackend::GlwBackend( const GlwBackend& other )
+	: Major{ other.Major },
+	Minor{ other.Minor },
+	Profile{ other.Profile },
+	SwapInterval{ other.SwapInterval },
+	DoubleBuffer{ other.DoubleBuffer }
+{ }
+
 GlwBackend::GlwBackend( const uint32_t major, const uint32_t minor )
 	: GlwBackend{ major, minor, 1 }
 { }

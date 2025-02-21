@@ -43,6 +43,12 @@ struct GlwFaceCulling {
      * Constructor
      **/
     GlwFaceCulling( );
+    
+    /**
+     * Copy-Constructor
+     * @param other : Query OpenGL face culling specification to copy.
+     **/
+    GlwFaceCulling( const GlwFaceCulling& other );
 
     /**
      * Constructor

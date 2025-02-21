@@ -126,7 +126,7 @@ bool GlwGraphicsManager::CreateRenderPass(
 bool GlwGraphicsManager::CreateRenderPasses(
 	const std::vector<GlwRenderPassSpecification>& specification
 ) {
-	auto result = false;
+	auto result = true;
 
 	for ( auto& render_pass_spec : specification ) {
 		result = CreateRenderPass( render_pass_spec );
@@ -141,7 +141,7 @@ bool GlwGraphicsManager::CreateRenderPasses(
 bool GlwGraphicsManager::CreateRenderPasses(
 	const std::initializer_list<GlwRenderPassSpecification> specification
 ) {
-	auto result = false;
+	auto result = true;
 
 	for ( auto& render_pass_spec : specification ) {
 		result = CreateRenderPass( render_pass_spec );

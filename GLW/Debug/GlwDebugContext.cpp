@@ -38,6 +38,10 @@ GlwDebugContext::GlwDebugContext( )
 	: GlwDebugContext{ NULL, nullptr }
 { }
 
+GlwDebugContext::GlwDebugContext( const GlwDebugContext& other )
+	: GlwDebugContext{ other.Callback, other.UseParameters }
+{ }
+
 GlwDebugContext::GlwDebugContext( GLDEBUGPROC callback, const void* user_parameters )
 	: Callback{ callback },
 	UseParameters{ (void*)user_parameters }

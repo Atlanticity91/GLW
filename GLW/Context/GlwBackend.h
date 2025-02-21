@@ -47,6 +47,12 @@ struct GlwBackend {
     GlwBackend( );
 
     /**
+     * Copy-Constructor
+     * @param other : Query OpenGL backend specification to copy.
+     **/
+    GlwBackend( const GlwBackend& other );
+
+    /**
      * Constructor
      * @param major : OpenGL context version major.
      * @param minor : OpenGL context version minor.

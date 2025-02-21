@@ -38,6 +38,13 @@ GlwGraphicSpecification::GlwGraphicSpecification( )
 	: GlwGraphicSpecification{ 0, 0, 0 }
 { }
 
+GlwGraphicSpecification::GlwGraphicSpecification( const GlwGraphicSpecification& other )
+	: Debug{ other.Debug },
+	Backend{ other.Backend },
+	Culling{ other.Culling },
+	Extras{ other.Extras }
+{ }
+
 GlwGraphicSpecification::GlwGraphicSpecification(
 	const uint32_t major,
 	const uint32_t minor
@@ -52,5 +59,6 @@ GlwGraphicSpecification::GlwGraphicSpecification(
 )
 	: Debug{ },
 	Backend{ major, minor, profile },
+	Culling{ },
 	Extras{ }
 { }

@@ -45,6 +45,12 @@ struct GlwDebugContext {
 
     /**
      * Constructor
+     * @param other : Query other OpenGL debug context specification to copy.
+     **/
+    GlwDebugContext( const GlwDebugContext& other );
+
+    /**
+     * Constructor
      * @param callback : OpenGL debug callback.
      * @param user_parameters : Pointer to user data.
      **/

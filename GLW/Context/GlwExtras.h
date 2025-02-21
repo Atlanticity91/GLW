@@ -42,6 +42,12 @@ struct GlwExtras {
      * Constructor
      **/
     GlwExtras( );
+    
+    /**
+     * Copy-Constructor
+     * @param other : Query OpenGL extras specification to copy.
+     **/
+    GlwExtras( const GlwExtras& other );
 
     /**
      * Constructor

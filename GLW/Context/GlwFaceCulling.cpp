@@ -40,6 +40,12 @@ GlwFaceCulling::GlwFaceCulling( )
 	State = GlwStates::Disable;
 }
 
+GlwFaceCulling::GlwFaceCulling( const GlwFaceCulling& other )
+	: State{ other.State },
+	Mode{ other.Mode},
+	Face{ other.Face } 
+{ }
+
 GlwFaceCulling::GlwFaceCulling( const uint32_t mode, const uint32_t face ) 
 	: State{ GlwStates::Enable },
 	Mode{ mode },

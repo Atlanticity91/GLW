@@ -46,6 +46,12 @@ struct GlwGraphicSpecification {
     GlwGraphicSpecification( );
     
     /**
+     * Copy-Constructor
+     * @param other : Query specification to copy.
+     **/
+    GlwGraphicSpecification( const GlwGraphicSpecification& other );
+
+    /**
      * Constructor
      * @param major : OpenGL context version major.
      * @param minor : OpenGL context version minor.

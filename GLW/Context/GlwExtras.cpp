@@ -38,6 +38,11 @@ GlwExtras::GlwExtras( )
     : GlwExtras{ GlwStates::Disable, GlwStates::Disable }
 { }
 
+GlwExtras::GlwExtras( const GlwExtras& other )
+    : MultiSampling{ other.MultiSampling },
+    SRGB{ other.SRGB }
+{ }
+
 GlwExtras::GlwExtras( const GlwStates multi_sampling, const GlwStates srgb )
     : MultiSampling{ multi_sampling },
     SRGB{ srgb }
